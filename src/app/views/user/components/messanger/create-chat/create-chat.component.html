@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal-title">New Chat</h4>
+  <button
+    type="button"
+    class="close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="input-group">
+  <input
+    type="text"
+    class="form-control"
+    [(ngModel)]="q"
+    (ngModelChange)="modelChanged.next(q)"
+    (keyup.enter)="modelChanged.next(q)"
+    placeholder="Search Friends"
+  />
+  @if (q.length !== 0) {
+    <div class="input-group-append">
+      <button type="button" class="close" (click)="clearSearch()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  }
+</div>
+<div class="modal-body">
+  <!-- <ng-container *ngIf="loading | async; else gridListOne">
+  <div class="row">
+    <div class="col-12" *ngFor="let item of gs.generateFake(2)">
+      <div class="friend-box d-flex align-items-center">
+        <div class="image">
+          <ngx-skeleton-loader [theme]="{ height: '84px', width: '84px'}"></ngx-skeleton-loader>
+        </div>
+        <div class="caption align-items-center col">
+          <ngx-skeleton-loader [theme]="{ height: '10px', width: '100%'}" count="3"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #gridListOne>
+  <div class="row">
+    <div class="col-12" *ngFor="let item of friendObservable | async | filterBy: { name: q } ">
+      <button (click)="createChat(item)" class="friend-box d-flex align-items-center">
+        <div class="image">
+          <img [src]="item.avatar" [alt]="item.name" width="50" height="50" class="border">
+        </div>
+        <div class="caption align-items-center col">
+          <h4>{{item.name}}</h4>
+        </div>
+      </button>
+    </div>
+    <div class="col-12 text-center" *ngIf="((moreLoading | async) === false) && (((friendObservable | async)?.length === 0) || ((friendObservable | async | filterBy: { name: q }).length === 0))">
+      No Friends found
+    </div>
+    <div class="col-12">
+      <div *ngIf="moreLoading | async" class="spinner-border text-primary"></div>
+    </div>
+  </div>
+</ng-template> -->
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    Cross
+  </button>
+</div>

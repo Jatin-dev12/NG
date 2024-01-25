@@ -1,0 +1,164 @@
+<div class="request-listing-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item">
+        <a routerLink="/requests/received">Requests</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/requests/received">Received Requests</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Pending Requests
+      </li>
+    </ol>
+  </nav>
+  @if (gs.is_owner) {
+    <div class="menu mb-4">
+      <ng-container *ngTemplateOutlet="managers"></ng-container>
+      <ng-container *ngTemplateOutlet="vendor"></ng-container>
+    </div>
+  }
+  @if (gs.is_manager) {
+    <div class="menu mb-4">
+      <ng-container *ngTemplateOutlet="owners"></ng-container>
+      <!-- <ng-container *ngTemplateOutlet="vendor"></ng-container> -->
+      <ng-container *ngTemplateOutlet="tenants"></ng-container>
+    </div>
+  }
+  @if (gs.is_tenant) {
+    <div class="menu mb-4">
+      <ng-container *ngTemplateOutlet="owners"></ng-container>
+      <ng-container *ngTemplateOutlet="managers"></ng-container>
+      <!-- <ng-container *ngTemplateOutlet="vendor"></ng-container> -->
+    </div>
+  }
+  @if (gs.is_vendor) {
+    <div class="menu mb-4">
+      <ng-container *ngTemplateOutlet="owners"></ng-container>
+      <ng-container *ngTemplateOutlet="managers"></ng-container>
+      <ng-container *ngTemplateOutlet="tenants"></ng-container>
+    </div>
+  }
+  <ng-template #owners>
+    <div class="d-inline-block" ngbDropdown>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        ngbDropdownToggle
+        [class.active]="router.isActive('/requests/received/owner', false)"
+      >
+        Property Owners(6)
+      </button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/owner/pending-requests"
+            >Pending Requests</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/owner/requests-history"
+            >Requests History</a
+          >
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template #managers>
+    <div class="d-inline-block" ngbDropdown>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        ngbDropdownToggle
+        [class.active]="router.isActive('/requests/received/manager', false)"
+      >
+        Property Managers(6)
+      </button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/manager/pending-requests"
+            >Pending Requests</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/manager/requests-history"
+            >Requests History</a
+          >
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template #vendor>
+    <div class="d-inline-block" ngbDropdown>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        ngbDropdownToggle
+        [class.active]="router.isActive('/requests/received/vendor', false)"
+      >
+        Vendor (10)
+      </button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/vendor/pending-requests"
+            >Pending Requests</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/vendor/requests-history"
+            >Requests History</a
+          >
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template #tenants>
+    <div class="d-inline-block" ngbDropdown>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        ngbDropdownToggle
+        [class.active]="router.isActive('/requests/received/tenant', false)"
+      >
+        Tenants (10)
+      </button>
+      <ul class="dropdown-menu" ngbDropdownMenu>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/tenant/pending-requests"
+            >Pending Requests</a
+          >
+        </li>
+        <li>
+          <a
+            class="dropdown-item"
+            [routerLinkActive]="['active']"
+            routerLink="/requests/received/tenant/requests-history"
+            >Requests History</a
+          >
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <router-outlet></router-outlet>
+</div>

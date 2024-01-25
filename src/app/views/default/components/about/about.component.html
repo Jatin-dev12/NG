@@ -1,0 +1,133 @@
+<div class="aboutus-page">
+  <div class="about-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="banner-left wow fadeInLeft">
+            <h1>Find your perfect Dream Home</h1>
+            <div class="content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6"></div>
+      </div>
+    </div>
+  </div>
+  <div class="about-whychoose">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="whychoosebox">
+            <div class="image">
+              <img src="{{ gs.imgUrl }}/about-1.svg" alt="Images" />
+            </div>
+            <h4>Why Choose Us</h4>
+            <div class="content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="whychoosebox">
+            <div class="image">
+              <img src="{{ gs.imgUrl }}/about-2.svg" alt="Images" />
+            </div>
+            <h4>Trusted by Thousand</h4>
+            <div class="content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="whychoosebox">
+            <div class="image">
+              <img src="{{ gs.imgUrl }}/about-3.svg" alt="Images" />
+            </div>
+            <h4>Transparency</h4>
+            <div class="content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="whychoosebox">
+            <div class="image">
+              <img src="{{ gs.imgUrl }}/about-4.svg" alt="Images" />
+            </div>
+            <h4>Property Management</h4>
+            <div class="content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-letsfind">
+    <div class="container">
+      <a routerLink="/search"
+        ><img src="{{ gs.imgUrl }}/about-5.png" alt="Images"
+      /></a>
+    </div>
+  </div>
+  <div class="about-stopsearching">
+    <div class="container">
+      <h2>Stop searching everything you need here</h2>
+      <div class="content">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's Standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged.
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="about-registerbox">
+            <h3>Register as Property <br />Manager</h3>
+            <div class="contenttwo">
+              Lorem Ipsum is simply dummy text <br />of the printing and
+              typesetting <br />industry.
+            </div>
+            @if (!gs.identity) {
+              <div class="btndiv">
+                <a
+                  routerLink="/register"
+                  [queryParams]="{ role: Enums.ROLE_MANAGERS }"
+                  class="btn btn-primary"
+                  >Register Now</a
+                >
+              </div>
+            }
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="about-registerbox two">
+            <h3>Register As Vendor</h3>
+            <div class="contenttwo">
+              Lorem Ipsum is simply dummy text <br />of the printing and
+              typesetting <br />industry.
+            </div>
+            @if (!gs.identity) {
+              <div class="btndiv">
+                <a
+                  routerLink="/register"
+                  [queryParams]="{ role: Enums.ROLE_VENDORS }"
+                  class="btn btn-primary"
+                  >Register Now</a
+                >
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

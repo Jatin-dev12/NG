@@ -1,0 +1,58 @@
+<div class="pv-box features" *ngIf="item?.id">
+  <div class="pv-title">
+    <h1>Features</h1>
+  </div>
+  <div class="pv-body">
+    @for (amenity of amenitiesArray; track amenity) {
+      @if (
+        amenity?.children?.length > 0 &&
+        amenity.name === "More Features" &&
+        showMoreFeatures(amenity?.children)
+      ) {
+        <div class="content mb-4">
+          @for (item of amenity?.children; track item) {
+            <div>
+              @if (item.name || item.description) {
+                <div class="w-100 mb-2">
+                  <span>{{ item.name ?? "-" }}:</span>
+                  {{ item.description ?? "-" }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+    <div class="left-scroll css-scroll overflow-x" infiniteScroll>
+      <div class="main d-inline-flex justify-content-center">
+        @for (amenity of amenitiesArray; track amenity) {
+          @if (
+            amenity?.children?.length > 0 && amenity.name !== "More Features"
+          ) {
+            <div class="col-sm-4 main mb-2">
+              <div class="feeturebox">
+                <div class="left-scroll css-scroll" infiniteScroll>
+                  <ul>
+                    @for (item of amenity?.children; track item) {
+                      @defer {
+                        <li>
+                          <img
+                            src="{{ gs.imgUrl }}/bullete-1.svg"
+                            alt="Images"
+                          />{{ item.name }}
+                        </li>
+                      }
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+    @if (isShowEmpty) {
+      <div class="text-center">Features not found</div>
+    }
+  </div>
+</div>

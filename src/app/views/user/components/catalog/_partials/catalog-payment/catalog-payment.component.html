@@ -1,0 +1,75 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="" />
+  </button>
+  <h1>PROCEED TO PAYMENT</h1>
+
+  <ngx-stripe-card-group [elementsOptions]="elementsOptions">
+    <div class="form-group">
+      <label>Name on Card</label>
+      <input class="form-control" type="text" [(ngModel)]="cardHolder" />
+    </div>
+    <div class="form-group">
+      <label>Card Number</label>
+      <ngx-stripe-card-number
+        [options]="cardOptions"
+        class="form-control form-control-strip-pad-top"
+      ></ngx-stripe-card-number>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Expire Date</label>
+          <ngx-stripe-card-expiry
+            [options]="cardOptions"
+            class="form-control form-control-strip-pad-top"
+          ></ngx-stripe-card-expiry>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>CVC</label>
+          <ngx-stripe-card-cvc
+            [options]="cardOptions"
+            class="form-control form-control-strip-pad-top"
+          ></ngx-stripe-card-cvc>
+        </div>
+      </div>
+    </div>
+  </ngx-stripe-card-group>
+
+  <div class="form-group">
+    <label></label>
+    <div class="form-check form-check-inline">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="terms_booking"
+        [(ngModel)]="terms"
+      />
+      <label class="form-check-label" for="terms_booking"
+        >I have read and agreed with these
+        <button class="btn btn-link" (click)="rulesDialog()">
+          Rules and Cancellation Policy
+        </button>
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="btndiv">
+      <button
+        type="button"
+        (click)="onSubmit(form)"
+        class="btn btn-primary"
+        [appLadda]="loading"
+        [disabled]="!terms"
+      >
+        SUBMIT
+      </button>
+    </div>
+  </div>
+
+  <!-- <pre>
+        {{ form.value | json }}
+    </pre> -->
+</div>

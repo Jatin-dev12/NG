@@ -1,0 +1,180 @@
+<div class="profile-view-page">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Profile</li>
+		</ol>
+	</nav>
+	<div class="addtop">
+		<a routerLink="."><img src="{{ gs.imgUrl }}/addtop.png" alt /></a>
+	</div>
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="pv-top">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="image">
+							<img [src]="item?.avatar" [alt]="item?.name" />
+							<div class="online"></div>
+						</div>
+						<h3>{{ item?.name }}</h3>
+						<div class="desina">{{ item?.title ? item?.title : gs.removeLastS(item?.role) }}</div>
+						<div class="address">{{ item?.location?.location ?? "--" }}</div>
+						<!-- Saudi Arabia, Riyadh City -->
+						<div class="clearfix"></div>
+						<div class="idvery">
+							ID :
+							@if (item?.is_verified) {
+								Verified<i class="fas fa-check-circle text-primary"></i>
+							}
+							@if (!item?.is_verified) {
+								UnVerified<i class="fas fa-check-circle"></i>
+							}
+						</div>
+					</div>
+					<div class="col-sm-6">
+						@if (gs.identity?.id === item?.id) {
+						<div class="btndiv">
+							<button type="button" class="edit" (click)="LocationDialog()">
+								<i class="fas fa-edit"></i>Edit
+							</button>
+						</div>
+						}
+						<div class="faveritesbtn">
+							@if (item?.id !== gs.identity?.id) {
+								<button type="button" class="faverites" [ngClass]="{ text: item?.is_favorite }"
+									(click)="handleFavourite($any(item))" [appLadda]="favourileLoading">
+									<img src="{{ gs.imgUrl }}/{{ item?.is_favorite ? 'heart-hor.svg' : 'heart-nor.svg' }}" alt="" />Favorite
+								</button>
+							}
+						</div>
+						<div class="clearfix"></div>
+						<div class="languagediv">
+							<div class="title">Languages</div>
+							@if (item) {
+							<div class="lang">
+								@for (lag of languagesArray; track lag; let index = $index; let last = $last) {
+								<div>
+									<span>{{ lag }}</span>{{ last ? "" : "," }}
+								</div>
+								} @empty {
+									<div>Not Added</div>
+								}
+							</div>
+							}
+						</div>
+
+						@if (item?.role === Enums.ROLE_MANAGERS) {
+							<div class="text-end">
+								@switch (item?.in_contact) {
+									@case (Enums.USER_PROFILE_CONTACT_STATUS_PENDING) {
+										<a class="btn btn-secondary" routerLink="/requests/contact/view/{{ item?.contact_id }}">Pending</a>
+									}
+									@case (Enums.USER_PROFILE_CONTACT_STATUS_DECLINED) {
+										<!-- <a routerLink="/property-managers/view/{{ item?.username }}" class="btn btn-primary">Re-Submit</a> -->
+										<a class="btn btn-danger" routerLink="/requests/contact/view/{{ item?.contact_id }}">Rejected</a>
+									}
+									@case (Enums.USER_PROFILE_CONTACT_STATUS_ACCEPT) {
+										<a class="btn btn-primary" routerLink="/requests/contact/view/{{ item?.contact_id }}">Accepted</a>
+									}
+									@case (Enums.USER_PROFILE_CONTACT_STATUS_RESUBMITTED) {
+										<a class="btn btn-primary" style="pointer-events: none;">Resubmitted</a>
+									}
+									@default {
+										<a routerLink="/property-managers/view/{{ item?.username }}" class="btn btn-primary">Contact</a>
+									}
+								}
+							</div>
+						}
+
+					</div>
+				</div>
+			</div>
+			<div class="aboutsec">
+				<div class="row">
+					<div class="col-sm-6">
+						<h3>About</h3>
+					</div>
+					@if (gs.identity?.id === item?.id) {
+						<div class="col-sm-6">
+							<div class="btndiv">
+								<button type="button" class="edit" (click)="AboutDialog()">
+									<i class="fas fa-edit"></i>Edit
+								</button>
+							</div>
+						</div>
+					}
+				</div>
+				<div class="content">
+					<app-read-more [text]="item?.about ? item?.about : '--'" [maxLength]="200" [readMoreText]="'More...'" [readLessText]="'Less...'"></app-read-more>
+				</div>
+			</div>
+			<div class="specialitiessec">
+				<div class="row">
+					<div class="col-sm-6">
+						<h3>Specialities</h3>
+					</div>
+					@if (gs.identity?.id === item?.id) {
+					<div class="col-sm-6">
+						<div class="btndiv">
+							<button type="button" class="edit" (click)="SpecialitiesDialog()">
+								<i class="fas fa-edit"></i>Edit
+							</button>
+						</div>
+					</div>
+					}
+				</div>
+				<div class="specialitylist">
+					@for (tag of tagsArray; track tag) {
+						<div class="catname">{{ tag }}</div>
+					} @empty {
+						<div class="w-100">Specialities not found</div>
+					}
+				</div>
+			</div>
+			<div class="feedbacksec">
+				<div class="row">
+					<div class="col-sm-12">
+						<h3>Feedback <span>Review(0)</span></h3>
+					</div>
+				</div>
+				<div class="feedbackbox">
+					<h4>Feedback not found</h4>
+				</div>
+				<!-- <div class="feedbackbox">
+					<h4>Lorem Ipsum is simply dummy</h4>
+					<div class="rating">
+					<ngb-rating [max]="5" [readonly]="true" [rate]="5"></ngb-rating>
+					</div>
+					<div class="date"><span>5:00</span> Apr 15, 2022</div>
+				</div>
+				<div class="feedbackbox">
+					<h4>Lorem Ipsum is simply dummy</h4>
+					<div class="rating">
+					<ngb-rating [max]="5" [readonly]="true" [rate]="5"></ngb-rating>
+					</div>
+					<div class="date"><span>5:00</span> Apr 15, 2022</div>
+				</div>
+				<div class="feedbackbox">
+					<h4>Lorem Ipsum is simply dummy</h4>
+					<div class="rating">
+					<ngb-rating [max]="5" [readonly]="true" [rate]="5"></ngb-rating>
+					</div>
+					<div class="date"><span>5:00</span> Apr 15, 2022</div>
+				</div>
+				<div class="feedbackbox">
+					<h4>Lorem Ipsum is simply dummy</h4>
+					<div class="rating">
+					<ngb-rating [max]="5" [readonly]="true" [rate]="5"></ngb-rating>
+					</div>
+					<div class="date"><span>5:00</span> Apr 15, 2022</div>
+				</div> -->
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div class="addright">
+				<a routerLink="/"><img src="{{ gs.imgUrl }}/addright.png" alt /></a>
+			</div>
+		</div>
+	</div>
+</div>

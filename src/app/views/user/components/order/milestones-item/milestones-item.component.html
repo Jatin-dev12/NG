@@ -1,0 +1,27 @@
+<p>Title: {{ item.title }}</p>
+<p>Total Price: {{ item.budget | currency }}</p>
+<div class="mb-2">
+  @for (extra of item.parse(item.extra); track extra) {
+    <p class="mb-2">{{ extra.title }} - {{ extra.price | currency }}</p>
+  }
+</div>
+<div class="mb-3" [innerHtml]="item.description"></div>
+<div class="action">
+  <p>
+    Status - <span class="badge bg-{{ status.class }}">{{ status.text }}</span>
+  </p>
+  <p>
+    Paid -
+    <span class="badge bg-info">{{
+      item.is_paid === 0 ? "Not Paid" : "Paid"
+    }}</span>
+  </p>
+  <p>
+    @if (gs.identity?.role === Role.ROLE_USER && item.is_paid === 0) {
+      <button class="btn btn-primary" (click)="payPayment()">
+        Pay Payment
+      </button>
+    }
+    <!-- *ngIf="gs.identity?.role === Role.ROLE_USER && item.is_paid === 0" -->
+  </p>
+</div>

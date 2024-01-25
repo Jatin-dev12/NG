@@ -1,0 +1,84 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <h1>Ready to apply?</h1>
+  <div class="readytoapply-popup">
+    <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+      <div class="content">
+        Enter your contact details and we'll let the Property manager know you
+        want to submit an application. If they're interested, they'll contact
+        you with next steps.
+      </div>
+      <app-error-summary></app-error-summary>
+
+      <div class="form-group">
+        <label>Enter your message</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Why would you like to apply for this property? (optional)"
+          formControlName="description"
+        />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <ngx-intl-tel-input
+          [cssClass]="'custom form-control resp'"
+          [preferredCountries]="preferredCountries"
+          [enableAutoCountrySelect]="true"
+          [enablePlaceholder]="true"
+          [searchCountryFlag]="true"
+          [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+          ]"
+          [selectFirstCountry]="false"
+          [selectedCountryISO]="CountryISO.UnitedArabEmirates"
+          [maxLength]="15"
+          [phoneValidation]="true"
+          [separateDialCode]="true"
+          [numberFormat]="PhoneNumberFormat.National"
+          formControlName="telephone"
+          name="Phone"
+        >
+        </ngx-intl-tel-input>
+        <small>*Verify Your Number</small>
+      </div>
+      <div class="form-group-1">
+        <label>Email</label>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          formControlName="email"
+        />
+        <small>*Verify Your Email</small>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <div class="btndivtwo">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [appLadda]="loading"
+              >
+                Send Request
+              </button>
+            </div>
+          </div>
+          <div class="content mb-0">
+            You agree to Amlakserv Terms of Use & Privacy Policy. By choosing to
+            contact a property manager, you also agree that Amlakserv Group,
+            landlords, and property managers may call or text you about any
+            inquiries you submit through our services, which may involve use of
+            automated means and prerecorded/artificial voices. You don't need to
+            consent a condition of renting any property, or buying any other
+            goods or services. Message/data rates may apply.
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

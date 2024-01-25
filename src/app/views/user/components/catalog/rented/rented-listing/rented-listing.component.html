@@ -1,0 +1,104 @@
+<div class="my-property-listing">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Rented Properties
+			</li>
+		</ol>
+	</nav>
+	<div class="addtop">
+		<a routerLink="."><img src="{{ gs.imgUrl }}/addtop.png" alt="" /></a>
+	</div>
+	<div class="property-filter">
+		<h1>Rented Properties</h1>
+		<!-- <div class="btndivtop">
+    <a class="btn btn-primary" routerLink="/properties/add/create"><i class="fas fa-plus"></i><img src="{{gs.imgUrl}}/vector-7.svg" alt="" />Add Property</a>
+  </div> -->
+		<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<div class="select">
+							<select class="form-control" formControlName="property_classification"
+								name="Classification">
+								<option value="" selected>--All Classification--</option>
+								<option [value]="enums.USER_CATALOG_PROPERTY_CLASSIFICATION_RESIDENTIAL">
+									Residential
+								</option>
+								<option [value]="enums.USER_CATALOG_PROPERTY_CLASSIFICATION_COMMERCIALS">
+									Commercial
+								</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<div class="select">
+							<select class="form-control" name="Type" formControlName="category_id">
+								<option value="" selected>--All Type--</option>
+								@for (item of categoriesArray | orderBy: "id"; track item) {
+									<option [value]="item.id">{{ item.name }}</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<input type="text" formControlName="q_location" class="form-control" placeholder="Enter a location" />
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<ng-select formControlName="manager_id" name="managers" [clearable]="false"
+							[placeholder]="'- Please Select Property Managers -'" [loading]="managerLoading | async">
+							<ng-option [value]="''">--Select--</ng-option>
+							@for (item of (managers | async)?.items; track item) {
+								<ng-option [value]="item.id">{{ item.name }}</ng-option>
+							}
+						</ng-select>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<label>Price (0-100000)$</label>
+					<div>
+						<mat-slider [min]="min_price_value" [max]="max_price_value" showTickMarks discrete
+							[displayWith]="formatLabel" (change)="handlePriceRange($event)">
+							<input [value]="min_price" matSliderStartThumb (change)="handleMinRange($event)" />
+							<input [value]="max_price" matSliderEndThumb (change)="handleMaxRange($event)" />
+						</mat-slider>
+					</div>
+					<!-- <ngx-slider [(highValue)]="highValue" [options]="options" (userChangeEnd)="userChangeEnd($event)"></ngx-slider> -->
+				</div>
+				<div class="col-sm-12">
+					<div class="btndiv">
+						<button type="submit" class="btn btn-primary">Search</button>
+						<button type="button" class="btn btn-primary" (click)="clear()">Clear</button>
+						<button type="button" class="btn btn-light" (click)="onResultMap()">
+							View results on map
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="property-result">
+		<div class="row">
+			<div class="col-sm-10">
+				@if (!show_map) {
+				<app-catalog-list [key]="CatalogRxKey.reference" [url]="'/rented/view'" [loadMore]="true" [layout]="'my-list'" [action]="false" />
+				}
+				@if (show_map) {
+				<app-catalog-google-map-view [items]="(catalog | async)?.items ?? []" [key]="CatalogRxKey.reference" />
+				}
+			</div>
+			<div class="col-sm-2">
+				<div class="addright">
+					<a routerLink="."><img src="{{ gs.imgUrl }}/addright.png" alt="" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

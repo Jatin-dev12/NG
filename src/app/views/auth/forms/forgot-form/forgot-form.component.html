@@ -1,0 +1,42 @@
+<form
+  novalidate
+  autocomplete="on"
+  (ngSubmit)="onForgotPassword(form)"
+  [formGroup]="form"
+>
+  <app-error-summary></app-error-summary>
+  <div class="form-group-2">
+    <!-- <label>{{'Email Address*' }}</label> -->
+    <div class="input-group" controlErrorContainer>
+      <span class="input-group-text" id="basic-addon1"
+        ><img src="{{ gs.imgUrl }}/email.svg" alt=""
+      /></span>
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Email Address"
+        formControlName="username"
+        name="Email Address"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group11">
+        <div class="btndiv">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [appLadda]="loading | async"
+            data-style="expand-right"
+          >
+            {{ "Submit" }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="backtologin">Back to <a routerLink="/login">Login</a></div>
+    </div>
+  </div>
+</form>

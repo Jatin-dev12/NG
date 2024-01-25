@@ -1,0 +1,68 @@
+<div class="expart-profile-page">
+  <div class="card">
+    <div class="card-title">
+      <h1>{{ "Notifications" }}</h1>
+    </div>
+    <!-- <pre>{{notifications | async | json}}</pre> -->
+    <div class="card-body">
+      <div class="notifications-page">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              @if (loading | async) {
+                @for (article of gs.generateFake(4); track article) {
+                  <tr>
+                    <td colspan="3">
+                      <ngx-skeleton-loader count="1"></ngx-skeleton-loader>
+                    </td>
+                  </tr>
+                }
+              } @else {
+                @for (item of notifications | async; track item) {
+                  <tr>
+                    <td>
+                      <a
+                        [routerLink]="[
+                          url(
+                            item.sender_id === gs.identity?.id
+                              ? item.sender_url
+                              : item.receiver_url
+                          )
+                        ]"
+                        (click)="read(item)"
+                      >
+                        {{ item.notification }}
+                      </a>
+                    </td>
+                    <td>{{ item.created_at * 1000 | date: "mediumDate" }}</td>
+                    <td class="text-right">
+                      <div class="btndiv">
+                        <button class="deletecard2" (click)="remove(item)">
+                          <img src="{{ gs.imgUrl }}/trash-2.svg" alt="" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+                @if (notifications | async; as notification) {
+                  @if (notification.length === 0) {
+                    <tr>
+                      <td colspan="3">{{ "Notification not found" }}</td>
+                    </tr>
+                  }
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (pagination | async; as pageCount) {
+          <app-pagination
+            [pagination]="pageCount"
+            [page]="page"
+            (getPage)="handlePagination($event)"
+          ></app-pagination>
+        }
+      </div>
+    </div>
+  </div>
+</div>

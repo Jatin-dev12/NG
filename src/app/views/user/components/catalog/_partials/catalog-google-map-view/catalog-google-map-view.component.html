@@ -1,0 +1,23 @@
+<google-map [center]="center" [options]="mapOptions" [zoom]="zoom" [height]="'776px'" [width]="'100%'" (mapDragstart)="mapDrag($event)">
+	<map-marker-clusterer [options]="clustererOptions">
+		@for (markerPosition of markerPositions; track markerPosition; let i = $index) {
+			<map-marker #marker="mapMarker" [position]="markerPosition" [options]="markerOptions" (mapClick)="openInfoWindow(marker, infoWindow)" (mapMouseover)="markerMouseOver(marker)" (mapMouseout)="markerMouseOut(marker)">
+				<div class="w-100">
+					<map-info-window class="map-dialog-info" #infoWindow="mapInfoWindow">
+						<a routerLink="/search/view/{{ infoContent?.id }}">
+							<img [src]="infoContent?.cover?.path" [alt]="infoContent?.title" />
+						</a>
+						<br />
+						<div class="detail">
+							<a routerLink="/search/view/{{ infoContent?.id }}">{{ infoContent?.title }}</a>
+							<br />
+							<span class="mt-1 d-inline-block">{{ infoContent?.price | currency }}</span>
+							<br />
+							<span class="mt-1 d-inline-block">{{ infoContent?.location?.location }}</span>
+						</div>
+					</map-info-window>
+				</div>
+			</map-marker>
+		}
+	</map-marker-clusterer>
+</google-map>

@@ -1,0 +1,179 @@
+@if (!showPreview) {
+<form [formGroup]="form" (ngSubmit)="onSubmitPreview(form)">
+	<div class="formdiv">
+		<div class="form-group">
+			<input type="text" class="form-control name" placeholder="{{ gs.identity?.name }}" readonly />
+		</div>
+		<div class="form-group">
+			<div class="btndivtop">
+				<button class="btn btn-primary" type="button" (click)="selectProperty()">
+					<img alt="" src="{{ gs.imgUrl }}/Select-Property.svg" />
+					<img alt="" src="{{ gs.imgUrl }}/Vector-13.svg" />Select Property
+				</button>
+			</div>
+			@if (gs.isValid("properties", f)) {
+				<div class="invalid-feedback d-block">
+					@if (f["properties"].errors && f["properties"].errors["required"]) {
+					<div>{{ "Property is required" }}</div>
+					}
+				</div>
+			}
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Type of Request" [value]="form.value?.type_of_request" readonly (click)="myDrop.open()" />
+				<span class="input-group-text">
+					<div ngbDropdown #myDrop="ngbDropdown">
+						<button type="button" ngbDropdownToggle ngbDropdownAnchor>
+							<span class="name"><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt="" /></span>
+						</button>
+						<ul ngbDropdownMenu>
+							@for (item of TypeOfIssuesArray; track item) {
+							<li>
+								<a ngbDropdownItem (click)="form.patchValue({ type_of_request: item.value })">{{
+									item.value }}</a>
+							</li>
+							}
+						</ul>
+					</div>
+				</span>
+			</div>
+			@if (gs.isValid("type_of_request", f)) {
+				<div class="invalid-feedback d-block">
+					@if (f["type_of_request"].errors && f["type_of_request"].errors["required"]) {
+					<div>{{ "Type of request is required" }}</div>
+					}
+				</div>
+			}
+		</div>
+		<div class="form-group">
+			<textarea placeholder="Description" formControlName="description" class="form-control"></textarea>
+		</div>
+		<div class="form-group filesupload">
+			<app-file-drag-drop-uploader [layout]="'inline'" [multiple]="true" [title]="''" [accept]="'*'" (getFileId)="files = $event" (getFiles)="allFiles = $event"></app-file-drag-drop-uploader>
+		</div>
+		<div class="btndiv">
+			<button type="submit" class="btn btn-primary">Preview</button>
+			<button type="button" class="btn btn-default">Cancel</button>
+		</div>
+	</div>
+</form>
+}
+<!-- {{ allFiles | json }}
+<pre>
+  {{ form.value | json }}
+</pre> -->
+@if (showPreview) {
+<div class="formdiv">
+	<div class="form-group">
+		<h5>Requester Name:</h5>
+		<div class="textfeild">
+			{{ gs.identity?.name }}
+		</div>
+	</div>
+	<div class="form-group">
+		<h5>Selected Property</h5>
+		<div class="listingdiv selectedproperty">
+			<div class="listingbox">
+				<div class="propertytop">
+					<div class="row align-items-center">
+						<div class="col">Property title</div>
+						<div class="col">Property Location</div>
+					</div>
+				</div>
+				<div class="propertybottom">
+					@for (catalog of catalogArray; track catalog) {
+						<div class="propertylist">
+							<div class="row align-items-center">
+								<div class="col-sm-2">
+									<img [src]="catalog?.cover_id ? catalog?.cover?.path : '{{gs.imgUrl}}/property-1.png'" [alt]="catalog?.title" width="120" />
+								</div>
+								<div class="col">{{ catalog?.title }}</div>
+								<div class="col">{{ catalog?.location?.location ?? "-" }}</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<h5>Type of Request :</h5>
+		<div class="textfeild">
+			{{ form.value?.type_of_request }}
+		</div>
+	</div>
+	<div class="form-group">
+		<h5>Description</h5>
+		<div class="textfeild description">
+			{{ form.value?.description }}
+		</div>
+	</div>
+	<div class="form-group">
+		@if (allFiles?.image?.length > 0) {
+			<div class="categories">
+				@for (item of allFiles?.image; track item; let i = $index) {
+				<div class="categories-item">
+					<div class="inner">
+						<div class="example-custom-placeholder"></div>
+						<div class="w-100">
+							<img [src]="item.path" [alt]="item.filename" class="images" />
+						</div>
+					</div>
+				</div>
+				}
+			</div>
+		}
+		@if (allFiles?.video?.length > 0) {
+			<div>
+				@for (item of allFiles?.video; track item; let i = $index) {
+				<div class="categories-item">
+					<div class="inner">
+						<div class="example-custom-placeholder"></div>
+						<div class="w-100">
+							<video style="max-height: 170px; width: 100%" controls [src]="item.path">
+								<source [src]="item.path" [type]="item.type" />
+								Your browser does not support the video tag.
+							</video>
+						</div>
+					</div>
+				</div>
+				}
+			</div>
+		}
+		@if (allFiles?.docs?.length > 0) {
+			<div>
+				@for (item of allFiles?.docs; track item; let i = $index) {
+				<div class="categories-item">
+					<div class="inner">
+						<div class="example-custom-placeholder"></div>
+						<div class="w-100">
+							<div class="col pl-2 d-flex align-items-center">
+								@if (item.mimetype === "application/pdf") {
+									<i class="far fa-file-pdf"></i>
+								}
+								@if (item.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+									<i class="far fa-file-word"></i>
+								}
+								@if (item.mimetype !== "application/pdf" && item.mimetype !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+									<i class="far fa-file"></i>
+								}
+								<span class="title pl-2">{{ item.filename }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+			</div>
+		}
+	</div>
+	<div class="btndiv">
+		<button type="button" class="btn btn-primary" [appLadda]="submitted" (click)="onSubmit(form)">
+			Send
+		</button>
+		<button type="button" class="btn btn-primary" (click)="showPreview = false">
+			Back
+		</button>
+	</div>
+</div>
+}

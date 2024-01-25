@@ -1,0 +1,75 @@
+<div class="comment-form">
+	@if (loading) {
+	<div class="spinner-border mt-2">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+	}
+	@if (imageView.length > 0) {
+	<div>
+		<div class="uploads d-flex flex-wrap">
+			@for (img of imageView; track img) {
+				<div class="images">
+					@if (img.mimetype === "image") {
+						<img [src]="img.path" [alt]="img.filename" />
+					}
+					@if (img.mimetype === "video") {
+						<video name="media" style="width: 80px !important">
+							<source src="{{ img.path }}" type="{{ img.type }}" />
+						</video>
+					}
+					@if (img.mimetype === "application") {
+						<i class="fas fa-file-pdf"></i>
+					}
+					<a class="btn btn-danger btn-sm" (click)="deletePhoto(img)"><i class="fas fa-trash-alt"></i></a>
+				</div>
+			}
+		</div>
+	</div>
+	}
+	<!-- <form novalidate #f="ngForm" (ngSubmit)="sendMsg(form)" autocomplete="off"> -->
+	@if (!isSocketOn) {
+		<div class="text-danger">Your socket connection is lost please reconnect <button type="button" (click)="reConnect()">Reconnect</button> </div>
+	}
+	<form name="form" (ngSubmit)="sendMsg(form)" [formGroup]="form" novalidate>
+		<!-- <pre>{{form.value | json }}</pre> -->
+		<div class="group clearfix">
+			<div class="text float-start">
+				<textarea class="form-control pe-0" placeholder="Write Your Message....." name="text" formControlName="text" #posttext [spellcheck]="true"></textarea>
+				@if (form.value?.text) {
+					<div class="crtcount">
+						{{ gs.maxLength - form.value?.text?.length }} characters left
+					</div>
+				}
+			</div>
+			<div class="mess-type-box float-end">
+				<div class="write-mess-right">
+					<div class="attachment">
+						<label class="file btn btn-primary rounded-circle bg-transparent border-0" for="file-upload">
+							<input type="file" name="attachments" (change)="upload($event)" multiple="true"
+								id="file-upload" style="
+                  position: absolute;
+                  width: 22px;
+                  opacity: 0;
+                  display: none;
+                " />
+							<img src="{{ gs.imgUrl }}/attach.svg" alt="" />
+						</label>
+					</div>
+					<div class="botton" (clickOutside)="show = false" (overOutside)="show = false">
+						<a mat-stroked-button class="imojibtn bg-transparent" color="primary" (click)="show = !show"><i
+								class="far fa-smile"></i></a>
+						<button class="sendbtn" mat-raised-button color="primary" [appLadda]="submitted" [disabled]="!isSocketOn">
+							<i class="fas fa-paper-plane"></i>
+						</button>
+						@if (show) {
+						<emoji-mart (emojiClick)="addEmojiPost($event)" title="Pick your emoji" [showPreview]="false"
+							[emojiTooltip]="true" set="facebook"
+							[style]="{ position: 'absolute', bottom: '45px', right: '4px' }"></emoji-mart>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- <pre>{{ isSocketOn | json }}</pre> -->

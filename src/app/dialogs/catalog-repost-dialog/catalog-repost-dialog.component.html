@@ -1,0 +1,31 @@
+<div class="modal-body">
+    <button type="button" class="close" (click)="dismiss()">
+        <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+    </button>
+    <h1>Repost Property</h1>
+    <div class="selectpro-popup">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+            <div class="form-group property_purpose">
+                <div controlErrorContainer>
+                    <div class="btn-group" role="group">
+                        <input class="btn-check" type="radio" name="property_purpose" id="typesSale" [value]="Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE" formControlName="property_purpose" />
+                        <label class="btn btn-outline-primary" for="typesSale">
+                            <i class="far fa-check-circle"></i>
+                            <i class="far fa-circle"></i> <span>|</span>For Sale</label>
+                        <input class="btn-check" type="radio" name="property_purpose" id="typesRent" [value]="Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT" formControlName="property_purpose" />
+                        <label class="btn btn-outline-primary" for="typesRent">
+                            <i class="far fa-check-circle"></i>
+                            <i class="far fa-circle"></i> <span>|</span>For Rent</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btndiv">
+                <button type="submit" class="btn btn-primary mt-3 mt-sm-0" [appLadda]="submitted">
+                    {{ "Repost" }}
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

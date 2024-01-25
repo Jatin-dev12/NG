@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "4H3S8APVNW.app.woikers.com",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

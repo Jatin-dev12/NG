@@ -1,0 +1,118 @@
+<!-- {{files | async | json}} -->
+<div class="custom-upload">
+  <div class="form-group">
+    <label class="main" [innerHtml]="title"></label>
+    @if (loading | async) {
+      <ngb-progressbar
+        type="success"
+        textType="white"
+        [value]="100"
+        [showValue]="false"
+        [striped]="true"
+        [animated]="true"
+      ></ngb-progressbar>
+    }
+    <div
+      class="custom-file loader-file"
+      appDragAndDrop
+      (fileDropped)="onFileDropped($event)"
+    >
+      @if (multiple) {
+        <input
+          type="file"
+          class="custom-file-input"
+          id="customFile1"
+          [accept]="accept"
+          multiple
+          (change)="upload($event)"
+        />
+      }
+      @if (!multiple) {
+        <input
+          type="file"
+          class="custom-file-input"
+          id="customFile1"
+          [accept]="accept"
+          (change)="upload($event)"
+        />
+      }
+      <label class="custom-file-label" for="customFile1">
+        <img src="{{ gs.imgUrl }}/upload-cloud.svg" alt="" />Drop documents here
+        to upload or <u>Choose File</u>
+      </label>
+    </div>
+  </div>
+  @if ((files | async)?.image) {
+    <ul class="images">
+      @for (file of (files | async)?.image; track file) {
+        <li>
+          <img [src]="file.path" alt="Upload {{ file.id }}" />
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            (click)="remove(file.id, 'file')"
+          >
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+  @if ((files | async)?.docs) {
+    <ul class="docs">
+      @for (file of (files | async)?.docs; track file) {
+        <li>
+          <div class="col pl-0 d-flex align-items-center">
+            @if (file.mimetype === "application/pdf") {
+              <i class="far fa-file-pdf"></i>
+            }
+            @if (
+              file.mimetype ===
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ) {
+              <i class="far fa-file-word"></i>
+            }
+            @if (
+              file.mimetype !== "application/pdf" &&
+              file.mimetype !==
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ) {
+              <i class="far fa-file"></i>
+            }
+            <span class="title pl-2">{{ file.filename }}</span>
+          </div>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            (click)="remove(file.id, 'doc')"
+          >
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+  @if ((files | async)?.video) {
+    <div class="image-list">
+      <div class="row">
+        @for (item of (files | async)?.video; track item) {
+          <div class="col-sm-3 col-md-4 col-sm-6 col-12">
+            <div class="image-box">
+              <video style="max-height: 170px; width: 100%" controls>
+                <source [src]="item.path" [type]="item.type" />
+                Your browser does not support the video tag.
+              </video>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="remove(item.id, 'video')"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

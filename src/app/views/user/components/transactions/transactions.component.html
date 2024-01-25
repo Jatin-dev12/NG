@@ -1,0 +1,70 @@
+<div class="expart-profile-page">
+  <div class="card">
+    <div class="card-title">
+      <h1>{{ "Transaction History" }}</h1>
+    </div>
+    <div class="card-body">
+      <div class="transactions-page">
+        <!-- <pre>{{ loading$ | async | json }}</pre> -->
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{{ "ID" }}</th>
+                <!-- <th scope="col">MEMBERSHIP NAME</th> -->
+                <th scope="col">{{ "Amount" }}</th>
+                <th scope="col">{{ "Transaction Date" }}</th>
+                <th scope="col">{{ "Transaction ID" }}</th>
+                <!-- <th scope="col">Status</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              @if (loading | async) {
+                @for (item of gs.generateFake(3); track item) {
+                  <tr>
+                    <td [colSpan]="6">
+                      <ngx-skeleton-loader
+                        [theme]="{ height: '10px', width: '100%' }"
+                        count="1"
+                      ></ngx-skeleton-loader>
+                    </td>
+                  </tr>
+                }
+              } @else {
+                @for (item of (transactions | async)?.items; track item) {
+                  <tr>
+                    <td>#{{ item.item_id }}</td>
+                    <!-- <td>{{ item.name ? item.name : '-' }}</td> -->
+                    <td>{{ item.total_amount | currency }}</td>
+                    <td>{{ item.created_at * 1000 | date: "M/d/yyyy" }}</td>
+                    <td>{{ item.transactionID }}</td>
+                    <!-- <td style="text-transform: capitalize;">{{ item.response_data?.status }}</td> -->
+                  </tr>
+                }
+                @if (
+                  (transactions | async)?.items === null ||
+                  (transactions | async)?.items.length === 0
+                ) {
+                  <tr>
+                    <td [colSpan]="6">{{ "Transactions not found" }}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+        @if ((transactions | async)?.pagination) {
+          <div class="handle-pagination pt-4">
+            @if ((transactions | async)?.pagination) {
+              <app-pagination
+                [pagination]="(transactions | async)?.pagination"
+                [page]="page"
+                (getPage)="handlePagination($event)"
+              ></app-pagination>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<mat-stepper #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Category Selection</ng-template>
+    <div class="marketing-step-one">
+      <h1>Marketing</h1>
+      <div class="doyoutxt">
+        <h1>Do you want to reach more clients?</h1>
+        <h3>Promote your product or service.</h3>
+      </div>
+      <h2>Our Choices</h2>
+      @if (gs.is_owner) {
+        <app-mktg-owner-form></app-mktg-owner-form>
+      }
+      @if (gs.is_manager) {
+        <app-mktg-manager-form></app-mktg-manager-form>
+      }
+      @if (gs.is_vendor) {
+        <app-mktg-vendor-form></app-mktg-vendor-form>
+      }
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Add Details</ng-template>
+    <!-- secondTopForm -->
+    <app-mktg-upper-right-ad-form></app-mktg-upper-right-ad-form>
+    <!-- secondInnerForm -->
+    <app-mktg-inner-page-ad-form></app-mktg-inner-page-ad-form>
+    <!-- secondFeaturedForm -->
+    <app-mktg-featured-ad-form></app-mktg-featured-ad-form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Payment</ng-template>
+    <app-mktg-payment></app-mktg-payment>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Congratulations</ng-template>
+    <app-mktg-congratulations></app-mktg-congratulations>
+  </mat-step>
+</mat-stepper>

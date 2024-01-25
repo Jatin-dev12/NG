@@ -1,0 +1,22 @@
+@if (gs.identity) {
+  <app-header></app-header>
+  <section class="AfterLoginpage">
+    <div class="container">
+      <div id="Left-Side" class="Left-Side h-100">
+        <app-left-sidebar></app-left-sidebar>
+      </div>
+      <div id="Right-Side" class="Right-Side h-100 mt-3">
+        <app-user-dashboard></app-user-dashboard>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+} @else {
+  <app-header class="home"></app-header>
+  <section class="all-content">
+    <app-home></app-home>
+  </section>
+  <div class="homefooter">
+    <app-footer></app-footer>
+  </div>
+}

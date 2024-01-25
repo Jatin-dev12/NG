@@ -1,0 +1,36 @@
+<!-- <pre>
+{{ images | json }}
+</pre> -->
+@if (item) {
+  <ks-carousel [id]="200" [images]="images" [config]="libConfig"></ks-carousel>
+}
+<!-- <div class="detailbox photos">
+<a *ngFor="let img of item?.media?.image; let i = index" routerLink="." (click)="onShow(200, i)">
+  <img [src]="img.path" alt="" />
+</a>
+</div> -->
+<!-- <div class="row gy-3 gy-lg-0">
+<div class="col-lg-8 ">
+  <div class="image-one" *ngIf="item?.id">
+    <img [src]="item?.media?.image ? media : '{{gs.imgUrl}}/product-view-1.png'" alt="" />
+    <div class="btndiv">
+      <button class="btn btn-primary" (click)="onShow(200, 0)"><img src="{{gs.imgUrl}}/camera.svg" alt="" />{{'SHOW' }} {{ images.length }} {{'PHOTOS'}}</button>
+    </div>
+  </div>
+</div>
+<div class="col-lg-4">
+  <div class="image-two" *ngIf="item?.video_id">
+    <img [src]="item?.cover_id ? item?.cover?.path : '{{gs.imgUrl}}/product-view-2.png'" alt="" />
+  </div>
+  <div class="image-three" *ngIf="item?.video_id">
+    <img *ngIf="!item?.video?.path" [src]="item?.cover_id ? item?.video.filename : '{{gs.imgUrl}}/product-view-3.png'" alt="" />
+    <video *ngIf="item?.video?.path" class="w-100" controls [src]="item?.video?.path">
+      <source [src]="item?.video?.path" [type]="item?.video?.type">
+      Your browser does not support the video tag.
+    </video>
+    <div class="btndiv">
+      <button class="btn btn-primary" (click)="openVideo()"><img src="{{gs.imgUrl}}/play-circle-outline.svg" alt="" />{{'WATCH VIDEO TOUR' }}</button>
+    </div>
+  </div>
+</div>
+</div> -->

@@ -1,0 +1,288 @@
+<div class="update-profile">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item">
+				<a routerLink="/profile/settings">Account Settings</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Profile</li>
+		</ol>
+	</nav>
+	<div class="addtop">
+		<a routerLink="/"><img src="{{ gs.imgUrl }}/addtop.png" alt="" /></a>
+	</div>
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="bedcrumbdiv">
+				<a routerLink="/profile/settings"><img src="{{ gs.imgUrl }}/bedcarrow.svg" alt="" />Back to Account
+					Settings</a>
+			</div>
+			<h1 class="title">Profile</h1>
+			@if (gs.identity?.role !== role.ROLE_GUEST) {
+			<div class="btndivtop">
+				<a routerLink="/profile/view/{{ gs.identity?.username }}" class="btn btn-primary">View Public
+					Profile</a>
+			</div>
+			}
+			<div class="pagebox">
+				<h2>Personal Info</h2>
+				<div class="profilebox personalinfo">
+					<h3>Name</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="content">
+									{{
+									user?.name ??
+									"Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+									}}
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="btndiv">
+									<div class="status">{{ user?.name ? "Saved" : "N / A" }}</div>
+									<button type="button" class="edit" (click)="NameDialog()">
+										<img src="{{ gs.imgUrl }}/edit.svg" alt="" />Edit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="profilebox personalinfo">
+					<h3>Screen Name</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="content">
+									{{ user?.title ? user?.title : gs.removeLastS(user?.role) }}
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="btndiv">
+									<div class="status">
+										{{ user?.title ? "Saved" : "N / A" }}
+									</div>
+									<button type="button" class="edit" (click)="ScreenNameDialog()">
+										<img src="{{ gs.imgUrl }}/edit.svg" alt="" />Edit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="profilebox personalinfo">
+        <h3>Location</h3>
+        <div class="feild">
+          <div class="row">
+            <div class="col-sm-9">
+              <div class="content">{{ user?.location?.location ?? 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' }}</div>
+            </div>
+            <div class="col-sm-3">
+              <div class="btndiv">
+                <div class="status">{{ user?.location ? 'Saved' : 'N / A' }} </div>
+                <button type="button" class="edit" (click)="LocationDialog()"><img src="{{gs.imgUrl}}/edit.svg" alt="" />Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+				<div class="profilebox personalinfo photo">
+					<h3>Photo</h3>
+					<div class="feild photo">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="content">
+									Please Upload your photo click on edit icon
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="btndiv">
+									<div class="profileimg">
+										<img [src]="ProfileAvatar" alt="" />
+									</div>
+									<button type="button" class="edit" (click)="PhotoDialog()">
+										<img src="{{ gs.imgUrl }}/edit.svg" alt="" />Edit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				@if (!gs.is_staff && !gs.is_guest) {
+				<div class="profilebox personalinfo">
+					<h3>Reviews</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="content">
+									If you want public review or Not please click on Manage
+									button.
+									@if (profile_show_reviews?.value) {
+									<div>
+										<b>{{
+											profile_show_reviews?.value === "Yes"
+											? "Visibile Reviews"
+											: "Not Visibile Reviews"
+											}}</b>
+									</div>
+									}
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="btndiv">
+									<div class="status" (click)="ReviewsDialog()">Manage</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+				<h2 class="two">Sign in & Security</h2>
+				<div class="profilebox security">
+					<h3>Email</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-5">
+								<!-- <div class="content">Lorem Ipsum is simply dummy text.</div> -->
+							</div>
+							<div class="col-sm-7">
+								<div class="btndiv">
+									<div class="email">{{ user?.email }}</div>
+									<div class="status">
+										<img src="{{ gs.imgUrl }}/verify.png" alt="" />Verified
+									</div>
+									<button type="button" class="edit" (click)="EmailDialog()">
+										<img src="{{ gs.imgUrl }}/edit.svg" alt="" />Edit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="profilebox security">
+					<h3>Mobile number</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-6">
+								<!-- <div class="content">Lorem Ipsum is simply dummy text.</div> -->
+							</div>
+							<div class="col-sm-6">
+								<div class="btndiv">
+									<div class="email">
+										{{
+										user?.userProfile?.telephone
+										? user?.userProfile?.telephone
+										: "+123-456-789"
+										}}
+									</div>
+									<div class="status">
+										<img src="{{ gs.imgUrl }}/{{
+                        user?.userProfile?.telephone ? 'verify' : 'un-verify'
+                      }}.png" alt="" />{{
+										user?.userProfile?.telephone ? "Verified" : "Un-Verified"
+										}}
+									</div>
+									<button type="button" class="edit" (click)="MobileDialog()">
+										<img src="{{ gs.imgUrl }}/edit.svg" alt="" />Edit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="profilebox security">
+					<h3>Password</h3>
+					<div class="feild password">
+						<div class="row">
+							<div class="col-sm-6">
+								<!-- <div class="content">Lorem Ipsum is simply dummy text.</div> -->
+							</div>
+							<div class="col-sm-6">
+								<div class="btndiv">
+									<button type="button" class="btn btn-outline-primary" (click)="PasswordDialog()">
+										Change Password
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="profilebox security">
+					<h3>2-Step verification</h3>
+					<div class="feild password">
+						<div class="row">
+							<div class="col-sm-6">
+								<!-- <div class="content">Lorem Ipsum is simply dummy text.</div> -->
+							</div>
+							<div class="col-sm-6">
+								<div class="btndiv">
+									<button type="button" class="btn btn-outline-primary" (click)="TwoStepDialog()">
+										{{ two_step?.value === "No" ? "Enable" : "Disable" }}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="profilebox security">
+      <h3>Google sign in</h3>
+      <div class="feild password">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="content">Lorem Ipsum is simply dummy text.</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="btndiv">
+              <button type="button" class="btn btn-outline-primary" (click)="GoogleDialog()">Unlink</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+				<h2 class="two">Manage account</h2>
+				<div class="profilebox manageaccount">
+					<h3>Deactivate my account</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-9">
+								<!-- <div class="content">Lorem Ipsum is simply dummy text.</div> -->
+							</div>
+							<div class="col-sm-3">
+								<div class="btndiv">
+									<button type="button" class="goto" (click)="DeactivateDialog()">
+										Deactivate Account
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="profilebox manageaccount last">
+					<h3>Privacy & cookies</h3>
+					<div class="feild">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="content">
+									{{ privacy_cookies?.value === "Yes" ? "Yes" : "No" }}
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="btndiv">
+									<button type="button" class="goto" (click)="PrivacyDialog()">
+										Go to Privacy Portal
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div class="addright">
+				<a routerLink="."><img src="{{ gs.imgUrl }}/addright.png" alt="" /></a>
+			</div>
+		</div>
+	</div>
+</div>

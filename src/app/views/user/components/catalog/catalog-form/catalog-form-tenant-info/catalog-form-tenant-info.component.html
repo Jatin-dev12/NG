@@ -1,0 +1,528 @@
+<div class="tabmenu">
+	@if (showPreview) {
+	<div class="addtop mb-4">
+		<a routerLink="/"><img src="{{ gs.imgUrl }}/addtop.png" alt="" class="w-100" /></a>
+	</div>
+	}
+	<ul class="nav-tabs nav">
+		<li class="nav-item">
+			<a routerLink="." class="nav-link" (click)="clickOutside('/properties/add/update')">Property Details</a>
+		</li>
+		@if (gs.is_manager) {
+		<li class="nav-item">
+			<a routerLink="." class="nav-link" (click)="clickOutside('/properties/add/owner')">Property Owner Info</a>
+		</li>
+		}
+		<li class="nav-item">
+			<a routerLink="/properties/add/tenant/{{ update?.id }}" class="nav-link active">Tenant Info</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane fade show active">
+			@if (update?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE) {
+				<ngb-alert [dismissible]="false" [type]="'warning'" class="mt-3 mb-0">
+					<img src="{{ gs.imgUrl }}/danger-icon.svg" alt="Images" /><strong>Be careful!</strong> Update the property first, Then add the details of the tenant.
+				</ngb-alert>
+			}
+			<form [formGroup]="form" (ngSubmit)="onSubmitPreview(form)" (keydown.enter)="$event.preventDefault()">
+				@if (!showPreview) {
+				<div class="formdiv">
+					<h1>{{ "Tenant Info" }}</h1>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Tenant Name" }}<span class="star">*</span></label>
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="name" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Tenant Email Address" }}<span class="star">*</span></label>
+								@if (f["email"].pending) {
+								<mat-progress-spinner matSuffix [mode]="'indeterminate'"
+									[diameter]="20"></mat-progress-spinner>
+								}
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="email" />
+								@if (gs.isValid("email", f)) {
+								<div class="invalid-feedback d-block">
+									@if (
+									f["email"].errors &&
+									f["email"].errors["emailExistWithRole"]
+									) {
+									<div>
+										Email Id already registered as a different User Role
+										on the system
+									</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Permitted Occupier" }}</label>
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="permitted_occupier"
+									[customErrors]="{ pattern: 'Permitted Occupier accept only a-z characters' }" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group pricediv">
+								<label>{{ "Rent Amount" }}<span class="star">*</span></label>
+								<!-- <a-inputNumber placeholder="- Please Enter -" name="Rent Amount" formControlName="amount"></a-inputNumber> -->
+								<div class="input-group" controlErrorContainer>
+									<a-inputNumber formControlName="amount" placeholder="- Please Enter -"
+										name="Rent Amount" class="w-75" [min]="0"></a-inputNumber>
+									<div class="input-group-append w-25">
+										<div class="input-group" controlErrorContainer>
+											<input type="text" class="form-control" placeholder="- Please Select -"
+												readonly (click)="myDrop2.open()" formControlName="currency_code" />
+											<span class="input-group-text"
+												style="position: absolute; right: 0px; top: 20px">
+												<div ngbDropdown #myDrop2="ngbDropdown">
+													<button type="button" ngbDropdownToggle ngbDropdownAnchor>
+														<span class="name"><img src="{{ gs.imgUrl }}/dropdown-arrow.svg"
+																alt="" /></span>
+													</button>
+													<ul ngbDropdownMenu>
+														@for (item of currenciesArray; track item) {
+														<li [class.active]=" form.value.currency_code === item.key ">
+															<a ngbDropdownItem
+																(click)=" form.patchValue({ currency_code: item.key }) ">{{
+																item.key }}</a>
+														</li>
+														}
+													</ul>
+												</div>
+											</span>
+										</div>
+									</div>
+								</div>
+								@if (gs.isValid("currency_code", f)) {
+								<div class="invalid-feedback d-block">
+									@if (form.get("currency_code")?.getError("required")) {
+									<div>{{ "Currency code is required" }}</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Payable" }}<span class="star">*</span></label>
+								<div class="input-group" controlErrorContainer>
+									<input type="text" class="form-control" formControlName="payment_terms"
+										placeholder="- Please Select -" name="Payable" readonly
+										(click)="myDrop.open()" />
+									<span class="input-group-text">
+										<div ngbDropdown #myDrop="ngbDropdown">
+											<button type="button" ngbDropdownToggle ngbDropdownAnchor>
+												<span class="name"><img src="{{ gs.imgUrl }}/drop-arrow.svg"
+														alt="" /></span>
+											</button>
+											<ul ngbDropdownMenu>
+												@for (item of UserCatalogOrderPaymentTerms; track item) {
+												<li>
+													<a ngbDropdownItem
+														(click)="form.patchValue({ payment_terms: item.value })">{{
+														item.value }}</a>
+												</li>
+												}
+											</ul>
+										</div>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group pricediv">
+								<label>{{ "Deposit" }}<span class="star">*</span></label>
+								<!-- <a-inputNumber placeholder="- Please Enter -" formControlName="deposit_amount"></a-inputNumber> -->
+								<div class="input-group" controlErrorContainer>
+									<a-inputNumber formControlName="deposit_amount" placeholder="- Please Enter -"
+										class="w-75" [min]="0"></a-inputNumber>
+									<div class="input-group-append w-25">
+										<div class="input-group" controlErrorContainer>
+											<input type="text" class="form-control" placeholder="- Please Select -"
+												readonly (click)="myDrop2.open()" formControlName="currency_code" />
+											<span class="input-group-text"
+												style="position: absolute; right: 0px; top: 20px">
+												<div ngbDropdown #myDrop2="ngbDropdown">
+													<button type="button" ngbDropdownToggle ngbDropdownAnchor>
+														<span class="name"><img src="{{ gs.imgUrl }}/dropdown-arrow.svg"
+																alt="" /></span>
+													</button>
+													<ul ngbDropdownMenu>
+														@for (item of currenciesArray; track item) {
+														<li [class.active]=" form.value.currency_code === item.key ">
+															<a ngbDropdownItem
+																(click)=" form.patchValue({ currency_code: item.key }) ">{{
+																item.key }}</a>
+														</li>
+														}
+													</ul>
+												</div>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Start Date" }}<span class="star">*</span></label>
+								<div controlErrorContainer>
+									<input type="text" class="form-control" placeholder="- Please Select -"
+										formControlName="start_time" [matDatepicker]="start_time" [min]="minDate"
+										name="Start Date" readonly />
+									<button class="calendericon" type="button" (click)="start_time.open()">
+										<img src="{{ gs.imgUrl }}/calender.svg" alt="Images" />
+									</button>
+									<mat-datepicker #start_time></mat-datepicker>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "End Date" }}<span class="star">*</span></label>
+								<div controlErrorContainer>
+									<input type="text" class="form-control" placeholder="- Please Select -"
+										formControlName="end_time" [matDatepicker]="end_time"
+										[min]="form.value?.start_time ?? minDate" name="End Date" readonly />
+									<button class="calendericon" type="button" (click)="end_time.open()">
+										<img src="{{ gs.imgUrl }}/calender.svg" alt="Images" />
+									</button>
+									<mat-datepicker #end_time></mat-datepicker>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>{{ "Terms & Conditions" }}<span class="star">*</span></label>
+								<textarea class="form-control" rows="3" placeholder="- Write a Description -"
+									formControlName="terms"></textarea>
+								@if (form.value?.terms) {
+								<div class="crtcount">
+									{{ gs.maxLength - form.value?.terms?.length }} characters
+									left
+								</div>
+								}
+							</div>
+						</div>
+						<div class="col-sm-12 fileuploader contract">
+							<div class="form-group">
+								<label>{{ "Contract" }}<span class="star">*</span></label>
+								<app-file-drag-drop-uploader title="Contract" [multiple]="false" [extensions]="'doc'"
+									[accept]="'application/pdf'" [checkExtensions]="true" [layout]="'inline'"
+									(getFileId)="form.patchValue({ doc_id: $event[0] })" [allFiles]="UploadPropertyDoc"
+									(getFiles)="UploadPropertyDoc = $event"
+									placeholder="- Please Upload Contract -"></app-file-drag-drop-uploader>
+								@if (gs.isValid("doc_id", f)) {
+								<div class="invalid-feedback d-block">
+									@if (form.get("doc_id")?.getError("required")) {
+									<div>Contract is required</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+					</div>
+					<div class="btndiv">
+						<button type="submit" class="btn btn-primary">
+							{{ "Preview" }}
+						</button>
+					</div>
+				</div>
+				}
+				@if (showPreview) {
+				<div class="product-view-page property-view-page tenant-property-view owner-property-info-view">
+					<div class="pr-title">
+						<h1>Tenant Info</h1>
+						@if (
+						tenantRefrence?.status === null ||
+						tenantRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_NONE
+						) {
+						<div class="btndiv">
+							<button type="button" class="btn btn-primary" (click)="showPreview = false">
+								<i class="fas fa-pencil-alt"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Edit
+							</button>
+							<button type="button" class="btn btn-primary" (click)="
+onSubmit(
+form,
+'save',
+Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_NONE
+)
+" [appLadda]="saveLoading">
+								<img src="{{ gs.imgUrl }}/plus.svg" alt="" /><img src="{{ gs.imgUrl }}/vector-10.svg"
+									alt="" />Save
+							</button>
+							<button [appLadda]="requestLoading" type="button" class="btn btn-primary" (click)="
+onSubmit(
+form,
+'request',
+Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PENDING
+)
+">
+								Request Confirmation
+							</button>
+						</div>
+						} @else {
+						@if (
+						tenantRefrence?.status !==
+						Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+						) {
+						<div class="btndiv">
+							@if (
+							tenantRefrence?.status !==
+							Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+							) {
+							<button type="button" class="btn btn-primary" (click)="showPreview = false">
+								<i class="fas fa-pencil-alt"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Edit
+							</button>
+							}
+							@if (
+							tenantRefrence?.status !==
+							Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+							) {
+							<button type="button" class="btn btn-primary" (click)="
+onSubmit(
+form,
+'save',
+Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_NONE
+)
+" [appLadda]="saveLoading">
+								<img src="{{ gs.imgUrl }}/plus.svg" alt="" /><img src="{{ gs.imgUrl }}/vector-10.svg"
+									alt="" />Save
+							</button>
+							}
+							@if (
+							tenantRefrence?.status !==
+							Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+							) {
+							<button type="button" class="btn btn-danger" (click)="remove()">
+								<i class="fas fa-trash"></i><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />Delete
+							</button>
+							}
+							<a [routerLink]="['/properties/view', update?.id]" class="btn btn-primary"><img
+									src="{{ gs.imgUrl }}/home-hor.svg" width="21" alt="" /><img
+									src="{{ gs.imgUrl }}/vector-7.svg" alt="" />View
+								Property</a>
+							@if (gs.is_owner && gs.identity?.id === update?.user_id) {
+							<button type="button" class="btn btn-light status">
+								<i class="fas fa-exclamation-triangle"></i><img src="{{ gs.imgUrl }}/vector-9.svg"
+									alt="" />Not
+								Managed
+							</button>
+							}
+							@if (gs.is_owner && gs.identity?.id !== update?.user_id) {
+							<button type="button" class="btn btn-secondary status">
+								<img src="{{ gs.imgUrl }}/managed.svg" alt="" /><img src="{{ gs.imgUrl }}/vector-8.svg"
+									alt="" />Managed
+							</button>
+							}
+							@if (
+							tenantRefrence?.status !==
+							Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+							) {
+							<a class="btn btn-danger status"><img src="{{ gs.imgUrl }}/vacant.svg" alt="" /><img
+									src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Vacant</a>
+							}
+							@if (
+							tenantRefrence?.status ===
+							Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+							) {
+							<a class="btn btn-success status"><i class="fas fa-check"></i><img
+									src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Rented</a>
+							}
+						</div>
+						}
+						}
+					</div>
+					<div class="pv-middle">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="pv-box propertyownertwo">
+									<div class="pv-title">
+										<h1>Tenant</h1>
+									</div>
+									<div class="pv-body">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="image">
+													<img [src]="
+tenant
+? tenant.avatar
+: gs.imgUrl + '/manager-1.png'
+" alt="" />
+												</div>
+											</div>
+											<div class="col-sm-9">
+												<div class="lefttxt">
+													<h3>
+														{{ tenant ? tenant.name : form.value?.name }}
+													</h3>
+													<h4>Tenant</h4>
+													<div class="left-scroll css-scroll" infiniteScroll>
+														<div class="contenttwo">
+															Permitted Occupant :
+															{{ form.value?.permitted_occupier ?? "-" }}
+														</div>
+													</div>
+													@if (
+													tenantRefrence?.status !== null &&
+													tenantRefrence?.status ===
+													Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+													) {
+													<div class="btndiv">
+														<button type="button" class="btn btn-primary"
+															(click)="createMsg()">
+															Contact
+														</button>
+													</div>
+													}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pv-box management mb-0">
+									<div class="pv-title">
+										<h1>Tenancy Agreement</h1>
+									</div>
+									<div class="pv-body">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="prodetails">
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Tenant Name</div>
+															<div class="col-sm-7">
+																{{ form.value.name }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Email Address</div>
+															<div class="col-sm-7">
+																{{ form.value?.email }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Permitted Occupier</div>
+															<div class="col-sm-7">
+																{{ form.value?.permitted_occupier ?? "-" }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Rent Amount</div>
+															<div class="col-sm-7">
+																{{ form.value.amount ?? 0 | currency }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Payable</div>
+															<div class="col-sm-7">
+																{{ form.value.payment_terms }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Deposit</div>
+															<div class="col-sm-7">
+																{{
+																form.value.deposit_amount ?? 0 | currency
+																}}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">Start Date</div>
+															<div class="col-sm-7">
+																{{ form.value.start_time | date: "longDate" }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-5">End Date</div>
+															<div class="col-sm-7">
+																{{ form.value.end_time | date: "longDate" }}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6"></div>
+										</div>
+										<div class="termssection">
+											<h1>Terms & Conditions</h1>
+											<div class="left-scroll css-scroll" infiniteScroll>
+												<div class="content" [innerHTML]="form.value.terms"></div>
+											</div>
+										</div>
+										<div class="btndivbottom">
+											<div class="row">
+												<div class="col-sm-6">
+													@if (
+													tenantRefrence?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING
+													) {
+													<button type="button" class="btn btn-warning status">
+														Pending
+													</button>
+													}
+													@if (
+													tenantRefrence?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_DECLINED
+													) {
+													<button type="button" class="btn btn-danger status">
+														Declined
+													</button>
+													}
+													@if (
+													tenantRefrence?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+													) {
+													<button type="button" class="btn btn-success status">
+														Approved
+													</button>
+													}
+													@if (
+													tenantRefrence?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+													) {
+													<a routerLink="/properties/tenant-agreement/{{update?.id}}"
+														class="btn btn-info">View Tenancy Agreement</a>
+													}
+												</div>
+												<div class="col-sm-6">
+													<div class="contract">
+														<a [href]="contractFile(UploadPropertyDoc)" target="_blank"><i
+																class="fas fa-file-pdf"></i> contract</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+<div class="row align-items-center">
+  <div class="col">
+    <a routerLink="." (click)="view()">{{ item.id }}</a>
+  </div>
+  <div class="col">{{ item.user.name }}</div>
+  <div class="col">{{ item.catalog_id }}</div>
+  <div class="col">{{ item.created_at * 1000 | date: "short" }}</div>
+  <!-- 07/15/2021 3:21 AM -->
+  <div class="col">
+    <div class="btndiv">
+      <a
+        class="btn btn-{{ item.assign_to ? 'primary' : 'secondary' }}"
+        (click)="view()"
+      >
+        {{ item.assign_to ? "Assigned" : "Unassigned" }}
+      </a>
+    </div>
+  </div>
+</div>

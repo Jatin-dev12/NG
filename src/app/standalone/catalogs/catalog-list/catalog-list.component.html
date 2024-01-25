@@ -1,0 +1,417 @@
+<!-- <pre>
+    {{ layout | json }}
+</pre> -->
+<div class="listingdiv">
+	@switch (layout) {
+	@case ("my-list") {
+	<div class="row">
+		<ng-container *ngIf="loading | async; else gridListOne">
+			<div class="col-sm-4" *ngFor="let item of gs.generateFake(4)">
+				<div class="propertybox">
+					<div class="protop">
+						<ngx-skeleton-loader [theme]="{ height: '100px', width: '100%' }"></ngx-skeleton-loader>
+					</div>
+					<div class="image">
+						<ngx-skeleton-loader [theme]="{ height: '150px', width: '100%' }"></ngx-skeleton-loader>
+					</div>
+					<div class="promiddle">
+						<ngx-skeleton-loader [theme]="{ height: '25px', width: '100%' }" count="3">
+						</ngx-skeleton-loader>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+		<ng-template #gridListOne>
+			@for (item of (catalog | async)?.items; track item) {
+			@defer (on immediate) {
+			<div class="col-sm-4" app-catalog-item id="target_{{ item.id }}"
+				[ngClass]="{ active: current_id === item.id }" [url]="url"
+				[item]="key === CatalogRxKey.wishlist ? item.catalog : item" [wishlist]="item" [key]="key"
+				[layout]="layout"></div>
+			}
+			} @empty {
+			<div class="col-12">
+				<ng-container *ngTemplateOutlet="NotFoundText"></ng-container>
+			</div>
+			}
+		</ng-template>
+	</div>
+	}
+	@case ("grid-inline") {
+	<div class="row">
+		<ng-container *ngIf="loading | async; else gridListOne">
+			<div class="col-12" *ngFor="let item of gs.generateFake(4)">
+				<div class="propertybox">
+					<div class="image">
+						<ngx-skeleton-loader [theme]="{ height: '150px', width: '100%' }"></ngx-skeleton-loader>
+					</div>
+					<div class="detail">
+						<ngx-skeleton-loader [theme]="{ height: '25px', width: '100%' }" count="3">
+						</ngx-skeleton-loader>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+		<ng-template #gridListOne>
+			@for (item of (catalog | async)?.items; track item) {
+			@defer (on immediate) {
+			<div class="col-sm-6" *ngFor="let item of (catalog | async)?.items" id="target_{{ item.id }}"
+				[ngClass]="{ active: current_id === item.id }">
+				<div app-catalog-item [url]="url" [item]="key === CatalogRxKey.wishlist ? item.catalog : item"
+					[wishlist]="item" [key]="key" [layout]="layout"></div>
+			</div>
+			}
+			} @empty {
+			<div class="col-12">
+				<ng-container *ngTemplateOutlet="NotFoundText"></ng-container>
+			</div>
+			}
+		</ng-template>
+	</div>
+	}
+	@case ("search") {
+	<div class="row">
+		<ng-container *ngIf="loading | async; else second">
+			<div class="col-sm-4" *ngFor="let item of gs.generateFake(4)">
+				<div class="propertybox">
+					<div class="image">
+						<ngx-skeleton-loader [theme]="{ height: '150px', width: '100%' }"></ngx-skeleton-loader>
+					</div>
+					<div class="detail">
+						<ngx-skeleton-loader [theme]="{ height: '25px', width: '100%' }" count="3">
+						</ngx-skeleton-loader>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+		<ng-template #second>
+			@for (item of (catalog | async)?.items; track item) {
+			@defer (on immediate) {
+				<div id="target_{{ item.id }}" class="col-sm-4" [ngClass]="{ active: current_id === item.id }" app-catalog-item [url]="url" [item]=" key === CatalogRxKey.wishlist ? item.catalog : item" [wishlist]="item" [key]="key" [layout]="layout" [Type_Slug]="Type_Slug">
+				</div>
+			}
+			} @empty {
+				<div class="notfound col-12">
+					<ng-container *ngTemplateOutlet="NotFoundText"></ng-container>
+				</div>
+			}
+		</ng-template>
+	</div>
+	<!-- <div class="row gy-3 gy-lg-0">
+        <div class="col-sm-12">
+          <div class="listingbox">
+            <div class="propertytop">
+              <div class="row align-items-center">
+                <div class="col-2">Images</div>
+                <div class="col">Property <br />Title</div>
+
+                @switch (Type_Slug) {
+                  @case (AdditionalEnums.CatalogTypeSlug.APARTMENT) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Number of Room</div>
+                    <div class="col">Number of Floor</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.VILLAS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Number of Room</div>
+                    <div class="col">Number of Floor</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.HOUSES) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Number of Room</div>
+                    <div class="col">Number of Floor</div>
+                  }
+                  @case (
+                    AdditionalEnums.CatalogTypeSlug.RESIDENTIAL_BUILDINGS
+                  ) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Number of Room</div>
+                    <div class="col">Number of Floor</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.COMMERCIAL_BUILDINGS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span> <br />(Gross)
+                    </div>
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span> <br />(Net)
+                    </div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.OFFICES) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Number of Room</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.SHOWROOMS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Number of Room</div>
+                    <div class="col">Cooling & Heating</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.WAREHOUSES) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Height (m)</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.GASOLINE_STATIONS) {
+                    <div class="col">Open Area (m2)</div>
+                    <div class="col">Number of Pumps</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.SHOPS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.RESTAURANT_CAFE) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                    <div class="col">Cooling & Heating</div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.WORKSHOPS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.SPORTS_CENTERS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                  @case (
+                    AdditionalEnums.CatalogTypeSlug.HEALTH_BEAUTY_EVENT_CENTERS
+                  ) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.LANDS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                  @case (AdditionalEnums.CatalogTypeSlug.FARMS) {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                  @default {
+                    <div class="col">
+                      <sub>M</sub><span class="square">2</span>
+                    </div>
+                  }
+                }
+
+                <div class="col">Price</div>
+                <div class="col">Post Date</div>
+                <div class="col">District</div>
+              </div>
+            </div>
+
+            <ng-container *ngIf="loading | async; else second">
+              <div class="col-sm-12" *ngFor="let item of gs.generateFake(4)">
+                <div class="propertybox">
+                  <div class="image">
+                    <ngx-skeleton-loader
+                      [theme]="{ height: '150px', width: '100%' }"
+                    ></ngx-skeleton-loader>
+                  </div>
+                  <div class="detail">
+                    <ngx-skeleton-loader
+                      [theme]="{ height: '25px', width: '100%' }"
+                      count="3"
+                    >
+                    </ngx-skeleton-loader>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #second>
+              <div class="propertybottom">
+                @for (item of (catalog | async)?.items; track item) {
+                  @defer (on immediate) {
+                    <div
+                      id="target_{{ item.id }}"
+                      class="prbox"
+                      [ngClass]="{ active: current_id === item.id }"
+                    >
+                      <div
+                        app-catalog-item
+                        [url]="url"
+                        [item]="
+                          key === CatalogRxKey.wishlist ? item.catalog : item
+                        "
+                        [wishlist]="item"
+                        [key]="key"
+                        [layout]="layout"
+                        [Type_Slug]="Type_Slug"
+                      ></div>
+                    </div>
+                  }
+                } @empty {
+                  <div class="notfound">
+                    <ng-container
+                      *ngTemplateOutlet="NotFoundText"
+                    ></ng-container>
+                  </div>
+                }
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div> -->
+	}
+
+	@case ("inline") {
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Name</th>
+					<th scope="col">User Name</th>
+					<th scope="col">No of Guest</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Created At</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ng-container *ngIf="loading | async; else inlineElse">
+					<tr *ngFor="let item of gs.generateFake(3)">
+						<td [colSpan]="7">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</td>
+					</tr>
+				</ng-container>
+				<ng-template #inlineElse>
+					@for (item of (catalog | async)?.items; track item) {
+					@defer (on immediate) {
+					<tr app-catalog-item [item]="key === CatalogRxKey.wishlist ? item.catalog : item" [url]="url"
+						[key]="key" [layout]="layout"></tr>
+					}
+					} @empty {
+					<tr>
+						<td [colSpan]="7">
+							<ng-container *ngTemplateOutlet="NotFoundText"></ng-container>
+						</td>
+					</tr>
+					}
+				</ng-template>
+			</tbody>
+		</table>
+	</div>
+	}
+
+	@default {
+	<div class="row gy-3 gy-lg-0">
+		<div class="col-sm-12">
+			<div class="listingbox">
+				<div class="propertytop">
+					<div class="row align-items-center">
+						<div class="col-2">Images</div>
+						<div class="col">Property Title</div>
+						<div class="col">M2</div>
+						<div class="col">Number of Rooms</div>
+						<div class="col">Price</div>
+						<div class="col">Post Date</div>
+						<div class="col">District</div>
+					</div>
+				</div>
+				<ng-container *ngIf="loading | async; else second">
+					<div class="col-sm-12" *ngFor="let item of gs.generateFake(4)">
+						<div class="propertybox">
+							<div class="image">
+								<ngx-skeleton-loader [theme]="{ height: '150px', width: '100%' }"></ngx-skeleton-loader>
+							</div>
+							<div class="detail">
+								<ngx-skeleton-loader [theme]="{ height: '25px', width: '100%' }" count="3">
+								</ngx-skeleton-loader>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+				<ng-template #second>
+					<div class="propertybottom">
+						@for (item of (catalog | async)?.items; track item) {
+						@defer (on immediate) {
+						<div id="target_{{ item.id }}" class="prbox" [ngClass]="{ active: current_id === item.id }">
+							<div app-catalog-item [url]="url" [item]="
+                          key === CatalogRxKey.wishlist ? item.catalog : item
+                        " [wishlist]="item" [key]="key" [layout]="layout"></div>
+						</div>
+						}
+						} @empty {
+						<div class="col-12 notfound">
+							<ng-container *ngTemplateOutlet="NotFoundText"></ng-container>
+						</div>
+						}
+					</div>
+				</ng-template>
+			</div>
+		</div>
+	</div>
+	}
+	}
+</div>
+
+<ng-container *ngIf="catalog | async as pagination">
+	<div class="handle-pagination" *ngIf="
+      pagination.size < pagination.total &&
+      pagination.total !== (catalog | async)?.items?.length
+    ">
+		<ng-container *ngIf="!loadMore">
+			<app-pagination *ngIf="(catalog | async)?.total" [pagination]="catalog | async" [page]="page"
+				(getPage)="handlePagination($event)"></app-pagination>
+		</ng-container>
+		<ng-container *ngIf="loadMore">
+			<div class="loadmore text-center" *ngIf="
+          pagination.size < pagination.total &&
+          pagination.total !== (catalog | async)?.items?.length
+        ">
+				<button type="button" class="btn btn-primary" [appLadda]="moreLoading | async" (click)="handleLoadMore()">{{
+					"Load More Properties" }}</button>
+			</div>
+		</ng-container>
+	</div>
+</ng-container>
+
+<ng-template #NotFoundText>
+	<div *ngIf="
+      (catalog | async)?.items === null || (catalog | async)?.items.length === 0
+    ">
+		<ng-container [ngSwitch]="key">
+			<div *ngSwitchCase="CatalogRxKey.wishlist" class="emptywishlist">
+				{{ "Your Wishlist is Empty" }}
+				<div class="image">
+					<img src="{{ gs.imgUrl }}/empty-whishlist.svg" alt="" />
+				</div>
+			</div>
+			<div class="notfound" *ngSwitchCase="CatalogRxKey.listing">
+				<img src="{{ gs.imgUrl }}/property-not-found.svg" alt="" />
+			</div>
+			<div class="notfound" *ngSwitchCase="CatalogRxKey.search">
+				<img src="{{ gs.imgUrl }}/property-not-found.svg" alt="" />
+			</div>
+			<div class="notfound" *ngSwitchCase="CatalogRxKey.reference">
+				<img src="{{ gs.imgUrl }}/property-not-found.svg" alt="" />
+			</div>
+			<div class="notfound" *ngSwitchDefault>
+				<img src="{{ gs.imgUrl }}/property-not-found.svg" alt="" />
+			</div>
+		</ng-container>
+	</div>
+</ng-template>
+
+<!-- <button (click)="scroll()">Button</button> -->

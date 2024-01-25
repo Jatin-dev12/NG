@@ -1,0 +1,161 @@
+<div class="request-listing-page bills-listing-page">
+  <div class="searchtop">
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="searchdiv">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              [(ngModel)]="q"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <span class="input-group-text">
+              <button class="btn" type="button" (click)="search()">
+                <img src="assets/search-meg.svg" alt="Search" />
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="btndiv">
+          <a routerLink="/bills/{{ gs.billUrl }}" class="btn btn-primary"
+            >Add Bills<i class="fas fa-plus"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rl-filter">
+    <h4>Filter By :</h4>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label>Bill No</label>
+          <input
+            type="text"
+            name="requestno"
+            class="form-control"
+            [(ngModel)]="id"
+            [ngModelOptions]="{ standalone: true }"
+            (keyup.enter)="onEnterRequest()"
+          />
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label>Recipient ID</label>
+          <input
+            type="text"
+            name="requestno"
+            class="form-control"
+            [(ngModel)]="receiver_id"
+            [ngModelOptions]="{ standalone: true }"
+            (keyup.enter)="onEnterReceiver()"
+          />
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label>Property ID</label>
+          <input
+            type="text"
+            name="requestno"
+            class="form-control"
+            [(ngModel)]="catalog_id"
+            [ngModelOptions]="{ standalone: true }"
+            (keyup.enter)="onEnterCatalog()"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="listingdiv">
+    <div class="listingbox">
+      <div class="propertytop">
+        <div class="row align-items-center">
+          <div class="col">Bill No.</div>
+          <div class="col">Recipient</div>
+          <div class="col">Property ID</div>
+          <div class="col">Update</div>
+          <div class="col">Due Date</div>
+          <div class="col">Status</div>
+        </div>
+      </div>
+      <div class="propertybottom">
+        @if (loading | async) {
+          @for (item of gs.generateFake(3); track item) {
+            <div class="propertylist">
+              <div class="row align-items-center">
+                <div class="col">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '10px', width: '100%' }"
+                    count="1"
+                  ></ngx-skeleton-loader>
+                </div>
+                <div class="col">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '10px', width: '100%' }"
+                    count="1"
+                  ></ngx-skeleton-loader>
+                </div>
+                <div class="col">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '10px', width: '100%' }"
+                    count="1"
+                  ></ngx-skeleton-loader>
+                </div>
+                <div class="col">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '10px', width: '100%' }"
+                    count="1"
+                  ></ngx-skeleton-loader>
+                </div>
+                <div class="col">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '10px', width: '100%' }"
+                    count="1"
+                  ></ngx-skeleton-loader>
+                </div>
+                <div class="col">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '10px', width: '100%' }"
+                    count="1"
+                  ></ngx-skeleton-loader>
+                </div>
+              </div>
+            </div>
+          }
+        } @else {
+          @for (item of (catalogs | async)?.items; track item) {
+            <div
+              app-issued-listing-item
+              class="propertylist"
+              [item]="item"
+            ></div>
+          }
+          @if (
+            (catalogs | async)?.items === null ||
+            (catalogs | async)?.items.length === 0
+          ) {
+            <div class="notfound">Request not found.</div>
+          }
+          @if (
+            $any((catalogs | async)?.pagination?.totalCount) >
+            this.params["per-page"]
+          ) {
+            <div class="">
+              <app-pagination
+                [pagination]="(catalogs | async)?.pagination"
+                [page]="params.page"
+                (getPage)="handlePagination($event)"
+              ></app-pagination>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

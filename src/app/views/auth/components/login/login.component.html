@@ -1,0 +1,29 @@
+<section id="login-form" class="login-page">
+  <div class="container">
+    <div class="row main">
+      <div class="col-sm-6 main">
+        <div class="image">
+          <img src="{{ gs.imgUrl }}/login-img.png" alt="" />
+        </div>
+      </div>
+      <div class="col-sm-6 main">
+        <div class="login-box">
+          <div class="logodiv">
+            <a routerLink="/"
+              ><img src="{{ gs.imgUrl }}/login-logo.png" alt=""
+            /></a>
+          </div>
+          <div class="logregbtn">
+            <a class="active" routerLink="/login">Sign In</a>
+            <a routerLink="/register">Sign Up</a>
+          </div>
+          <!-- <h1>{{'Login' }}</h1> -->
+          <app-login-form
+            [url]="'/'"
+            (modalEvent)="modalEvent($event)"
+          ></app-login-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

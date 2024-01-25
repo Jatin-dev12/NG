@@ -1,0 +1,150 @@
+<div class="request-listing-page">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Requests</li>
+		</ol>
+	</nav>
+	<div class="searchtop">
+		<div class="row">
+			<div class="col-sm-10">
+				<div class="searchdiv">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search" [(ngModel)]="q"
+							[ngModelOptions]="{ standalone: true }" />
+						<span class="input-group-text">
+							<button class="btn" type="button" (click)="search()">
+								<img src="{{ gs.imgUrl }}/search-meg.svg" alt="Search" />
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			@if (gs.is_owner || gs.is_manager || gs.is_tenant) {
+			<div class="col-sm-2">
+				<div class="btndiv">
+					<a routerLink="/requests/{{ gs.requestUrl }}" class="btn btn-primary">Add Requests<i
+							class="fas fa-plus"></i></a>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+	<div class="rl-filter">
+		<h4>Filter By :</h4>
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label>Request No</label>
+					<input type="text" name="requestno" class="form-control" [(ngModel)]="id"
+						[ngModelOptions]="{ standalone: true }" (keyup.enter)="onEnterRequest()" />
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label>Property ID</label>
+					<input type="text" name="requestno" class="form-control" [(ngModel)]="catalog_id"
+						[ngModelOptions]="{ standalone: true }" (keyup.enter)="onEnterCatalog()" />
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label>Status</label>
+					<div class="select">
+						<select class="form-control" name="status" (change)="handleStatus($event)">
+							<option value="" selected="">- Please Select -</option>
+							<option value="1">Assigned</option>
+							<option value="0">Unassigned</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label>Property Manager</label>
+					<div class="select">
+						<select class="form-control" name="property_manager">
+							<option value="0" selected="">- Please Select -</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="listingdiv">
+		<div class="listingbox">
+			<div class="propertytop">
+				<div class="row align-items-center">
+					<div class="col">Request No.</div>
+					<div class="col">Requester</div>
+					<div class="col">Property ID</div>
+					<div class="col">Update</div>
+					<div class="col">Status</div>
+				</div>
+			</div>
+			<div class="propertybottom">
+				@if (loading | async) {
+				@for (item of gs.generateFake(3); track item) {
+				<div class="propertylist">
+					<div class="row align-items-center">
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+					</div>
+				</div>
+				}
+				} @else {
+				@for (item of (catalogs | async)?.items; track item) {
+				<div app-request-listing-item class="propertylist" [item]="item"></div>
+				}
+				@if (
+				(catalogs | async)?.items === null ||
+				(catalogs | async)?.items.length === 0
+				) {
+				<div class="notfound">Request not found.</div>
+				}
+				@if (
+				$any((catalogs | async)?.pagination?.totalCount) >
+				this.params["per-page"]
+				) {
+				<div class="">
+					<app-pagination [pagination]="(catalogs | async)?.pagination" [page]="params.page"
+						(getPage)="handlePagination($event)"></app-pagination>
+				</div>
+				}
+				}
+				<!-- <div class="propertylist">
+        <div class="row align-items-center">
+          <div class="col">1234567890</div>
+          <div class="col">Lorem Ipsum Doller</div>
+          <div class="col">1234567890</div>
+          <div class="col">07/15/2021 3:21 AM</div>
+          <div class="col">Low</div>
+          <div class="col">
+            <div class="btndiv">
+              <a class="btn btn-secondary">Unassigned</a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+			</div>
+		</div>
+	</div>
+</div>

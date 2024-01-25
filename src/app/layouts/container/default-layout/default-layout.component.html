@@ -1,0 +1,9 @@
+<app-header></app-header>
+<section class="all-content" [ngClass]="{ 'bg-white': hideContainer }">
+  <!-- <pre> dfgdf {{hideContainer | json}} {{ route.snapshot.data['hideContainer'] | json }}</pre>
+    [ngClass]=" hideContainer ? 'container-fluid' : 'container'" -->
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+<app-footer></app-footer>

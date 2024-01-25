@@ -1,0 +1,180 @@
+@switch (layout) {
+@case ("default") {
+<div class="custom-upload {{ layout }}">
+    <div class="form-group two mb-2">
+        <label class="main d-flex align-items-end">
+            <div [innerHTML]="title"></div>
+            <div class="invalid-feedback d-block">
+                *Maximum 3 files can be uploaded to validate your business
+            </div>
+            @if (tooltip) {
+            <i class="fa fa-info-circle" placement="top" triggers="mouseenter:mouseleave"
+                ngbPopover="{{ tooltipText }}"></i>
+            }
+        </label>
+        @if (loading) {
+        <ngb-progressbar type="success" textType="white" [value]="progress" [showValue]="true" [striped]="true"
+            [animated]="true" class="mb-3 mt-2"></ngb-progressbar>
+        }
+        <div class="custom-file loader-file" appDragAndDrop (fileDropped)="onFileDropped($event)">
+            <label class="custom-file-label position-relative" for="customFileDragAndDrop{{ DynamicId }}">
+                <ng-container *ngTemplateOutlet="UploadInput"></ng-container>
+                <img src="{{ gs.imgUrl }}/upload-cloud.svg" alt="Upload file" />
+                Upload file
+            </label>
+        </div>
+        @if (hint) {
+        <small>{{ hint }}</small>
+        }
+    </div>
+    <div class="w-100" *ngTemplateOutlet="PhotoDisplay"></div>
+</div>
+}
+@case ("inline") {
+<div>
+    <div class="title" [innerHtml]="title"></div>
+    <div class="lodoaderposition">
+        <label class="btn btn-primary">
+            <span><span><img src="{{ gs.imgUrl }}/plus.svg" width="14" class="plusimg" alt="" /></span>
+                {{ browseLabel }}</span>
+            <ng-container *ngTemplateOutlet="UploadInput"></ng-container>
+        </label>
+        <input type="text" readonly [value]="imageCount" placeholder="{{ placeholder }}" />
+        @if (loading) {
+            <div class="loader"><span></span> <span></span></div>
+        }
+        @if (hint) {
+            <div class="text hint" [innerHTML]="hint"></div>
+        }
+        
+    </div>
+    <div class="w-100" *ngTemplateOutlet="PhotoDisplay"></div>
+</div>
+}
+@case ("grid") {
+<div>Grid Layout</div>
+}
+@case ("grid-inline") {
+<div>Grid Inline</div>
+}
+@case ("ad-layout") {
+<div>
+    <label class="btn btn-primary">
+        <span>+Upload</span>
+        <ng-container *ngTemplateOutlet="UploadInput"></ng-container>
+    </label>
+    @if (loading) {
+    <div class="loader"><span></span> <span></span></div>
+    }
+    <div class="uploadimg">
+        @if (allFiles?.image?.length === 0) {
+        <div class="textdiv">Your Ad Here</div>
+        }
+        @if (allFiles?.image?.length > 0) {
+        <img class="uploadedimg" [src]="allFiles?.image[0]?.path" alt="Images" />
+        }
+    </div>
+</div>
+}
+}
+<ng-template #UploadInput>
+    @if (multiple) {
+    <input #uploadFileElement type="file" class="custom-file-input" id="customFileDragAndDrop{{ DynamicId }}"
+        [accept]="accept" multiple (change)="upload($event, checkHeightWidth)" />
+    }
+    @if (!multiple) {
+    <input #uploadFileElement type="file" class="custom-file-input" id="customFileDragAndDrop{{ DynamicId }}"
+        [accept]="accept" (change)="upload($event, checkHeightWidth)" />
+    }
+</ng-template>
+<ng-template #PhotoDisplay>
+    @if (allFiles?.image?.length > 0) {
+    <div #contenedor class="categories" [style.width]="option" cdkDropListGroup>
+        @for (item of allFiles?.image; track item; let i = $index) {
+        <div class="categories-item image" cdkDropList cdkDropListOrientation="horizontal"
+            [cdkDropListData]="{ item: item, index: i }" (cdkDropListDropped)="drop($event)">
+            <div class="inner" cdkDrag>
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                <div class="w-100">
+                    <img [src]="gs.imgPath(item.path)" [alt]="item.filename" class="images" />
+                    <button type="button" class="btn btn-danger btn-sm" (click)="remove(item, 'file')">
+                        <!-- <i class="far fa-trash-alt"></i> -->
+                        <img src="{{ gs.imgUrl }}/delete.svg" alt="Images" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+    @if (allFiles?.video?.length > 0) {
+    <div #contenedor class="categories" [style.width]="option" cdkDropListGroup>
+        @for (item of allFiles?.video; track item; let i = $index) {
+        <div class="categories-item video" cdkDropList cdkDropListOrientation="horizontal"
+            [cdkDropListData]="{ item: item, index: i }" (cdkDropListDropped)="dropVideo($event)">
+            <div class="inner" cdkDrag>
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                <div class="w-100">
+                    <!-- <span>{{ item.filename }}</span> -->
+                    <video style="max-height: 170px; width: 100%" controls [src]="gs.imgPath(item.path)">
+                        <source [src]="item.path" [type]="item.type" />
+                        Your browser does not support the video tag.
+                    </video>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="remove(item, 'video')">
+                        <img src="{{ gs.imgUrl }}/delete.svg" alt="Images" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+    <!-- <div *ngIf="allFiles?.video?.length > 0" class="video-list">
+  <div cdkDropList cdkDropListOrientation="horizontal" class="image-drop-list" (cdkDropListDropped)="dropVideo($event)">
+    <div class="example-box" *ngFor="let file of allFiles?.video" cdkDrag>
+      <div class="image-box">
+        <video style="max-height: 170px; width: 100%" controls [src]="file.path">
+          <source [src]="file.path" [type]="file.type" />
+          Your browser does not support the video tag.
+        </video>
+        <button type="button" class="btn btn-danger btn-sm" (click)="remove(file.id, 'video')"><i class="far fa-trash-alt"></i></button>
+      </div>
+    </div>
+  </div>
+</div> -->
+    @if (allFiles?.docs?.length > 0) {
+    <div #contenedor2 class="categories filedocument" [style.width]="option">
+        @for (item of allFiles?.docs; track item; let i = $index) {
+        <div class="categories-item docs">
+            <div class="inner">
+                <div class="example-custom-placeholder"></div>
+                <div class="w-100">
+                    <div class="col pl-2 d-flex align-items-center">
+                        @if (item.mimetype === "application/pdf") {
+                        <i class="fas fa-file-pdf"></i>
+                        }
+                        @if (
+                        item.mimetype ===
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        ) {
+                        <i class="far fa-file-word"></i>
+                        }
+                        @if (
+                        item.mimetype !== "application/pdf" &&
+                        item.mimetype !==
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        ) {
+                        <i class="fas fa-file-pdf"></i>
+                        }
+                        <span class="title pl-2">{{ item.filename }}</span>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="remove(item, 'doc')">
+                        <img src="{{ gs.imgUrl }}/delete-3.svg" alt="Images" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+</ng-template>

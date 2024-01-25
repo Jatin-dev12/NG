@@ -1,0 +1,57 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+
+  <h1>Privacy & Cookies</h1>
+
+  <div class="privacy-popup">
+    <form
+      novalidate
+      (ngSubmit)="onSubmit(form)"
+      [formGroup]="form"
+      autocomplete="off"
+    >
+      <div class="form-group">
+        <div role="group" class="btn-group">
+          <input
+            type="radio"
+            name="value"
+            id="typesSale"
+            value="Yes"
+            class="btn-check"
+            formControlName="value"
+          />
+          <label for="typesSale" class="btn btn-outline-primary"
+            ><i class="far fa-check-circle"></i> <i class="far fa-circle"></i>
+            <span>|</span>Yes</label
+          >
+          <input
+            type="radio"
+            name="value"
+            id="typesRent"
+            value="No"
+            class="btn-check"
+            formControlName="value"
+          />
+          <label for="typesRent" class="btn btn-outline-primary"
+            ><i class="far fa-check-circle"></i> <i class="far fa-circle"></i>
+            <span>|</span>No</label
+          >
+        </div>
+      </div>
+      <div class="btndivtwo">
+        <button type="submit" class="btn btn-primary" [appLadda]="submitted">
+          Apply
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="activeModal.dismiss()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

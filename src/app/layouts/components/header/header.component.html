@@ -1,0 +1,116 @@
+<div class="header">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="logo">
+					<a routerLink="/">
+						<img src="{{ gs.imgUrl }}/logo.png" [alt]="gs.mainTitle" />
+					</a>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="header-right">
+					<div class="mainmenu">
+						<nav class="navbar navbar-expand-lg navbar-light">
+							<button class="navbar-toggler ms-auto border-white" type="button"
+								(click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+								<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+									<li class="nav-item">
+										<a class="nav-link" [routerLinkActive]="['active']" routerLink="/about">{{ "About Us" | transloco }}</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" [routerLinkActive]="['active']" routerLink="/features">Features</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" [routerLinkActive]="['active']" routerLink="/how-it-works">How It Works</a>
+									</li>
+								</ul>
+							</div>
+						</nav>
+					</div>
+					<app-select-language></app-select-language>
+					@if (!(isLoggedIn | async)) {
+						<div class="login-menu d-xl-inline-block">
+							<a class="btn btn-primary" routerLink="/login">{{ "Login" }}</a>
+						</div>
+					} @else {
+					<div class="logged-menu d-xl-inline-block">
+						<ul class="navbar-nav flex-row">
+							<li class="nav-item notifications">
+								<a class="nav-link" routerLink="/notifications">
+									<span><img src="{{ gs.imgUrl }}/notify-bell.svg" alt="" /></span>
+									@if ((user | async)?.userProfile?.notifications) {
+										<span class="badge bg-secondary">{{ (user | async)?.userProfile?.notifications }}</span>
+									}
+								</a>
+							</li>
+							<li class="deviderdiv">|</li>
+							<li class="nav-item messagenotify">
+								<a class="nav-link" routerLink="/contacts">
+									<span><img src="{{ gs.imgUrl }}/message-notify.svg" alt="" /></span>
+									@if ((user | async)?.userProfile?.messages) {
+										<span class="badge bg-secondary">{{ (user | async)?.userProfile?.messages }}</span>
+									}
+								</a>
+							</li>
+							<li class="nav-item dropmenu" ngbDropdown>
+								<a class="nav-link" ngbDropdownToggle>
+									<span class="username" title="{{ gs.identity?.name }}">
+										<span>{{ gs.identity?.name }}</span><img src="{{ gs.imgUrl }}/user-arrow.svg"
+											class="arrowuser" alt="" />
+									</span>
+								</a>
+								<ul ngbDropdownMenu class="dropdown-resp-for">
+									<li>
+										<a ngbDropdownItem routerLink="/favorites/{{ gs.identity?.role === role.ROLE_OWNER ? 'managers' : 'owners' }}" [class.active]="router.isActive('/favorites', false)">
+											<span> <img src="{{ gs.imgUrl }}/favorites.svg" alt="" /></span>My Favorites</a>
+									</li>
+									<li>
+										<a ngbDropdownItem routerLink="/saved-searches"
+											[routerLinkActive]="['active']"><span><img
+													src="{{ gs.imgUrl }}/searches.svg" alt="" /></span>Saved
+											Searches</a>
+									</li>
+									<li>
+										<a ngbDropdownItem routerLink="/notifications"
+											[routerLinkActive]="['active']"><span><img src="{{ gs.imgUrl }}/bell.svg"
+													alt="" /></span>My Notifications</a>
+									</li>
+									<li>
+										<a ngbDropdownItem routerLink="/profile"
+											[routerLinkActive]="['active']"><span><img src="{{ gs.imgUrl }}/setting.svg"
+													alt="" /></span>Account Settings</a>
+									</li>
+									@if (gs.is_owner || gs.is_manager) {
+									<li>
+										<a ngbDropdownItem routerLink="/staffs"
+											[routerLinkActive]="['active']"><span><img
+													src="{{ gs.imgUrl }}/manage-staff-1.svg" alt="" /></span>Manage
+											Staff</a>
+									</li>
+									}
+									@if (!gs.is_guest) {
+									<li>
+										<a ngbDropdownItem routerLink="/profile/view/{{
+                            (user | async)?.username
+                          }}"><span><img src="{{ gs.imgUrl }}/public-profile.svg" alt="" /></span>View Public
+											Profile</a>
+									</li>
+									}
+									<li>
+										<a ngbDropdownItem routerLink="/" (click)="logout()"><span><img
+													src="{{ gs.imgUrl }}/signout.svg" alt="" /></span>Sign Out</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

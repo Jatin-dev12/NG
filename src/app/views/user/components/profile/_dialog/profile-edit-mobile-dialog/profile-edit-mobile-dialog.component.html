@@ -1,0 +1,203 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  @if (showForm) {
+    <div class="email-popup">
+      <h1>Edit Mobile Number</h1>
+      <form novalidate (ngSubmit)="onApply(form)" [formGroup]="form">
+        <div class="row">
+          @if (gs.user?.userProfile?.telephone) {
+            <div class="col-sm-12">
+              <div class="title">Your current mobile is</div>
+              <div class="valuetxt">
+                {{ gs.user?.userProfile?.telephone ?? "--" }}
+              </div>
+            </div>
+          }
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group hide-tempate">
+              <input
+                type="password"
+                passwordToggle
+                placeholder="Current Password"
+                class="form-control"
+                formControlName="password"
+              />
+              @if (form.controls["password"].errors && showError) {
+                <div class="invalid-feedback d-block">
+                  @if (
+                    f["password"].errors && f["password"].errors["required"]
+                  ) {
+                    <div>{{ "Password is required is required" }}</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label
+                ><img src="/assets/images/svg/phone.svg" alt="" />New Phone
+                Number</label
+              >
+              <div class="flex-row class-below">
+                <div class="position-relative profile-resp-i">
+                  <ngx-intl-tel-input
+                    [cssClass]="'custom form-control resp'"
+                    [inputId]="'telephone'"
+                    [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true"
+                    [enablePlaceholder]="true"
+                    [searchCountryFlag]="true"
+                    [searchCountryField]="[
+                      SearchCountryField.Iso2,
+                      SearchCountryField.Name
+                    ]"
+                    [selectFirstCountry]="false"
+                    [selectedCountryISO]="CountryISO.UnitedArabEmirates"
+                    [maxLength]="15"
+                    [separateDialCode]="true"
+                    [numberFormat]="PhoneNumberFormat.National"
+                    name="New Phone"
+                    formControlName="telephone"
+                    (change)="handleTelephone($event)"
+                  >
+                  </ngx-intl-tel-input>
+                </div>
+              </div>
+              @if (form.controls["telephone"].errors && showError) {
+                <div class="invalid-feedback d-block">
+                  @if (
+                    f["telephone"].errors && f["telephone"].errors["required"]
+                  ) {
+                    <div>{{ "New Phone is required" }}</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label
+                ><img src="/assets/images/svg/phone.svg" alt="" />Confirm New
+                Phone Number</label
+              >
+              <div class="flex-row class-below">
+                <div class="position-relative profile-resp-i">
+                  <ngx-intl-tel-input
+                    [cssClass]="'custom form-control resp'"
+                    [inputId]="'confirm_telephone'"
+                    [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true"
+                    [enablePlaceholder]="true"
+                    [searchCountryFlag]="true"
+                    [searchCountryField]="[
+                      SearchCountryField.Iso2,
+                      SearchCountryField.Name
+                    ]"
+                    [selectFirstCountry]="false"
+                    [selectedCountryISO]="CountryISO.UnitedArabEmirates"
+                    [maxLength]="15"
+                    [separateDialCode]="true"
+                    [numberFormat]="PhoneNumberFormat.National"
+                    name="Confirm Phone"
+                    formControlName="confirm_telephone"
+                  >
+                  </ngx-intl-tel-input>
+                </div>
+              </div>
+              @if (form.controls["confirm_telephone"].errors && showError2) {
+                <div class="invalid-feedback d-block">
+                  @if (
+                    f["confirm_telephone"].errors &&
+                    f["confirm_telephone"].errors["mustMatchPhone"]
+                  ) {
+                    <div>{{ "Confirm Phone not match" }}</div>
+                  }
+                  @if (
+                    f["telephone"].errors && f["telephone"].errors["required"]
+                  ) {
+                    <div>{{ "Confirm Phone is required" }}</div>
+                  }
+                </div>
+              }
+            </div>
+            <!-- <pre>
+            {{ form.controls['confirm_telephone'].errors | json }}
+          </pre> -->
+          </div>
+        </div>
+        <div class="btndivtwo">
+          <button type="submit" class="btn btn-primary">Apply</button>
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="activeModal.dismiss()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+  @if (showConfirm) {
+    <div class="email-popup2">
+      <h1>Mobile Verify</h1>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="image">
+            <img src="{{ gs.imgUrl }}/veri-steps.svg" alt="" />
+          </div>
+          <!-- <div class="content">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </div> -->
+        </div>
+      </div>
+      <div class="btndivtwo">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="sendEmail()"
+          [appLadda]="submitted"
+        >
+          Send Mobile Verification
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="activeModal.dismiss()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+  @if (showOtp) {
+    <div class="email-popup2">
+      <h1>Phone Verify Authentication Code</h1>
+      <form novalidate (ngSubmit)="onVerifyOtp(form2)" [formGroup]="form2">
+        <div class="image">
+          <img src="{{ gs.imgUrl }}/veri-2-steps.svg" alt="" />
+        </div>
+        <h2>Enter a verification code</h2>
+        <div class="content">
+          A text message with a verification code was just sent to *** *** **{{
+            form.value?.telephone?.e164Number?.slice(-2)
+          }}
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="otp"
+            placeholder="G - Enter the 6-digit code"
+          />
+        </div>
+        <div class="btndivtwo">
+          <button type="submit" class="btn btn-primary" [appLadda]="submitted">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

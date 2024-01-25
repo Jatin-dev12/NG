@@ -1,0 +1,904 @@
+<div class="marketing-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Marketing</li>
+    </ol>
+  </nav>
+
+  <a routerLink="/marketing/create">Create</a>
+
+  <!-- <mat-stepper #stepper>
+        <mat-step>
+            <ng-template matStepLabel>Category Selection</ng-template>
+            <div class="marketing-step-one">
+                <h1>Marketing</h1>
+                <div class="doyoutxt">
+                    <h1>Do you want to reach more clients?</h1>
+                    <h3>Promote your product or service.</h3>
+                </div>
+                <h2>Our Choices</h2>
+                <div class="mark-form-div">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="image">
+                                <img src="{{gs.imgUrl}}/logo.png" alt="Images" />
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="rightside">
+                                <div class="appear">
+                                    <button type="button" placement="top" ngbPopover="Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.">How Does it appear ?</button>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="UpperBanner">
+                                        <label class="form-check-label" for="UpperBanner">
+                                            Upper  Banner
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="RightBanner">
+                                        <label class="form-check-label" for="RightBanner">
+                                            Right  Banner
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Make an instant Impression on the clients mind by advertising on <span>Amlakserv</span> banners. <br><span>10% Discount Offer!</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="select">
+                                            <select class="form-control" name="category">
+                                            <option value="0" selected="">Select Category</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="select">
+                                                    <select class="form-control" name="StartDate">
+                                                    <option value="0" selected="">Start Date</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="select">
+                                                    <select class="form-control" name="EndDate">
+                                                    <option value="0" selected="">End Date</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="btndiv">
+                                            <button type="button" class="btn btn-primary">Check Availability</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mark-form-div">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="imagetwo">
+                                        <img src="{{gs.imgUrl}}/logo.png" alt="Images" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="rightside two">
+                                        <div class="appear">
+                                            <button type="button" placement="top" ngbPopover="Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.">How Does it appear ?</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="InnerPageAd">
+                                                <label class="form-check-label" for="InnerPageAd">
+                                                    Inner Page Ad
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            Show your product or service on inner <br>pages.
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <div class="select">
+                                                        <select class="form-control" name="category">
+                                                        <option value="0" selected="">Select Category</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="select">
+                                                                <select class="form-control" name="StartDate">
+                                                                <option value="0" selected="">Start Date</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="select">
+                                                                <select class="form-control" name="EndDate">
+                                                                <option value="0" selected="">End Date</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="btndiv">
+                                                    <button type="button" class="btn btn-primary">Check Availability</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mark-form-div">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="imagetwo">
+                                        <img src="{{gs.imgUrl}}/logo.png" alt="Images" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="rightside two">
+                                        <div class="appear">
+                                            <button type="button" placement="top" ngbPopover="Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.">How Does it appear ?</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="FeaturedAd">
+                                                <label class="form-check-label" for="FeaturedAd">
+                                                    Featured Ad
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            Show your product or service on top of <br>search result.
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <div class="select">
+                                                        <select class="form-control" name="category">
+                                                        <option value="0" selected="">Select Category</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="select">
+                                                                <select class="form-control" name="StartDate">
+                                                                <option value="0" selected="">Start Date</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="select">
+                                                                <select class="form-control" name="EndDate">
+                                                                <option value="0" selected="">End Date</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="btndiv">
+                                                    <button type="button" class="btn btn-primary">Check Availability</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="banner-example one">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="image">
+                                <img src="{{gs.imgUrl}}/banner-ads.png" alt="Images" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="righttxt">
+                                <h2>Banner Ads</h2>
+                                <div class="content">
+                                    <p>Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.</p>
+                                    <p>design to fill gaps in the page before the actual words are put into the finished product.</p>
+                                    <p>Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.</p>
+                                    design to fill gaps in the page before the actual words are put into the finished product. to using 'Content here, content here.  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="banner-example two">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="righttxt">
+                                <h2>Inner Page Ad</h2>
+                                <div class="content">
+                                    <p>Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.</p>
+                                    <p>design to fill gaps in the page before the actual words are put into the finished product.</p>
+                                    <p>Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.</p>
+                                    design to fill gaps in the page before the actual words are put into the finished product. to using 'Content here, content here.  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="image">
+                                <img src="{{gs.imgUrl}}/banner-ads-2.png" alt="Images" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="banner-example three">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="image">
+                                <img src="{{gs.imgUrl}}/banner-ads-3.png" alt="Images" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="righttxt">
+                                <h2>Featured Ad</h2>
+                                <div class="content">
+                                    <p>Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.</p>
+                                    <p>design to fill gaps in the page before the actual words are put into the finished product.</p>
+                                    <p>Lorem Ipsum refers to a dummy block of text that is often used in publishing and graphic.</p>
+                                    design to fill gaps in the page before the actual words are put into the finished product. to using 'Content here, content here.  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Add Details</ng-template>
+            <div class="marketing-step-two">
+                <h1>Marketing / Banners</h1>
+                <div class="topbanner">
+                    <app-file-drag-drop-uploader title="Your Ad Here" [multiple]="false" [accept]="'image/*'" [layout]="'ad-layout'"></app-file-drag-drop-uploader>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label class="one">Select :</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="UpperBanner">
+                                <label class="form-check-label" for="UpperBanner">
+                                    Upper  Banner
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="RightBanner">
+                                <label class="form-check-label" for="RightBanner">
+                                    Right  Banner
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="one">Category  : <span>Apartments</span></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="calenderpad">
+                                    <div class="calender">
+                                        <h3>Upper Banner</h3>
+                                        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
+                                        </ngb-datepicker>
+                                        <ng-template #t let-date let-focused="focused">
+                                            <span
+                                                class="custom-day"
+                                                [class.focused]="focused"
+                                                [class.range]="isRange(date)"
+                                                [class.faded]="isHovered(date) || isInside(date)"
+                                                (mouseenter)="hoveredDate = date"
+                                                (mouseleave)="hoveredDate = null"
+                                            >
+                                                {{ date.day }}
+                                            </span>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="totalamount">
+                                    <div class="image"><i class="fas fa-check"></i></div>
+                                    <div class="title">Total Amount</div>
+                                    <div class="amount">$200</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="calenderpad">
+                                    <div class="calender">
+                                        <h3>Right Banner</h3>
+                                        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
+                                        </ngb-datepicker>
+                                        <ng-template #t let-date let-focused="focused">
+                                            <span
+                                                class="custom-day"
+                                                [class.focused]="focused"
+                                                [class.range]="isRange(date)"
+                                                [class.faded]="isHovered(date) || isInside(date)"
+                                                (mouseenter)="hoveredDate = date"
+                                                (mouseleave)="hoveredDate = null"
+                                            >
+                                                {{ date.day }}
+                                            </span>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="totalamount">
+                                    <div class="image"><i class="fas fa-check"></i></div>
+                                    <div class="title">Total Amount</div>
+                                    <div class="amount">$200</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notetitle"><i class="fas fa-info-circle"></i>Notes :</div>
+                        <div class="uppertxt"><span>Upper Banner  :</span>  Image should be the 161.16 inch, soace 10, height 14, width 16</div>
+                        <div class="uppertxt"><span>Right Banner  :</span>  Image should be the 120 inch, soace 5, height 26, width 10</div>
+
+                        <label class="two">Terms & Conditions:</label>
+                        <div class="termtxt">
+                            <div class="left-scroll css-scroll">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+                                Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make 
+                                a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+                                essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
+                                Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Page Maker including versions 
+                                of Lorem Ipsum.</p>
+
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a pits layout. The point of</p>
+
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+                                    Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make 
+                                    a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
+                                    Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Page Maker including versions 
+                                    of Lorem Ipsum.</p>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="Acceptance">
+                            <label class="form-check-label" for="Acceptance">
+                                By clicking on this, I confirm my Acceptance for the term & conditions
+                            </label>
+                        </div>
+                        <div class="btndiv">
+                            <button type="button" class="btn btn-primary">Apply</button>
+                            <button type="button" class="btn btn-default">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="rightbanner">
+                            <app-file-drag-drop-uploader title="Your Ad Here" [multiple]="false" [accept]="'image/*'" [layout]="'ad-layout'"></app-file-drag-drop-uploader>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="marketing-step-two twopointone">
+                <h1>Marketing / Banners</h1>
+                <div class="topbanner">
+                    <a routerLink="/"><img src="{{gs.imgUrl}}/addtop.png" alt="" /></a>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label class="one">Select :</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="UpperBanner">
+                                <label class="form-check-label" for="UpperBanner">
+                                    Upper  Banner
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="RightBanner">
+                                <label class="form-check-label" for="RightBanner">
+                                    Right  Banner
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="one">Category  : <span>Apartments</span></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="calenderpad">
+                                    <h3>Upper Banner</h3>
+                                    9/13/2022 to 9/20/2022
+                                </div>
+                                <div class="totalamount">
+                                    <div class="image"><i class="fas fa-check"></i></div>
+                                    <div class="title">Total Amount</div>
+                                    <div class="amount">$200</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="calenderpad">
+                                    <h3>Right Banner</h3>
+                                    9/13/2022 to 9/20/2022
+                                </div>
+                                <div class="totalamount">
+                                    <div class="image"><i class="fas fa-check"></i></div>
+                                    <div class="title">Total Amount</div>
+                                    <div class="amount">$200</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notetitle"><i class="fas fa-info-circle"></i>Notes :</div>
+                        <div class="uppertxt"><span>Upper Banner  :</span>  Image should be the 161.16 inch, soace 10, height 14, width 16</div>
+                        <div class="uppertxt"><span>Right Banner  :</span>  Image should be the 120 inch, soace 5, height 26, width 10</div>
+
+                        <div class="btndiv">
+                            <button type="button" class="btn btn-primary">Proceed</button>
+                            <button type="button" class="btn btn-default">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="rightbanner">
+                            <a routerLink="/"><img src="{{gs.imgUrl}}/addright.png" alt="" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="marketing-step-two twopointtwo">
+                <h1>Marketing/ Inner Page Ad</h1>
+                <div class="innerbanner">
+                    <div class="inneradd">
+                        <app-file-drag-drop-uploader title="Your Ad Here" [multiple]="false" [accept]="'image/*'" [layout]="'ad-layout'"></app-file-drag-drop-uploader>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <label class="one">Category  : <span>Apartments</span></label>
+                        </div>
+                        <label class="two">Terms & Conditions:</label>
+                        <div class="termtxt">
+                            <div class="left-scroll css-scroll">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+                                Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make 
+                                a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+                                essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
+                                Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Page Maker including versions 
+                                of Lorem Ipsum.</p>
+
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a pits layout. The point of</p>
+
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+                                    Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make 
+                                    a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
+                                    Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Page Maker including versions 
+                                    of Lorem Ipsum.</p>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="Acceptance">
+                            <label class="form-check-label" for="Acceptance">
+                                By clicking on this, I confirm my Acceptance for the term & conditions
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="calenderpad">
+                            <div class="calender">
+                                <h3>Inner Banner</h3>
+                                <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
+                                </ngb-datepicker>
+                                <ng-template #t let-date let-focused="focused">
+                                    <span
+                                        class="custom-day"
+                                        [class.focused]="focused"
+                                        [class.range]="isRange(date)"
+                                        [class.faded]="isHovered(date) || isInside(date)"
+                                        (mouseenter)="hoveredDate = date"
+                                        (mouseleave)="hoveredDate = null"
+                                    >
+                                        {{ date.day }}
+                                    </span>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="totalamount">
+                            <div class="image"><i class="fas fa-check"></i></div>
+                            <div class="title">Total Amount</div>
+                            <div class="amount">$200</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btndiv">
+                    <button type="button" class="btn btn-primary">Preview</button>
+                    <button type="button" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="marketing-step-two twopointtwo twopointthree">
+                <h1>Marketing/ Inner Page Ad</h1>
+                <div class="innerbanner">
+                    <div class="inneradd">
+                        <a routerLink="/"><img src="{{gs.imgUrl}}/addtop.png" alt="" /></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label class="one">Category  : <span>Apartments</span></label>
+                        </div>
+                        <div class="calenderpad">
+                            <h3>Inner Banner</h3>
+                            9/13/2022 to 9/20/2022
+                        </div>
+                        <div class="totalamount">
+                            <div class="image"><i class="fas fa-check"></i></div>
+                            <div class="title">Total Amount</div>
+                            <div class="amount">$200</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                    </div>
+                </div>
+
+                <div class="btndiv">
+                    <button type="button" class="btn btn-primary">Proceed</button>
+                    <button type="button" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="marketing-step-two twopointtwo twopointfour">
+                <h1>Marketing / Featured Ads</h1>
+                
+                <div class="listingdiv">
+                    <div class="filterdiv">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="btndivtop">
+                                    <button type="button" class="btn btn-primary">All Properties</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <span id="basic-addon2" class="input-group-text">
+                                                <button type="submit" class="btn btn-primary"><img src="{{gs.imgUrl}}/search-meg.svg" alt=""></button>
+                                            </span>
+                                            <input type="text" name="name" placeholder="Search" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="appearance"> 
+                                            Appearance 
+                                            <div class="aprbtn">
+                                                <img alt="" class="vector" src="{{gs.imgUrl}}/vector-4.svg">
+                                                <button type="button"><img alt="" src="{{gs.imgUrl}}/list-2.svg"></button>
+                                                <img alt="" class="vector" src="{{gs.imgUrl}}/vector-4.svg">
+                                                <button type="button"><img alt="" src="{{gs.imgUrl}}/refresh.svg"></button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="filterby">
+                                            filter by here
+                                            <div class="btndiv">
+                                                <button class="btn btn-secondary" type="button">Post Date</button>
+                                                <button class="btn btn-secondary" type="button">District</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="listingbox">
+                        <div class="propertytop">
+                            <div class="row align-items-center">
+                                <div class="col">Select</div>
+                                <div class="col">Images</div>
+                                <div class="col">Property Title</div>
+                                <div class="col">M2</div>
+                                <div class="col">Number of Rooms</div>
+                                <div class="col">Price</div>
+                                <div class="col">Post Date</div>
+                                <div class="col">District</div>
+                            </div>
+                        </div>
+                        <div class="propertybottom">
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col text-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" value="" id="1" class="form-check-input">
+                                            <label for="1" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col text-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" value="" id="1" class="form-check-input">
+                                            <label for="1" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col text-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" value="" id="1" class="form-check-input">
+                                            <label for="1" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col text-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" value="" id="1" class="form-check-input">
+                                            <label for="1" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col text-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" value="" id="1" class="form-check-input">
+                                            <label for="1" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col text-center">
+                                        <div class="form-check">
+                                            <input type="checkbox" value="" id="1" class="form-check-input">
+                                            <label for="1" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <b>Notes</b> <span>:</span> You can select up to 3 Properties
+                </div>
+
+                <div class="listingdiv selectedproperty">
+                    <div class="listingbox">
+                        <div class="propertybottom">
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                            <div class="propertylist">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <a routerLink="/">
+                                            <img src="{{gs.imgUrl}}/property-4.png" alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="col">Lorem Ipsum Doller</div>
+                                    <div class="col">45</div>
+                                    <div class="col">1 + 1</div>
+                                    <div class="col">25,000 SAR</div>
+                                    <div class="col">19, June 2021</div>
+                                    <div class="col">Olaya</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <label class="one">Category  : <span>Apartments</span></label>
+                        </div>
+                        <label class="two">Terms & Conditions:</label>
+                        <div class="termtxt">
+                            <div class="left-scroll css-scroll">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+                                Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make 
+                                a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+                                essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
+                                Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Page Maker including versions 
+                                of Lorem Ipsum.</p>
+
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a pits layout. The point of</p>
+
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+                                    Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make 
+                                    a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+                                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing 
+                                    Lorem Ipsum passages, and more recently with desktop publishing software like Aldus Page Maker including versions 
+                                    of Lorem Ipsum.</p>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="Acceptance">
+                            <label class="form-check-label" for="Acceptance">
+                                By clicking on this, I confirm my Acceptance for the term & conditions
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="calenderpad">
+                            <div class="calender">
+                                <h3>Featured Ad</h3>
+                                <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
+                                </ngb-datepicker>
+                                <ng-template #t let-date let-focused="focused">
+                                    <span
+                                        class="custom-day"
+                                        [class.focused]="focused"
+                                        [class.range]="isRange(date)"
+                                        [class.faded]="isHovered(date) || isInside(date)"
+                                        (mouseenter)="hoveredDate = date"
+                                        (mouseleave)="hoveredDate = null"
+                                    >
+                                        {{ date.day }}
+                                    </span>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="totalamount">
+                            <div class="image"><i class="fas fa-check"></i></div>
+                            <div class="title">Total Amount</div>
+                            <div class="amount">$200</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btndiv">
+                    <button type="button" class="btn btn-primary">Proceed</button>
+                    <button type="button" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Payment</ng-template>
+            3 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quis temporibus blanditiis aliquid provident placeat natus esse odit porro ducimus. Quam excepturi voluptatibus omnis veniam porro architecto maiores minima id.
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Congratulations</ng-template>
+            4 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis quis temporibus blanditiis aliquid provident placeat natus esse odit porro ducimus. Quam excepturi voluptatibus omnis veniam porro architecto maiores minima id.
+        </mat-step>
+    </mat-stepper> -->
+</div>

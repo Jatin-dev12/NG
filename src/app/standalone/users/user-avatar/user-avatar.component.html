@@ -1,0 +1,44 @@
+<div class="profileimage d-flex align-items-center flex-column flex-sm-row">
+  <div class="circle">
+    <!-- User Profile Image -->
+    <img
+      class="profile-pic"
+      [src]="
+        gs.user?.userProfile?.avatar_id
+          ? gs.user?.avatar
+          : gs.imgUrl + '/no-avatar.png'
+      "
+      alt=""
+    />
+    <!-- <img class="profile-pic" [src]="gs.user?.avatar" alt="" /> -->
+    <!-- Default Image -->
+    <!-- <i class="fa fa-user fa-5x"></i> -->
+    @if (loading) {
+      <div class="loader rounded-circle"><span></span> <span></span></div>
+    }
+  </div>
+  <label class="btn btn-primary mt-3 mt-sm-0">
+    <img
+      src="{{ gs.imgUrl }}/camera.svg"
+      class="upload-button mr-2"
+      alt=""
+      for="avatar"
+    />
+    {{
+      gs.user?.userProfile?.avatar_id
+        ? "+ Change Profile Photo..."
+        : "+ Add Profile Photo..."
+    }}
+    <input
+      class="file-upload"
+      type="file"
+      accept="image/*"
+      (change)="upload($event)"
+      id="avatar"
+    />
+  </label>
+</div>
+
+@if (removeAvatar) {
+  <button type="button" (click)="remove()">Remove Photo</button>
+}

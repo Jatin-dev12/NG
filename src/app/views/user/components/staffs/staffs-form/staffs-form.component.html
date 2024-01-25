@@ -1,0 +1,70 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>First Name :</label>
+        <input
+          type="text"
+          formControlName="first_name"
+          class="form-control"
+          placeholder="First Name"
+        />
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Last Name :</label>
+        <input
+          type="text"
+          formControlName="last_name"
+          class="form-control"
+          placeholder="Last Name"
+        />
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Email :</label>
+        @if (f["email"].pending) {
+          <mat-progress-spinner
+            matSuffix
+            [mode]="'indeterminate'"
+            [diameter]="20"
+          ></mat-progress-spinner>
+        }
+        <input
+          type="text"
+          formControlName="email"
+          class="form-control"
+          placeholder="xyz@gmail.com"
+        />
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Password :</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="*******"
+        />
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="staff-filter">
+        <div class="btndivtop mt-0 float-start">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [appLadda]="loading | async"
+          >
+            <i class="fas fa-plus"></i
+            ><img src="{{ gs.imgUrl }}/vector-7.svg" alt="" />
+            {{ update ? "Update" : "Submit" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

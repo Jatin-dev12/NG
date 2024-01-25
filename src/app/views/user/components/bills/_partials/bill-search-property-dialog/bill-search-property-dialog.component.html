@@ -1,0 +1,220 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+
+  <div class="selectpro-popup">
+    <div class="filter">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-10">
+              <div class="form-group">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Search Properties"
+                    class="form-control"
+                  />
+                  <span id="basic-addon2" class="input-group-text">
+                    <button type="submit" class="btn btn-primary">
+                      <img src="{{ gs.imgUrl }}/search-meg.svg" alt="" />
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="btndivtop">
+                <button type="button" class="btn btn-primary">Done</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="select">
+              <select name="country" class="form-control">
+                <option value="0" selected="" ng-reflect-value="0">
+                  Country
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="select">
+              <select name="city" class="form-control">
+                <option value="0" selected="" ng-reflect-value="0">City</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="select">
+              <select name="district" class="form-control">
+                <option value="0" selected="" ng-reflect-value="0">
+                  District
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="btndivbottom">
+            <button routerlink="/" class="btn btn-primary">
+              <i class="fas fa-users"></i
+              ><img alt="" src="/assets/images/Vector-14.svg" />All Properties
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="listingdiv">
+      <div class="listingbox">
+        <div class="propertytop">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="select"
+                />
+                <label class="form-check-label" for="select"></label>
+              </div>
+              Select
+            </div>
+            <div class="col">Property Title</div>
+            <div class="col">Country</div>
+            <div class="col">City</div>
+            <div class="col">District</div>
+            <div class="col">Tenant Name</div>
+          </div>
+        </div>
+        <div class="propertybottom">
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="select"
+                  />
+                  <label class="form-check-label" for="select"></label>
+                </div>
+                <a routerLink="/"
+                  ><img alt="" src="{{ gs.imgUrl }}/property-3.png"
+                /></a>
+              </div>
+              <div class="col">Lorem Ipsum Dollar</div>
+              <div class="col">Saudi Arabia</div>
+              <div class="col">Riyadh</div>
+              <div class="col">Olaya</div>
+              <div class="col">Brian Alex</div>
+            </div>
+          </div>
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="select"
+                  />
+                  <label class="form-check-label" for="select"></label>
+                </div>
+                <a routerLink="/"
+                  ><img alt="" src="{{ gs.imgUrl }}/property-3.png"
+                /></a>
+              </div>
+              <div class="col">Lorem Ipsum Dollar</div>
+              <div class="col">Saudi Arabia</div>
+              <div class="col">Riyadh</div>
+              <div class="col">Olaya</div>
+              <div class="col">Abrahm Malik</div>
+            </div>
+          </div>
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="select"
+                  />
+                  <label class="form-check-label" for="select"></label>
+                </div>
+                <a routerLink="/"
+                  ><img alt="" src="{{ gs.imgUrl }}/property-3.png"
+                /></a>
+              </div>
+              <div class="col">Lorem Ipsum Dollar</div>
+              <div class="col">Saudi Arabia</div>
+              <div class="col">Riyadh</div>
+              <div class="col">Olaya</div>
+              <div class="col">Abrahm Malik</div>
+            </div>
+          </div>
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="select"
+                  />
+                  <label class="form-check-label" for="select"></label>
+                </div>
+                <a routerLink="/"
+                  ><img alt="" src="{{ gs.imgUrl }}/property-3.png"
+                /></a>
+              </div>
+              <div class="col">Lorem Ipsum Dollar</div>
+              <div class="col">Saudi Arabia</div>
+              <div class="col">Riyadh</div>
+              <div class="col">Olaya</div>
+              <div class="col">Abrahm Malik</div>
+            </div>
+          </div>
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="select"
+                  />
+                  <label class="form-check-label" for="select"></label>
+                </div>
+                <a routerLink="/"
+                  ><img alt="" src="{{ gs.imgUrl }}/property-3.png"
+                /></a>
+              </div>
+              <div class="col">Lorem Ipsum Dollar</div>
+              <div class="col">Saudi Arabia</div>
+              <div class="col">Riyadh</div>
+              <div class="col">Olaya</div>
+              <div class="col">Abrahm Malik</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

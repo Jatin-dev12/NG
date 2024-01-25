@@ -1,0 +1,116 @@
+<div class="search-property-managers-listing">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Search Property Managers
+			</li>
+		</ol>
+	</nav>
+	<div class="filter">
+		<!-- <button type="button" (click)="saveSearch()">Save Search</button> -->
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group-1 position-relative">
+					<div class="input-group">
+						<input type="text" name="name" [(ngModel)]="q" [ngModelOptions]="{ standalone: true }" placeholder="Search" class="form-control" (keyup.enter)="search()" />
+						<!-- <span class="input-group-text" id="basic-addon2"><button type="submit" class="btn btn-primary" (click)="search()">
+							<img src="{{ gs.imgUrl }}/search-meg-2.svg" alt="Search" /></button>
+						</span> -->
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-sm-4">
+				<div class="select11">
+					<ng-select [items]="(countriesObservable | async)?.items ?? []" bindLabel="name" bindValue="iso2"
+						appearance="outline" placeholder="Country" [searchable]="true" class="form-control1"
+						[(ngModel)]="q_location_country_code" [ngModelOptions]="{ standalone: true }"
+						(change)="handleCountries($event)">
+					</ng-select>
+				</div>
+			</div> -->
+			<div class="col-sm-8">
+				<div class="select11">
+					<!-- <ng-select [items]="(stateObservable | async)?.items ?? []" bindLabel="name" bindValue="state_code"
+						appearance="outline" placeholder="Region" [searchable]="true" class="form-control1"
+						[notFoundText]="'No Items Found'" [(ngModel)]="q_location_state_code"
+						[ngModelOptions]="{ standalone: true }" (change)="handleState($event)">
+					</ng-select> -->
+					<app-google-location-input [value]="q_location ?? ''" (onAddressChange)="handleAddressChange($event)"></app-google-location-input>
+					<button type="submit" class="btn btn-primary" (click)="search()">
+						<img src="{{ gs.imgUrl }}/search-meg-2.svg" alt="Search" />
+					</button>
+				</div>
+				<div class="btndiv">
+					<a routerLink="/property-managers/listing" (click)="show_clear = false">Clear</a>
+				</div>
+			</div>
+			<!-- <div class="col-sm-3">
+				<div class="select11">
+					<ng-select [items]="(citiesObservable | async)?.items ?? []" bindLabel="name" bindValue="name"
+						appearance="outline" placeholder="City" [searchable]="true" class="form-control1"
+						[virtualScroll]="true" [loading]="$any(citiesLoading | async)" appendTo="body"
+						[(ngModel)]="q_location_city" [ngModelOptions]="{ standalone: true }"
+						(change)="handleCity($event)" [typeahead]="citieInput$" >
+						<ng-template ng-header-tmp>
+							<small class="form-text text-muted">Loaded city
+								{{ (citiesObservable | async)?.items?.length ?? 0 }} of
+								{{
+								(citiesObservable | async)?.total ?? 0
+								}}</small>
+						</ng-template>
+						<ng-template ng-option-tmp let-item="item" let-index="index">
+							{{ item.name }}
+						</ng-template>
+					</ng-select>
+				</div>
+			</div> -->
+		</div>
+	</div>
+
+	<div class="search-result">
+		@if (loading | async) {
+		@for (item of gs.generateFake(3); track item) {
+		<div class="spmbox">
+			<div class="row">
+				<div class="col-sm-4">
+					<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }" count="2"></ngx-skeleton-loader>
+				</div>
+				<div class="col-sm-4">
+					<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }" count="2"></ngx-skeleton-loader>
+				</div>
+				<div class="col-sm-4">
+					<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }" count="2"></ngx-skeleton-loader>
+				</div>
+			</div>
+			<div class="content">
+				<ngx-skeleton-loader [theme]="{ height: '15px', width: '100%' }" count="3"></ngx-skeleton-loader>
+			</div>
+		</div>
+		}
+		} @else {
+			@for (item of (users | async)?.items; track item) {
+			@defer (on viewport) {
+				<div app-search-managers-listing-item class="spmbox" [item]="item"></div>
+			} @placeholder {
+				<div style="height: 300px; width: 300px">Wait for the duck...</div>
+			}
+			} @empty {
+				<div class="notfound">
+					<img src="{{ gs.imgUrl }}/managers-notfound.svg" alt="Images" />
+				</div>
+			}
+			@if ($any((users | async)?.total) > this.params["size"]) {
+				<div class="handle-pagination">
+					<app-pagination [pagination]="users | async" [page]="+page + 1" (getPage)="handlePagination($event)"></app-pagination>
+				</div>
+			}
+		}
+
+		<!-- @defer (on viewport){
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum quos magnam debitis voluptatum porro sunt voluptates dolore vitae a deleniti dolorem enim omnis exercitationem cupiditate nemo, officia ut praesentium commodi?
+		} @placeholder (minimum 20000ms) {
+			<div>Loading..</div>
+		} -->
+	</div>
+</div>

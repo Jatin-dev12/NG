@@ -1,0 +1,22 @@
+<div class="row align-items-center">
+	<div class="col">
+		<a [routerLink]="['/requests/contact/view', item.id]">{{ item.id }}</a>
+	</div>
+	<div class="col">
+		{{
+		gs.identity?.id === item.user_id
+		? item?.contact?.name
+		: item?.user
+		? item?.user?.name
+		: item?.email
+		}}
+	</div>
+	<div class="col">
+		<div class="btndivone">
+			<a [routerLink]="['/requests/contact/view', item.id]" class="btn btn-{{ status.cls }}">{{ status.status
+				}}</a>
+			<!-- <a [routerLink]="['/requests/contact/view', item.id]" class="btn btn-danger">Rejected</a>
+            <a [routerLink]="['/requests/contact/view', item.id]" class="btn btn-secondary">Pending</a> -->
+		</div>
+	</div>
+</div>

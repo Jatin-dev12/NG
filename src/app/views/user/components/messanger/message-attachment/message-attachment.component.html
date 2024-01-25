@@ -1,0 +1,22 @@
+<!-- <pre>
+{{ attachments | json }}
+</pre> -->
+@for (image of attachments; track image; let i = $index; let first = $first) {
+	<div class="img w-25 custom">
+		<a href="{{ image.path }}" target="_blank" download>
+			@if (image.mimetype == "image") {
+				<img [src]="image.path" class="img-fluid" />
+			}
+			@if (image.mimetype == "video") {
+				<video width="225" height="225" controls>
+					<source src="{{ image.path }}" type="{{ image.mimetype }}" />
+				</video>
+			}
+			@if (image.mimetype == "application") {
+				<div class="files">
+					<i class="fas fa-file-pdf"></i> <span>{{ image.filename }}</span>
+				</div>
+			}
+		</a>
+	</div>
+}

@@ -1,0 +1,151 @@
+<div class="relatedproducts">
+  <div class="container">
+    <h1>Similar Courses</h1>
+    <div class="slider">
+      @if (loading | async) {
+        <div class="row justify-content-center">
+          @for (item of gs.generateFake(3); track item) {
+            <div class="col-sm-4 col">
+              <div class="coursebox">
+                <div class="image">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '150px', width: '100%' }"
+                  >
+                  </ngx-skeleton-loader>
+                </div>
+                <div class="detail">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '25px', width: '100%' }"
+                    count="3"
+                  >
+                  </ngx-skeleton-loader>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        @if ((catalog | async)?.items.length > 3) {
+          <div>
+            <owl-carousel-o [options]="similarcourses">
+              @for (item of (catalog | async)?.items; track item) {
+                <ng-template carouselSlide>
+                  <div app-catalog-item [item]="item"></div>
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        } @else {
+          <div class="row justify-content-center">
+            @for (item of (catalog | async)?.items; track item) {
+              <div class="col-sm-3" app-catalog-item [item]="item"></div>
+            }
+          </div>
+        }
+        <ng-template #userloggedOut>
+          <div class="row justify-content-center">
+            @for (item of (catalog | async)?.items; track item) {
+              <div class="col-sm-3" app-catalog-item [item]="item"></div>
+            }
+          </div>
+        </ng-template>
+        @if (
+          (catalog | async)?.items === null ||
+          (catalog | async)?.items.length === 0
+        ) {
+          <div>Related course not found</div>
+        }
+      }
+      <ng-template #second>
+        @if ((catalog | async)?.items.length > 3) {
+          <div>
+            <owl-carousel-o [options]="similarcourses">
+              @for (item of (catalog | async)?.items; track item) {
+                <ng-template carouselSlide>
+                  <div app-catalog-item [item]="item"></div>
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        } @else {
+          <div class="row justify-content-center">
+            @for (item of (catalog | async)?.items; track item) {
+              <div class="col-sm-3" app-catalog-item [item]="item"></div>
+            }
+          </div>
+        }
+        <ng-template #userloggedOut>
+          <div class="row justify-content-center">
+            @for (item of (catalog | async)?.items; track item) {
+              <div class="col-sm-3" app-catalog-item [item]="item"></div>
+            }
+          </div>
+        </ng-template>
+        @if (
+          (catalog | async)?.items === null ||
+          (catalog | async)?.items.length === 0
+        ) {
+          <div>Related course not found</div>
+        }
+      </ng-template>
+      <!-- <owl-carousel-o [options]="similarcourses">
+      <ng-template carouselSlide>
+        <div class="coursebox">
+          <div class="image">
+            <a routerLink="/">
+              <img src="{{gs.imgUrl}}/course-1.png" alt="" />
+            </a>
+          </div>
+          <h3><a routerLink="/">Photography - Become a Better Photographer - Part I</a></h3>
+          <div class="detail">
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="uname">John Paul</div>
+                <div class="rating">
+                  <ngb-rating [max]="5" [readonly]="true" [rate]="4"></ngb-rating>
+                  <small>(18 Reviews)</small>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="catenmae">Photography</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="price">
+                  $25.00
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="btndiv">
+                  <a routerLink="/"><img src="{{gs.imgUrl}}/cr-view-btn.svg" alt="" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o> -->
+    </div>
+    <!-- <div class="row">
+  <ng-container *ngIf="loading | async; else second">
+    <div class="col-sm-4" *ngFor="let item of gs.generateFake(4)">
+      <div class="propertybox">
+        <div class="image">
+          <ngx-skeleton-loader [theme]="{ height: '150px', width: '100%'}"></ngx-skeleton-loader>
+        </div>
+        <div class="detail">
+          <ngx-skeleton-loader [theme]="{ height: '25px', width: '100%'}" count="3">
+          </ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #second>
+    <div class="col-sm-4" *ngFor="let item of catalogArray | slice:0:3">
+      <div app-catalog-item [url]="'/search/view/'" [item]="item" [wishlist]="item" [key]="CatalogRxKey.related" [layout]="'grid'"></div>
+    </div>
+  </ng-template>
+</div> -->
+  </div>
+</div>

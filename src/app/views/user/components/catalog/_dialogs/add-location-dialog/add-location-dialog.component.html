@@ -1,0 +1,55 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <h1>{{ form.value?.location?.location ? "Update" : "Add" }} Location</h1>
+  <div class="readytoapply-popup">
+    <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+      <app-error-summary></app-error-summary>
+      <!-- <div class="form-group" formGroupName="location">
+      <label>Location</label>
+      <app-google-location-input [value]="form.value?.location?.location ?? ''" formControlName="location" [ngClass]="gs.addCls('location', form, 'location')" (onAddressChange)="handleAddressChange($event)"></app-google-location-input>
+    </div> -->
+      <div class="form-group">
+        <google-map
+          [center]="center"
+          [options]="mapOptions"
+          [zoom]="zoom"
+          [height]="'1000px'"
+          [width]="'100%'"
+          (mapClick)="mapClick($event, marker, infoWindow)"
+        >
+          @for (
+            markerPosition of markerPositions;
+            track markerPosition;
+            let i = $index
+          ) {
+            <map-marker
+              #marker="mapMarker"
+              [position]="markerPosition"
+              [options]="markerOptions"
+              (mapDragend)="mapDragend($event)"
+            >
+              <map-info-window
+                class="map-dialog-info"
+                #infoWindow="mapInfoWindow"
+              >
+                demo
+              </map-info-window>
+            </map-marker>
+          }
+        </google-map>
+      </div>
+      <div class="btndiv">
+        <button
+          type="button"
+          class="btn btn-primary"
+          [appLadda]="submitted"
+          (click)="onAddLocation()"
+        >
+          {{ form.value?.location?.location ? "Update" : "Add" }} Location
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

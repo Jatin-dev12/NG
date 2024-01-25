@@ -1,0 +1,22 @@
+<!-- <div class="modal-header"></div> -->
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <div class="termscondition-popup">
+    <h1 class="modal-title">Terms and Conditions</h1>
+    @if (loading) {
+      <ngx-skeleton-loader [count]="5"></ngx-skeleton-loader>
+    } @else {
+      <!-- <h1>{{item?.title}}</h1> -->
+      <div class="content" [innerHtml]="item?.content"></div>
+      @if (showError === null) {
+        <div>
+          <h2 class="text-danger">
+            Page not available admin please add page to admin
+          </h2>
+        </div>
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@if (item.sender) {
+<div class="pic">
+	<img src="{{ item.sender.avatar }}" alt="" />
+	<!-- <small class="text-truncate" title="{{item.sender.name}}">{{item.sender.name}}</small> -->
+</div>
+}
+<div class="msg-text" ngbTooltip="{{ timeNow(item.created_at) }}"
+	[placement]="item.sender.id !== gs.identity?.id ? 'right' : 'left'">
+	<div class="borderdiv">
+		<div class="text" [innerHtml]="item.text ?? ''"></div>
+		@if (item.attachments?.length > 0) {
+			<div class="attachments w-100 d-flex flex-wrap">
+				<app-message-attachment [attachments]="item.attachments" [identifier]="item.created_at"></app-message-attachment>
+			</div>
+		}
+	</div>
+	<div class="timetxt">{{ timeNow(item.created_at) }}</div>
+</div>
+<div class="clearfix"></div>

@@ -1,0 +1,624 @@
+<!-- <app-user-dashboard *ngIf="gs.identity"></app-user-dashboard> *ngIf="!gs.identity" -->
+<div class="home-page">
+	<div class="home-banner">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="banner-left wow fadeInLeft">
+						<h1>The Future Of Properties Management Is Here</h1>
+						<div class="banner-tab">
+							<ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="activeId">
+								<li [ngbNavItem]="1">
+									<a ngbNavLink>Property Owner</a>
+									<ng-template ngbNavContent>
+										<div class="propertyowner">
+											Apartment Management, Amenities Services, Hire Property
+											Manager, And Many More Services Are Available ...
+											<div class="btndiv">
+												@if (!gs.identity) {
+												<a routerLink="/register" [queryParams]="{ role: role.ROLE_OWNER }"
+													class="btn btn-outline-primary">Get Started</a>
+												}
+												@if (gs.identity) {
+												<a routerLink="/dashboard" class="btn btn-outline-primary">Dashboard</a>
+												}
+											</div>
+										</div>
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="2">
+									<a ngbNavLink>Property Manager</a>
+									<ng-template ngbNavContent>
+										<div class="propertyowner">
+											Apartment Management, Amenities Services, Hire Property
+											Manager, And Many More Services Are Available ...
+											<div class="btndiv">
+												@if (!gs.identity) {
+												<a routerLink="/register" [queryParams]="{ role: role.ROLE_MANAGERS }"
+													class="btn btn-outline-primary">Get Started</a>
+												}
+												@if (gs.identity) {
+												<a routerLink="/dashboard" class="btn btn-outline-primary">Dashboard</a>
+												}
+											</div>
+										</div>
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="3">
+									<a ngbNavLink>Vendor</a>
+									<ng-template ngbNavContent>
+										<div class="propertyowner">
+											Apartment Management, Amenities Services, Hire Property
+											Manager, And Many More Services Are Available ...
+											<div class="btndiv">
+												@if (!gs.identity) {
+												<a routerLink="/register" [queryParams]="{ role: role.ROLE_VENDORS }"
+													class="btn btn-outline-primary">Get Started</a>
+												}
+												@if (gs.identity) {
+												<a routerLink="/dashboard" class="btn btn-outline-primary">Dashboard</a>
+												}
+											</div>
+										</div>
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="4">
+									<a ngbNavLink>Tenant</a>
+									<ng-template ngbNavContent>
+										<div class="propertyowner">
+											Apartment Management, Amenities Services, Hire Property
+											Manager, And Many More Services Are Available ...
+											<div class="btndiv">
+												@if (!gs.identity) {
+												<a routerLink="/register" [queryParams]="{ role: role.ROLE_USER }"
+													class="btn btn-outline-primary">Get Started</a>
+												}
+												@if (gs.identity) {
+												<a routerLink="/dashboard" class="btn btn-outline-primary">Dashboard</a>
+												}
+											</div>
+										</div>
+									</ng-template>
+								</li>
+							</ul>
+							<div [ngbNavOutlet]="nav"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="image wow fadeInRight">
+						<!-- <img src="{{gs.imgUrl}}/banner-1.png" alt="Images" /> -->
+						<!-- {{ activeId | json }} -->
+						@if (activeId === 1) {
+						<img src="{{ gs.imgUrl }}/banner-1.png" alt="Images" width="549" height="437" />
+						}
+						@if (activeId === 2) {
+						<img src="{{ gs.imgUrl }}/banner-2.png" alt="Images" width="549" height="437" />
+						}
+						@if (activeId === 3) {
+						<img src="{{ gs.imgUrl }}/banner-3.png" alt="Images" width="549" height="437" />
+						}
+						@if (activeId === 4) {
+						<img src="{{ gs.imgUrl }}/banner-4.png" alt="Images" width="549" height="437" />
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="home-analytics">
+		<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+			<div class="searchbox wow fadeInUp">
+				<div class="radiobtn">
+					<div class="btn-group">
+						<input type="radio" class="btn-check" name="property_purpose" id="btnradio1"
+							[value]="Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT" formControlName="property_purpose" />
+						<label class="btn btn-outline-primary" for="btnradio1">Rent</label>
+						<input type="radio" class="btn-check" name="property_purpose" id="btnradio2"
+							[value]="Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE" formControlName="property_purpose" />
+						<label class="btn btn-outline-primary" for="btnradio2">Sale</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon1">
+								<div class="select">
+									<select formControlName="category_id">
+										<option value>Type</option>
+										<!-- <option value="">--Please Select--</option> -->
+										@for (item of categoriesArray | orderBy: "id"; track item) {
+										<option [value]="item.id">{{ item.name }}</option>
+										}
+									</select>
+								</div>
+							</span>
+							<input type="text" class="form-control" placeholder="Search for appartment, commercial, etc"
+								formControlName="q" />
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="btndiv">
+							<button type="submit" class="btn btn-primary">
+								<img src="{{ gs.imgUrl }}/search-btn.png" alt="Images" />Search
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="home-analytics-bottom-bg">
+			<div class="container">
+				<h1>Analytics</h1>
+				<div class="content">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore<br />
+					et dolore magna aliqua eniminim veniam, quis nostrud exercitation
+					ullamco laboris.
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="image wow fadeInLeft">
+							<img src="{{ gs.imgUrl }}/analytics-img-1.png" alt="Images" />
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="lefttxt wow fadeInRight">
+							<div class="analyticsbox">
+								<div class="image">
+									<img src="{{ gs.imgUrl }}/analytics-img-2.png" alt="Images" />
+								</div>
+								<div class="analeft">
+									<h3>Dashboard and Statistics</h3>
+									<div class="contenttwo">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+										do eiusmod tempor incididunt ut labore et dolore.
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="analyticsbox">
+								<div class="image">
+									<img src="{{ gs.imgUrl }}/analytics-img-3.png" alt="Images" />
+								</div>
+								<div class="analeft">
+									<h3>All Data in Once Place</h3>
+									<div class="contenttwo">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+										do eiusmod tempor incididunt ut labore et dolore.
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="analyticsbox">
+								<div class="image">
+									<img src="{{ gs.imgUrl }}/analytics-img-4.png" alt="Images" />
+								</div>
+								<div class="analeft">
+									<h3>Form Agreements</h3>
+									<div class="contenttwo">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+										do eiusmod tempor incididunt ut labore et dolore.
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="home-properyservices">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="servicbox wow fadeInLeft" data-wow-delay="0.2s">
+						<div class="image">
+							<img src="{{ gs.imgUrl }}/services-img-1.png" alt="Images" />
+						</div>
+						<h3>Property Owner</h3>
+						<div class="borderdiv"></div>
+						<div class="content">
+							<ul>
+								<li>Advertise a Property</li>
+								<li>Issue and Receive Bills</li>
+								<li>Find Property Manager</li>
+								<li>Issue and Receive Requests</li>
+								<li>View Reports on their Property</li>
+								<li>Distribute the work to their Staff</li>
+							</ul>
+						</div>
+						<div class="btndiv">
+							@if (!gs.identity) {
+							<a routerLink="/register" [queryParams]="{ role: role.ROLE_OWNER }"
+								class="btn btn-primary">Get Started</a>
+							}
+							@if (gs.identity) {
+							<a routerLink="/dashboard" class="btn btn-primary">Dashboard</a>
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="servicbox wow fadeInLeft" data-wow-delay="0.4s">
+						<div class="image">
+							<img src="{{ gs.imgUrl }}/services-img-2.png" alt="Images" />
+						</div>
+						<h3>Property Manager</h3>
+						<div class="borderdiv"></div>
+						<div class="content">
+							<ul>
+								<li>Search Vendors</li>
+								<li>Issue and Receive Bills</li>
+								<li>Issue and Receive Requests</li>
+								<li>Distribute the work to their Staff</li>
+								<li>Advertise a Property and profile</li>
+								<li>View Reports on Managed Property</li>
+								<li>Create a Management and Tenant Agreement</li>
+							</ul>
+						</div>
+						<div class="btndiv">
+							@if (!gs.identity) {
+							<a routerLink="/register" [queryParams]="{ role: role.ROLE_MANAGERS }"
+								class="btn btn-primary">Get Started</a>
+							}
+							@if (gs.identity) {
+							<a routerLink="/dashboard" class="btn btn-primary">Dashboard</a>
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="servicbox wow fadeInLeft" data-wow-delay="0.6s">
+						<div class="image">
+							<img src="{{ gs.imgUrl }}/services-img-3.png" alt="Images" />
+						</div>
+						<h3>Tenant</h3>
+						<div class="borderdiv"></div>
+						<div class="content">
+							<ul>
+								<li>Receive Bills</li>
+								<li>Issue a Requests</li>
+								<li>Search Properties</li>
+								<li>Contact Property Manager/Owner</li>
+							</ul>
+						</div>
+						<div class="btndiv">
+							@if (!gs.identity) {
+							<a routerLink="/register" [queryParams]="{ role: role.ROLE_USER }"
+								class="btn btn-primary">Get Started</a>
+							}
+							@if (gs.identity) {
+							<a routerLink="/dashboard" class="btn btn-primary">Dashboard</a>
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="servicbox wow fadeInLeft" data-wow-delay="0.8s">
+						<div class="image">
+							<img src="{{ gs.imgUrl }}/services-img-4.png" alt="Images" />
+						</div>
+						<h3>Vendor</h3>
+						<div class="borderdiv"></div>
+						<div class="content">
+							<ul>
+								<li>Issue Bills</li>
+								<li>Receive Requests</li>
+								<li>Set-up their Profile</li>
+								<li>Promote their Products</li>
+								<li>Distribute the work to their Staff</li>
+							</ul>
+						</div>
+						<div class="btndiv">
+							@if (!gs.identity) {
+							<a routerLink="/register" [queryParams]="{ role: role.ROLE_VENDORS }"
+								class="btn btn-primary">Get Started</a>
+							}
+							@if (gs.identity) {
+							<a routerLink="/dashboard" class="btn btn-primary">Dashboard</a>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="home-super">
+		<div class="home-super-bottom-bg">
+			<div class="super-one">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-7">
+							<div class="textdiv wow fadeInLeft">
+								<h1>Super Easy To Communicate With Your Audience</h1>
+								<div class="content">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+										do eiusmod tempor incididunt ut labore et dolore magna
+										aliqua enminim veniam, quis nostrud exercitation ullamco
+										laboris is a placeholder text commonly used to demontrate.
+									</p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+									do eiusmod tempor incididunt ut labore et dolore magna aliqua
+									enminim veniam, quis nostrud exercitation ullamco laboris is a
+									placeholder text commonly used to demontrate.
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-5"></div>
+					</div>
+				</div>
+			</div>
+			<div class="super-two">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-8">
+							<div class="textdiv wow fadeInRight">
+								<h1>Track Maintenance Request</h1>
+								<div class="content">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+										do eiusmod tempor incididunt ut labore et dolore magna
+										aliqua enminim veniam, quis nostrud exercitation ullamco
+										laboris is a placeholder text commonly used to demontrate.
+									</p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+									do eiusmod tempor incididunt ut labore et dolore magna aliqua
+									enminim veniam, quis nostrud exercitation ullamco laboris is a
+									placeholder text commonly used to demontrate.
+								</div>
+								<ul>
+									<li>
+										<img src="{{ gs.imgUrl }}/super-3.png" alt="Images" />Find A
+										Vendor For Any Service
+									</li>
+									<li>
+										<img src="{{ gs.imgUrl }}/super-4.png" alt="Images" />Assign
+										A Request
+									</li>
+									<li>
+										<img src="{{ gs.imgUrl }}/super-5.png" alt="Images" />Receive And Settle Invoice
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="home-features">
+		<div class="container">
+			<h1>Amlakserv Features</h1>
+			<div class="content">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua.<br />
+				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+				ut aliquip ex ea commodo consequat.
+			</div>
+			<div class="features-tab wow fadeInUp">
+				<div class="btndiv">
+					<a routerLink="/" class="btn btn-primary">All Features</a>
+				</div>
+				<ul ngbNav #nav23="ngbNav" class="nav-tabs">
+					<li ngbNavItem>
+						<a ngbNavLink>Browse Property</a>
+						<ng-template ngbNavContent>
+							<div class="browse-property">
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="image">
+											<img src="{{ gs.imgUrl }}/browse-property.png" alt="Images" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="textdiv">
+											<h2>Browse Property</h2>
+											<div class="contenttwo">
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua enminim veniam, quis nostrud
+													exercitation ullamco laboris is a placeholder text
+													commonly.
+												</p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore
+												magna aliqua enminim veniam, quis nostrud exercitation
+												ullamco laboris is a placeholder text commonly.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+					<li ngbNavItem>
+						<a ngbNavLink>Advertise</a>
+						<ng-template ngbNavContent>
+							<div class="browse-property">
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="image">
+											<img src="{{ gs.imgUrl }}/advertise.png" alt="Images" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="textdiv">
+											<h2>Advertise</h2>
+											<div class="contenttwo">
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua enminim veniam, quis nostrud
+													exercitation ullamco laboris is a placeholder text
+													commonly.
+												</p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore
+												magna aliqua enminim veniam, quis nostrud exercitation
+												ullamco laboris is a placeholder text commonly.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+					<li ngbNavItem>
+						<a ngbNavLink>Promote Profile</a>
+						<ng-template ngbNavContent>
+							<div class="browse-property">
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="image">
+											<img src="{{ gs.imgUrl }}/promote-profile.png" alt="Images" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="textdiv">
+											<h2>Promote Profile</h2>
+											<div class="contenttwo">
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua enminim veniam, quis nostrud
+													exercitation ullamco laboris is a placeholder text
+													commonly.
+												</p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore
+												magna aliqua enminim veniam, quis nostrud exercitation
+												ullamco laboris is a placeholder text commonly.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+					<li ngbNavItem>
+						<a ngbNavLink>Communication</a>
+						<ng-template ngbNavContent>
+							<div class="browse-property">
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="image">
+											<img src="{{ gs.imgUrl }}/communication.png" alt="Images" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="textdiv">
+											<h2>Communication</h2>
+											<div class="contenttwo">
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua enminim veniam, quis nostrud
+													exercitation ullamco laboris is a placeholder text
+													commonly.
+												</p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore
+												magna aliqua enminim veniam, quis nostrud exercitation
+												ullamco laboris is a placeholder text commonly.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+					<li ngbNavItem>
+						<a ngbNavLink>Manage Requests</a>
+						<ng-template ngbNavContent>
+							<div class="browse-property">
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="image">
+											<img src="{{ gs.imgUrl }}/manage-requests.png" alt="Images" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="textdiv">
+											<h2>Manage Requests</h2>
+											<div class="contenttwo">
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua enminim veniam, quis nostrud
+													exercitation ullamco laboris is a placeholder text
+													commonly.
+												</p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore
+												magna aliqua enminim veniam, quis nostrud exercitation
+												ullamco laboris is a placeholder text commonly.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+					<li ngbNavItem>
+						<a ngbNavLink>Manage Staff</a>
+						<ng-template ngbNavContent>
+							<div class="browse-property">
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="image">
+											<img src="{{ gs.imgUrl }}/manage-staff.png" alt="Images" />
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="textdiv">
+											<h2>Manage Staff</h2>
+											<div class="contenttwo">
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua enminim veniam, quis nostrud
+													exercitation ullamco laboris is a placeholder text
+													commonly.
+												</p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore
+												magna aliqua enminim veniam, quis nostrud exercitation
+												ullamco laboris is a placeholder text commonly.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+				</ul>
+				<div [ngbNavOutlet]="nav23"></div>
+			</div>
+		</div>
+	</div>
+	<div class="home-anywhere">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-7">
+					<div class="textdiv wow fadeInLeft">
+						<h1>Available Anytime, Anywhere</h1>
+						<a routerLink="."><img src="{{ gs.imgUrl }}/app-stor.png" alt="Images" /></a>
+						<a routerLink="."><img src="{{ gs.imgUrl }}/google-play.png" alt="Images" /></a>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="image wow fadeInRight">
+						<img src="{{ gs.imgUrl }}/anywhere.png" alt="Images" />
+					</div>
+				</div>
+				<div class="col-sm-1"></div>
+			</div>
+		</div>
+	</div>
+</div>

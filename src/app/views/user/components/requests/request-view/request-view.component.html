@@ -1,0 +1,357 @@
+<div class="bill-view-page request-view">
+  @if (key === "issue") {
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/">Requests</a></li>
+        <li class="breadcrumb-item"><a routerLink="/">Issued Requests</a></li>
+        <li class="breadcrumb-item"><a routerLink="/">Requests History</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Requests History Details
+        </li>
+      </ol>
+    </nav>
+  }
+  @if (key === "issue") {
+    <div class="btndivtop">
+      <div class="row">
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-primary">
+            <i class="far fa-check-circle"></i
+            ><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />Mark as Completed
+          </button>
+          <button type="button" class="btn btn-primary">
+            <img alt="" src="/assets/images/user-home.svg" /><img
+              alt=""
+              src="{{ gs.imgUrl }}/vector-10.svg"
+            />Managed
+          </button>
+        </div>
+        <div class="col-sm-6 text-right">
+          <a
+            routerLink="/requests/{{ gs.requestUrl }}"
+            class="btn btn-primary two"
+            >Add Requests<i class="fas fa-plus"></i
+          ></a>
+          <button
+            type="button"
+            class="btn btn-danger"
+            href="/properties/create"
+          >
+            <i class="fas fa-trash"></i
+            ><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />Delete Request
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+  @if (key === "received") {
+    <div class="btndivtop">
+      <button type="button" class="btn btn-danger">
+        <i class="far fa-check-circle"></i
+        ><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />Reject
+      </button>
+      <button type="button" class="btn btn-primary">
+        <img alt="" src="/assets/images/user-home.svg" /><img
+          alt=""
+          src="{{ gs.imgUrl }}/vector-10.svg"
+        />Accept
+      </button>
+    </div>
+  }
+  @if (key === "issue") {
+    <div class="bv-middle">
+      <div class="row">
+        <div class="col-sm-5">
+          <div class="sliderdiv">
+            @if (item) {
+              <app-catalog-request-view-slider
+                [catalog]="item.catalog"
+              ></app-catalog-request-view-slider>
+            }
+          </div>
+          <div class="prodetails">
+            <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">Request No</div>
+                <div class="col-sm-6">{{ item?.id }}</div>
+              </div>
+            </div>
+            <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">Requester</div>
+                <div class="col-sm-6">{{ item?.user?.name }}</div>
+              </div>
+            </div>
+            <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">Type of Request</div>
+                <div class="col-sm-6">{{ item?.type_of_request }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="discription">
+            <h4>Description</h4>
+            <div class="content">
+              <app-read-more
+                [text]="item?.description"
+                [maxLength]="180"
+              ></app-read-more>
+            </div>
+          </div>
+          <div class="billsent">
+            <h4>Request was sent to</h4>
+            <div class="image">
+              <img [src]="item?.user?.avatar" alt="" />
+            </div>
+            <div class="detail">
+              <h5>{{ item?.user?.name }}</h5>
+              <div class="desi">{{ gs.userType(item?.user?.role) }}</div>
+              <div class="address">
+                {{ item?.user?.location?.location ?? "-" }}
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="biilsbottom">
+            <div class="created">
+              <img
+                alt="Images"
+                class="create"
+                src="{{ gs.imgUrl }}/status-red.svg"
+              />
+              <div class="right">
+                <h5>Status :</h5>
+                Assigned To <a routerLink="/">XYZ</a>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="created">
+              <img
+                alt="Images"
+                class="create"
+                src="{{ gs.imgUrl }}/schedule.svg"
+              />
+              <div class="right">
+                <h5>Schedule Date & Time</h5>
+                Mar, 03, 2021, 15:00
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <!-- <app-one-to-one-chat></app-one-to-one-chat> -->
+          <ng-container *ngTemplateOutlet="oneToOneChat"></ng-container>
+        </div>
+      </div>
+    </div>
+  }
+  @if (key === "received") {
+    <div class="bv-middle">
+      <div class="row">
+        <div class="col-sm-12">
+          @if (item) {
+            <app-catalog-request-view-slider
+              [catalog]="item.catalog"
+            ></app-catalog-request-view-slider>
+          }
+        </div>
+        <div class="col-sm-5">
+          <div class="prodetails">
+            <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">Request No</div>
+                <div class="col-sm-6">{{ item?.id }}</div>
+              </div>
+            </div>
+            <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">Requester</div>
+                <div class="col-sm-6">{{ item?.receiver?.name }}</div>
+              </div>
+            </div>
+            <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">Type of Request</div>
+                <div class="col-sm-6">{{ item?.type_of_request }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="discription">
+            <h4>Description</h4>
+            <div class="content">
+              <app-read-more
+                [text]="item?.description"
+                [maxLength]="180"
+              ></app-read-more>
+            </div>
+          </div>
+          <div class="billsent">
+            <h4>Request was recevied from</h4>
+            <div class="image">
+              <img [src]="item?.receiver?.avatar" alt="" />
+            </div>
+            <div class="detail">
+              <h5>{{ item?.receiver?.name }}</h5>
+              <div class="desi">{{ gs.userType(item?.receiver?.role) }}</div>
+              <div class="address">
+                {{ item?.receiver?.location?.location ?? "-" }}
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="biilsbottom">
+            <div class="created">
+              <img
+                alt="Images"
+                class="create"
+                src="{{ gs.imgUrl }}/status-red.svg"
+              />
+              <div class="right">
+                <h5>Status :</h5>
+                Assigned To <a routerLink="/">XYZ</a>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="created">
+              <img
+                alt="Images"
+                class="create"
+                src="{{ gs.imgUrl }}/schedule.svg"
+              />
+              <div class="right">
+                <h5>Schedule Date & Time</h5>
+                Mar, 03, 2021, 15:00
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <ng-container *ngTemplateOutlet="oneToOneChat"></ng-container>
+        </div>
+      </div>
+    </div>
+  }
+  <div class="pv-box location">
+    <div class="pv-title">
+      <h1>Location of Property</h1>
+    </div>
+    <div class="pv-body">
+      <div class="image">
+        <!-- <img alt="" src="/assets/images/map.png"> -->
+        @if (!item?.location) {
+          <div>Location not added</div>
+        }
+        @if (item?.location) {
+          <app-google-map-view
+            [location]="$any(item?.location)"
+          ></app-google-map-view>
+        }
+      </div>
+    </div>
+  </div>
+  <ng-template #oneToOneChat>
+    @if (!item?.message_id) {
+      <div>
+        <div class="common-chat" style="opacity: 0.5; pointer-events: none">
+          <div class="msg-list-box">
+            <div class="user-info d-flex align-items-center">
+              <div class="image pl-3">
+                <img
+                  class="rounded-circle"
+                  [src]="
+                    gs.identity?.id === item?.user_id
+                      ? item?.contact?.avatar
+                      : item?.user?.avatar
+                  "
+                  alt="avatar"
+                />
+              </div>
+              <div class="caption col d-flex align-items-center">
+                <div class="left col">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <h4>
+                        {{
+                          gs.identity?.id === item?.user_id
+                            ? item?.contact?.name
+                            : item?.user?.name
+                        }}
+                      </h4>
+                      <time>{{
+                        gs.userType(
+                          gs.identity?.id === item?.user_id
+                            ? item?.contact?.role
+                            : item?.user?.role
+                        )
+                      }}</time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="right-scroll css-scroll">
+              <ul class="msg-list">
+                <li class="text-center">dfrthyt</li>
+              </ul>
+            </div>
+            <div class="comment-form">
+              <div class="group clearfix">
+                <div class="text float-start">
+                  <textarea
+                    class="form-control pe-0"
+                    placeholder="Write Your Message....."
+                    name="text"
+                    maxlength="350"
+                  ></textarea>
+                </div>
+                <div class="mess-type-box float-end">
+                  <div class="write-mess-right">
+                    <div class="attachment">
+                      <label
+                        class="file btn btn-primary rounded-circle bg-transparent border-0"
+                        for="file-upload"
+                      >
+                        <input
+                          type="file"
+                          name="attachments"
+                          multiple="true"
+                          id="file-upload"
+                          style="
+                            position: absolute;
+                            width: 22px;
+                            opacity: 0;
+                            display: none;
+                          "
+                        />
+                        <img src="{{ gs.imgUrl }}/attach.svg" alt="" />
+                      </label>
+                    </div>
+                    <div class="botton">
+                      <a
+                        mat-stroked-button
+                        class="imojibtn bg-transparent"
+                        color="primary"
+                        ><i class="far fa-smile"></i
+                      ></a>
+                      <button class="sendbtn" mat-raised-button color="primary">
+                        <i class="fas fa-paper-plane"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    @if (item?.message_id) {
+      <app-one-to-one-chat
+        [message_id]="item?.message_id"
+      ></app-one-to-one-chat>
+    }
+  </ng-template>
+</div>

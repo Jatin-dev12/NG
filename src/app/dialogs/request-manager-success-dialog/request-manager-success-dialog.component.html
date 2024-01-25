@@ -1,0 +1,39 @@
+<div class="modal-body">
+    <button type="button" class="close" (click)="dismiss()">
+        <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+    </button>
+    <h1>Requests are issued successfully to the Property Manager</h1>
+    <div class="selectpro-popup">
+        <div class="listingdiv">
+            <div class="listingbox">
+                <div class="propertytop">
+                    <div class="row align-items-center">
+                        <div class="col"> Property Title </div>
+                        <div class="col">Property Manager</div>
+                        <div class="col">Request Number</div>
+                    </div>
+                </div>
+                <div class="propertybottom">
+                    @for (item of items; track item) {
+                    <div class="propertylist">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <img [src]="item.catalog?.cover_id ? item.catalog?.cover?.path : '{{gs.imgUrl}}/property-1.png'" [alt]="item.catalog.name" />
+                                {{ item.catalog.title }}
+                            </div>
+                            <div class="col">{{ item.catalog?.agreement?.manager?.name }}</div>
+                            <div class="col">
+                                <a routerLink="/requests/issued/view/{{item.id}}" (click)="activeModal.close()">{{ item.id }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    } @empty {
+                    <div>
+                        <div>Request not found</div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

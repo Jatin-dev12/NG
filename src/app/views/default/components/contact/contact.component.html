@@ -1,0 +1,121 @@
+<div class="contactus-page">
+  <div class="contactus-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="banner-left wow fadeInLeft">
+            <h1>We ‘ve been waiting <br />for you</h1>
+            <div class="content">
+              We want to here from you. Let us know how we can help you.
+            </div>
+            <div class="getbox">
+              <img src="{{ gs.imgUrl }}/contact-2.png" alt="Images" />
+              <h4>
+                <a href="mailto:supportamlakserv.com">supportamlakserv.com</a>
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="contact-box">
+      <h1>Send us a message</h1>
+      <div class="contact-form">
+        <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+          <app-error-summary></app-error-summary>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Name*</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="first_name"
+                  name="Name"
+                  [ngClass]="gs.addCls('first_name', f)"
+                />
+              </div>
+              <!-- <div class="row">
+                                <div class="col-sm-6">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Last Name*</label>
+                                        <input type="text" class="form-control" formControlName="last_name" [ngClass]="gs.addCls('last_name', f)">
+                                        <div *ngIf="gs.isValid('last_name', f)" class="invalid-feedback">
+                                            <div *ngIf="f.last_name.errors?.required">Last name is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Email Address*</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  [ngClass]="gs.addCls('email', f)"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Phone Number*</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="mobile"
+                  [ngClass]="gs.addCls('mobile', f)"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Subject</label>
+                <input
+                  type="text"
+                  class="form-control subject"
+                  formControlName="subject"
+                  [ngClass]="gs.addCls('subject', f)"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label>Message</label>
+                <textarea
+                  formControlName="body"
+                  class="form-control"
+                  rows="3"
+                  name="Message"
+                  [ngClass]="gs.addCls('body', f)"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="btndiv">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [appLadda]="loading | async"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

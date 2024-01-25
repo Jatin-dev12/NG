@@ -1,0 +1,617 @@
+<div class="modal-body">
+    <button type="button" class="close" (click)="activeModal.dismiss()">
+        <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+    </button>
+    <h1>More Filters</h1>
+
+    <div class="morefilter-popup">
+    <form  [formGroup]="form" (ngSubmit)="onSubmit(form)">
+
+        <!-- {{ form.value?.property_purpose | json }} -->
+
+        <div class="row">
+
+            @switch (Type_Slug) {
+                @case (AdditionalEnums.CatalogTypeSlug.APARTMENT) {
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.VILLAS) {
+                <!-- Villas -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.HOUSES) {
+                <!-- Houses -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.RESIDENTIAL_BUILDINGS) {
+                <!-- Residential Buildings -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfApartments"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.COMMERCIAL_BUILDINGS) {
+                <!-- Commercial Buildings -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormM2Net"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormOccupancyRate"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.OFFICES) {
+                <!-- Offices -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container> -->
+                <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.SHOWROOMS) {
+                <!-- Showrooms -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                <ng-container *ngTemplateOutlet="FormElevators"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.WAREHOUSES) {
+                <!-- Warehouses -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormHeight"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormFurnished"></ng-container> -->
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.GASOLINE_STATIONS) {
+                <!-- Gasoline Stations -->
+                <ng-container *ngTemplateOutlet="FormOpenArea"></ng-container>
+                <ng-container *ngTemplateOutlet="FormIndoreAre"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfPumps"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAddDailySales"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.SHOPS) {
+                <!-- Shops -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnitureAndFixtures"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.RESTAURANT_CAFE) {
+                <!-- Restaurant & Café -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormFurnitureAndFixtures"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.WORKSHOPS) {
+                <!-- Workshops -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.SPORTS_CENTERS) {
+                <!-- Sports Centers -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.HEALTH_BEAUTY_EVENT_CENTERS) {
+                <!-- Health, Beauty & Event Centers -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.LANDS) {
+                <!-- Lands -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormCategory"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @case (AdditionalEnums.CatalogTypeSlug.FARMS) {
+                <!-- Farms -->
+                <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                <ng-container *ngTemplateOutlet="FormNumberOfTrees"></ng-container>
+                <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>  <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container> -->
+                }
+                @default {
+                <!-- ngSwitchDefault -->
+                }
+            }
+
+            <ng-container *ngTemplateOutlet="FormPhotoVideo"></ng-container>
+
+
+            <div class="col-sm-12">
+                <div class="btndiv">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-default" (click)="activeModal.close()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #FormPostDate>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="- Please Select -" [matDatepicker]="postdate" formControlName="posted_at" />
+                <button class="calendericon" type="button" (click)="postdate.open()">
+                    <img src="{{ gs.imgUrl }}/calender.svg" alt="Images" />
+                </button>
+                <mat-datepicker #postdate></mat-datepicker>
+                </div>
+            </div>
+        </ng-template>
+
+
+
+        <ng-template #FormPhotoVideo>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <ng-select formControlName="photo_video" [multiple]="false" [placeholder]="'Photo and Video'" [items]="items" bindValue="key" bindLabel="value">
+                        <!-- <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.value}}
+                        </ng-template> -->
+                    </ng-select>
+                    <!-- <div class="form-check">
+                        <input class="form-check-input" type="radio" name="photoandvideo"
+                            id="Yes" />
+                        <label class="form-check-label" for="Yes"> Yes </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="photoandvideo" id="No" />
+                        <label class="form-check-label" for="No"> No </label>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormPrice>
+            <div class="col-sm-4">
+                <div class="form-group">
+
+
+                    <!-- <mat-slider [min]="min_price_value" [max]="max_price_value" showTickMarks discrete [displayWith]="formatLabel" (change)="handlePriceRange($event)">
+                        <input [value]="min_price" matSliderStartThumb (change)="handleMinRange($event)" />
+                        <input [value]="max_price" matSliderEndThumb (change)="handleMaxRange($event)" />
+                    </mat-slider> -->
+
+                    <div ngbDropdown #myPricesDrop="ngbDropdown" [autoClose]="true" class="w-100">
+                        <input placeholder="Price" class="form-control w-100" [readonly]="true" (click)="myPricesDrop.open()">
+                        <div ngbDropdownMenu>
+                            @if (form.value.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+                                <div class="list" >
+                                    <div class="title">Rental Period</div>
+                                    @for (item of AdditionalEnums.CatalogFormPrices; track item) {
+                                        <div class="form-radio">
+                                            <input type="radio" name="rentedPrice" class="btn-check" formControlName="period" id="{{item.type}}" [value]="item.type" >
+                                            <label class="btn btn-secondary" for="{{item.type}}">
+                                                {{ item.name }}
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-sm-6 dash">
+                                    <a-inputNumber placeholder="Min. Price (USD)" formControlName="min_price" [min]="1" [maxlength]="12"></a-inputNumber>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a-inputNumber placeholder="Max. Price (USD)" formControlName="max_price" [min]="1" [maxlength]="12"></a-inputNumber>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormM2Gross>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label for=""><span class="m2txt"><sub>M</sub><span class="square">2</span></span>(Gross)</label> -->
+                    <a-inputNumber placeholder="M2 (Gross)" formControlName="m2_gross_price"></a-inputNumber>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormM2Net>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label for=""><span class="m2txt"><sub>M</sub><span class="square">2</span></span> (Net)</label> -->
+                    <a-inputNumber placeholder="M2 (Net)" formControlName="m2_net_price"></a-inputNumber>
+                </div>
+            </div>
+            
+        </ng-template>
+        <ng-template #FormNumberOfFloors>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Number of Floors</label> -->
+                    <ng-select formControlName="number_of_floors" [placeholder]="'Number of Floors'" [multiple]="true" [hideSelected]="true" [items]="AdditionalEnums.CatalogFormFloors" bindValue="key" bindLabel="value">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.value}}
+                        </ng-template>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="number_of_floors">
+                        <option value="">--Please Select--</option>
+                        @for (item of AdditionalEnums.CatalogFormFloors; track item) {
+                            <option [value]="item.key"> {{ item.value }} </option>
+                        }
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #FormNumberOfRooms>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <ng-select formControlName="number_of_rooms" [placeholder]="'Number of Rooms'" [multiple]="true" [hideSelected]="true" [items]="AdditionalEnums.CatalogFormRooms" bindValue="key" bindLabel="value">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.value}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #FormNumberOfBathrooms>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <ng-select formControlName="number_of_bathrooms" [placeholder]="'Number of Bathrooms'" [multiple]="true" [hideSelected]="true" [items]="AdditionalEnums.CatalogFormBathrooms" bindValue="key" bindLabel="value">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.value}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormCoolingAndHeating>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Cooling & Heating</label> -->
+                    <ng-select formControlName="is_ac" [multiple]="false" [placeholder]="'Cooling & Heating'" [items]="items" bindValue="key" bindLabel="value">
+                        <!-- <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.value}}
+                        </ng-template> -->
+                    </ng-select>
+                    <!-- <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_ac" id="is_acYes"
+                                formControlName="is_ac" [value]="1" />
+                            <label class="form-check-label" for="is_acYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_ac" id="is_acNo"
+                                formControlName="is_ac" [value]="0" />
+                            <label class="form-check-label" for="is_acNo">No</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormFurnished>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Furnished</label> -->
+                    <ng-select formControlName="is_furnished" [multiple]="false" [placeholder]="'Furnished'" [items]="items" bindValue="key" bindLabel="value">
+                    </ng-select>
+                    <!-- <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_furnished"
+                                id="is_furnishedYes" formControlName="is_furnished" [value]="1" />
+                            <label class="form-check-label" for="is_furnishedYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_furnished"
+                                id="is_furnishedNo" formControlName="is_furnished" [value]="0" />
+                            <label class="form-check-label" for="is_furnishedNo">No</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormStatusOfUse>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Status of Use</label> -->
+                    <ng-select formControlName="status_of_use" [multiple]="false" [placeholder]="'Status of Use'" [items]="[{key:1, value:'Used'},{key:0, value:'New'}]" bindValue="key" bindLabel="value">
+                    </ng-select>
+                    <!-- <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status_of_use"
+                                id="status_of_useYes" formControlName="status_of_use" [value]="1" />
+                            <label class="form-check-label" for="status_of_useYes">Used</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status_of_use"
+                                id="status_of_useNo" formControlName="status_of_use" [value]="0" />
+                            <label class="form-check-label" for="status_of_useNo">New</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormAgeOfBuilding>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <ng-select formControlName="age_of_building" [placeholder]="'Age of Building'" [multiple]="true" [hideSelected]="true" [items]="AdditionalEnums.CatalogFormAgeOfBuilding" bindValue="key" bindLabel="value">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}" /> {{item.value}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormAvailableLoan>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Available for Loan</label> -->
+                    <ng-select formControlName="is_available_loan" [multiple]="false" [placeholder]="'Available for Loan'" [items]="items" bindValue="key" bindLabel="value">
+                        
+                    </ng-select>
+                    <!-- <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_available_loan"
+                                id="is_available_loanYes" formControlName="is_available_loan"
+                                [value]="1" />
+                            <label class="form-check-label" for="is_available_loanYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_available_loan"
+                                id="is_available_loanNo" formControlName="is_available_loan"
+                                [value]="0" />
+                            <label class="form-check-label" for="is_available_loanNo">No</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormAvailableSwap>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Available for Swap</label> -->
+                    <ng-select formControlName="is_swap" [multiple]="false" [placeholder]="'Available for Swap'" [items]="items" bindValue="key" bindLabel="value">
+                    </ng-select>
+                    <!-- <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_swap"
+                                id="is_swapYes" formControlName="is_swap" [value]="1" />
+                            <label class="form-check-label" for="is_swapYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_swap"
+                                id="is_swapNo" formControlName="is_swap" [value]="0" />
+                            <label class="form-check-label" for="is_swapNo">No</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormNumberOfApartments>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Number of Apartments</label> -->
+                    <ng-select formControlName="number_of_apartments" [placeholder]="'Number of Apartments'" [multiple]="false">
+                        <ng-option *ngFor="let item of AdditionalEnums.CatalogFormApartments" [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="number_of_apartments">
+                        <option value="">--Please Select--</option>
+                        <option *ngFor="let item of AdditionalEnums.CatalogFormApartments" [value]="item.key">
+                            {{ item.value }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormOccupancyRate>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Occupancy Rate</label> -->
+                    <input type="text" class="form-control" placeholder="Occupancy Rate" formControlName="occupancy_rate" />
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormElevators>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Elevators</label> -->
+                    <ng-select formControlName="number_of_elevators" [placeholder]="'Elevators'">
+                        <ng-option *ngFor="let item of gs.generateFake(10)" [value]="item">{{ item }}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="number_of_elevators">
+                        <option value="">--Please Select--</option>
+                        <option *ngFor="let item of gs.generateFake(10)" [value]="item">
+                            {{ item }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormHeight>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Height (m)</label> -->
+                    <input type="text" class="form-control" placeholder="Height (m)" formControlName="height" />
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormOpenArea>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Open Area (M2)</label> -->
+                    <input type="text" class="form-control" placeholder="Open Area (M2)" formControlName="property_open_area" />
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormIndoreAre>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Indore Are (M2)</label> -->
+                    <input type="text" class="form-control" placeholder="Indore Are (M2)" formControlName="property_indoor_area" />
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormNumberOfPumps>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Number of Pumps</label> -->
+                    <ng-select formControlName="number_of_pumps" [placeholder]="'Number of Pumps'">
+                        <ng-option *ngFor="let item of gs.generateFake(10)" [value]="item">{{ item }}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="number_of_pumps">
+                        <option value="">--Please Select--</option>
+                        <option *ngFor="let item of gs.generateFake(10)" [value]="item">
+                            {{ item }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormAddDailySales>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Add Daily Sales (litres)</label> -->
+                    <ng-select formControlName="sales" [placeholder]="'Add Daily Sales (litres)'" [multiple]="false">
+                        <ng-option *ngFor="let item of AdditionalEnums.CatalogFormDailySales" [value]="item.key">{{ item.value }}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="sales">
+                        <option value="">--Please Select--</option>
+                        <option *ngFor="let item of AdditionalEnums.CatalogFormDailySales" [value]="item.key">
+                            {{ item.value }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormFurnitureAndFixtures>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Furniture & Fixtures</label> -->
+                    <ng-select formControlName="is_furniture" [multiple]="false" [placeholder]="'Furniture & Fixtures'" [items]="items" bindValue="key" bindLabel="value">
+                    </ng-select>
+                    <!-- <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_furniture"
+                                id="is_furnitureYes" formControlName="is_furniture" [value]="1" />
+                            <label class="form-check-label" for="is_furnitureYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_furniture"
+                                id="is_furnitureNo" formControlName="is_furniture" [value]="0" />
+                            <label class="form-check-label" for="is_furnitureNo">No</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormCategory>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Category</label> -->
+                    <ng-select formControlName="property_category" [placeholder]="'Category'">
+                        <ng-option *ngFor="let item of gs.generateFake(10)" [value]="item">{{ item }}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="property_category">
+                        <option value="">--Please Select--</option>
+                        <option *ngFor="let item of gs.generateFake(10)" [value]="item">
+                            {{ item }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #FormNumberOfTrees>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <!-- <label>Number of Trees</label> -->
+                    <ng-select formControlName="number_of_trees" [placeholder]="'Number of Trees'">
+                        <ng-option *ngFor="let item of gs.generateFake(10)" [value]="item">{{ item }}</ng-option>
+                    </ng-select>
+                    <!-- <select class="form-control" formControlName="number_of_trees">
+                        <option value="">--Please Select--</option>
+                        <option *ngFor="let item of gs.generateFake(10)" [value]="item">
+                            {{ item }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+        </ng-template>
+
+    </form>
+</div>
+
+
+</div>
+
+
+<!-- {{ form.value | json }} -->
+
+

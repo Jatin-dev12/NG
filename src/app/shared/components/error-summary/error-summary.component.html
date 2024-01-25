@@ -1,0 +1,8 @@
+@if (gs.errors?.length) {
+  <div class="alert alert-danger alert-dismissible p-2" role="alert">
+    @for (error of gs.errors; track error) {
+      <p class="mb-0">{{ error }}</p>
+    }
+    <button type="button" class="btn-close" (click)="gs.errors = []"></button>
+  </div>
+}

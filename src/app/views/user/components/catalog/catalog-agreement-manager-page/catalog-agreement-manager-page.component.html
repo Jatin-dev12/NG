@@ -1,0 +1,289 @@
+<div class="product-view-page property-view-page owner-property-info-view management-agreement">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item">
+				<a routerLink="/properties/listing">My Properties</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a routerLink="/properties/view/{{ item_id }}">My Propertiy Details</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Management Agreement Details
+			</li>
+		</ol>
+	</nav>
+	<div class="pr-title">
+		@if (item?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+			<div class="btndiv">
+				<a class="btn btn-primary" routerLink="/properties/view/{{ item_id }}">
+					<img src="{{ gs.imgUrl }}/home-hor.svg" width="21" alt="" />
+					<img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />View Property
+				</a>
+				@if (gs.is_owner && !is_manage) {
+					<a class="btn btn-secondary status">
+						<img src="{{ gs.imgUrl }}/managed.svg" alt="" />
+						<img src="{{ gs.imgUrl }}/vector-8.svg" alt="" />Managed
+					</a>
+				}
+				@if (gs.is_owner && is_manage) {
+					<a class="btn btn-light status">
+						<i class="fas fa-exclamation-triangle"></i>
+						<img src="{{ gs.imgUrl }}/vector-9.svg" alt="" />Not Managed
+					</a>
+				}
+				@if (item?.is_rented === 'not_rented') {
+					<a class="btn btn-danger status">
+						<img src="{{ gs.imgUrl }}/vacant.svg" alt="" />
+						<img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Vacant
+					</a>
+				}
+				@if (item?.is_rented === 'is_rented') {
+					<a class="btn btn-success status">
+						<img src="{{ gs.imgUrl }}/vacant.svg" alt="" />
+						<img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Rented
+					</a>
+				}
+			</div>
+		}
+		<div class="clearfix"></div>
+	</div>
+	<div class="pv-middle">
+		<div class="row">
+			<div class="col-12">
+				<div class="pv-box propertyownertwo">
+					<div class="pv-title">
+						<h1>Property Manager</h1>
+					</div>
+					<div class="pv-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="image">
+									<img [src]="
+                      manager?.avatar
+                        ? manager?.avatar
+                        : gs.imgUrl + '/manager-1.png'
+                    " [alt]="manager?.name" />
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<div class="lefttxt">
+									<h3>{{ manager?.name }}</h3>
+									<h4>{{ manager?.title ? manager?.title : gs.removeLastS(manager?.role) }}</h4>
+									<div class="left-scroll css-scroll" infiniteScroll>
+										<div class="contenttwo" [innerHTML]="manager?.about"></div>
+									</div>
+									<div class="btndiv">
+										@if (
+										ownerRefrence?.status ===
+										Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+										) {
+										<a class="btn btn-primary" (click)="sendMessage()">Contact</a>
+										}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <app-catalog-owner-box-view *ngIf="gs.identity?.id !== item?.owner_id" [item]="item"></app-catalog-owner-box-view> -->
+				<div class="pv-box management mb-0">
+					<div class="pv-title">
+						<h1>Management Agreement</h1>
+					</div>
+					<div class="pv-body">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="prodetails">
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Owner Name</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.name }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Email Address</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.email }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Country Code</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.phone_code }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Phone Number</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.telephone }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Address</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.location }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Type of Contract</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.contract_type }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="prodetails">
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Management Commission</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.commission }}%
+											</div>
+										</div>
+									</div>
+									<!-- <div class="detailbox">
+              <div class="row">
+                <div class="col-sm-6">
+                  Letting Commission
+                </div>
+                <div class="col-sm-6">
+                  4%
+                </div>
+              </div>
+            </div> -->
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Payable</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.payment_terms }}
+											</div>
+										</div>
+									</div>
+									<!-- <div class="detailbox">
+            <div class="row">
+              <div class="col-sm-6">
+                Deposit
+              </div>
+              <div class="col-sm-6">
+                SAR 2500.00
+              </div>
+            </div>
+          </div> -->
+									<!-- <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-6">
+              Contract
+            </div>
+            <div class="col-sm-6">
+              <a [href]="ownerInfo?.doc?.path" target="_blank"><i class="fas fa-file-pdf"></i> contract</a>
+            </div>
+          </div>
+        </div> -->
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Start Date</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.start_time | date: "longDate" }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">End Date</div>
+											<div class="col-sm-6">
+												{{ ownerRefrence?.end_time | date: "longDate" }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="termssection">
+							<h1>Terms & Conditions</h1>
+							<div class="left-scroll css-scroll" infiniteScroll>
+								<div class="content" [innerHTML]="ownerRefrence?.terms"></div>
+							</div>
+						</div>
+						<div class="btndivbottom">
+							<div class="row">
+								<div class="col-sm-6">
+									@if (
+									gs.is_owner &&
+									ownerRefrence?.status ===
+									Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING
+									) {
+									<button type="button" class="btn btn-info" (click)="accept()">
+										Accept
+									</button>
+									}
+									@if (
+									gs.is_owner &&
+									ownerRefrence?.status ===
+									Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING
+									) {
+									<button type="button" class="btn btn-info two" (click)="decline()">
+										Reject
+									</button>
+									}
+									@if (
+									ownerRefrence?.status ===
+									Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+									) {
+									<button type="button" class="btn btn-success status">
+										Approved
+									</button>
+									}
+									@if (
+									ownerRefrence?.status ===
+									Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+									) {
+									<button type="button" class="btn btn-info two" (click)="terminate()">
+										Terminate Agreement
+									</button>
+									}
+									@if (
+									ownerRefrence?.status ===
+									Enums.USER_CATALOG_RECIPIENTS_STATUS_DECLINED
+									) {
+									<button type="button" class="btn btn-danger">
+										Declined
+									</button>
+									}
+									@if (
+									gs.is_manager &&
+									ownerRefrence?.status ===
+									Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING
+									) {
+									<button type="button" class="btn btn-warning">
+										Pending
+									</button>
+									}
+								</div>
+								<div class="col-sm-6">
+									<div class="contract">
+										<a [href]="ownerRefrence?.doc?.path" target="_blank"><i
+												class="fas fa-file-pdf"></i> Contract</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

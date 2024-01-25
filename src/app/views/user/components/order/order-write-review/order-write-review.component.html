@@ -1,0 +1,43 @@
+<div class="booking-write-review">
+  <h1>Write Review & Rating</h1>
+  <form
+    novalidate
+    autocomplete="on"
+    (ngSubmit)="onSubmit(form)"
+    [formGroup]="form"
+  >
+    <div class="rating">
+      <ngb-rating
+        [max]="5"
+        [readonly]="false"
+        [rate]="4"
+        formControlName="rating"
+      ></ngb-rating>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label
+            ><img src="{{ gs.imgUrl }}/metro-pencil.svg" alt="" />Write a
+            Review</label
+          >
+          <textarea
+            class="form-control"
+            rows="3"
+            formControlName="text"
+            [ngClass]="gs.addCls('text', f)"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="btndiv">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [appLadda]="loading | async"
+      >
+        SUBMIT
+      </button>
+    </div>
+  </form>
+</div>

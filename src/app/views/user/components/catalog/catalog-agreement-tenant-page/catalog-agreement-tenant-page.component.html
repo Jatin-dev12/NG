@@ -1,0 +1,259 @@
+<div class="product-view-page property-view-page owner-property-info-view management-agreement">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item">
+				<a routerLink="/properties/listing">My Properties</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a routerLink="/properties/view/{{ item_id }}">My Propertiy Details</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Tenancy Agreement Details
+			</li>
+		</ol>
+	</nav>
+	<div class="pr-title">
+		<div class="btndiv">
+			<a class="btn btn-primary" routerLink="/properties/view/{{ item_id }}">
+				<img src="{{ gs.imgUrl }}/home-hor.svg" width="21" alt="" />
+				<img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />
+				View Property
+			</a>
+			@if (gs.is_owner && !is_manage) {
+				<a class="btn btn-secondary status">
+					<img src="{{ gs.imgUrl }}/managed.svg" alt="" />
+					<img src="{{ gs.imgUrl }}/vector-8.svg" alt="" />
+					Managed
+				</a>
+			}
+			@if (gs.is_owner && is_manage) {
+				<a class="btn btn-light status">
+					<i class="fas fa-exclamation-triangle"></i>
+					<img src="{{ gs.imgUrl }}/vector-9.svg" alt="" />
+					Not Managed
+				</a>
+			}
+			@if (!item?.is_rented) {
+				<a class="btn btn-danger status">
+					<img src="{{ gs.imgUrl }}/vacant.svg" alt="" />
+					<img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />
+					Vacant
+				</a>
+			}
+			@if (item?.is_rented) {
+				<a class="btn btn-success status">
+					<img src="{{ gs.imgUrl }}/vacant.svg" alt="" />
+					<img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />
+					Rented
+				</a>
+			}
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="pv-middle">
+		<div class="row">
+			<div class="col-12">
+				@if (!is_manage) {
+				<div class="pv-box propertyownertwo">
+					<div class="pv-title">
+						<h1>Property Manager</h1>
+					</div>
+					<div class="pv-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="image">
+									<img [src]="
+                        manager?.avatar
+                          ? manager?.avatar
+                          : gs.imgUrl + '/manager-1.png'
+                      " [alt]="manager?.name" />
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<div class="lefttxt">
+									<h3>{{ manager?.name }}</h3>
+									<h4>({{ manager?.title ?? manager?.role }})</h4>
+									<div class="left-scroll css-scroll" infiniteScroll>
+										<div class="contenttwo" [innerHTML]="manager?.about"></div>
+									</div>
+									@if (gs.identity?.id !== manager?.id) {
+										<div class="btndiv">
+											<a class="btn btn-primary" (click)="sendMessage()">Contact</a>
+										</div>
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+				@if (is_manage) {
+				<div class="pv-box propertyownertwo">
+					<div class="pv-title">
+						<h1>Property Owner</h1>
+					</div>
+					<div class="pv-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="image">
+									<img [src]="owner?.avatar ? owner?.avatar : gs.imgUrl + '/manager-1.png'" [alt]="owner?.name" />
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<div class="lefttxt">
+									<h3>{{ owner?.name }}</h3>
+									<h4>({{ owner?.title }})</h4>
+									<div class="left-scroll css-scroll" infiniteScroll>
+										<div class="contenttwo" [innerHTML]="owner?.about"></div>
+									</div>
+									@if (gs.identity?.id !== owner?.id) {
+									<div class="btndiv">
+										<a class="btn btn-primary" (click)="sendMessage()">Contact</a>
+									</div>
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+				<div class="pv-box management mb-0">
+					<div class="pv-title">
+						<h1>Tenancy Agreement</h1>
+					</div>
+					<div class="pv-body">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="prodetails">
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Tenant Name</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.name }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Email Address</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.email }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Permitted Occupier</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.permitted_occupier }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Rent Amount</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.amount | currency }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Deposit</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.deposit_amount | currency }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="prodetails">
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Payable</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.payment_terms }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">Start Date</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.start_time | date: "longDate" }}
+											</div>
+										</div>
+									</div>
+									<div class="detailbox">
+										<div class="row">
+											<div class="col-sm-6">End Date</div>
+											<div class="col-sm-6">
+												{{ tenantRefrence?.end_time | date: "longDate" }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="termssection">
+							<h1>Terms & Conditions</h1>
+							<div class="left-scroll css-scroll" infiniteScroll>
+								<div class="content" [innerHTML]="tenantRefrence?.terms"></div>
+							</div>
+						</div>
+						<div class="btndivbottom">
+							<div class="row">
+								<div class="col-sm-6">
+									@if (gs.is_tenant && tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PENDING) {
+									<button type="button" class="btn btn-info" (click)="accept()">
+										Accept
+									</button>
+									}
+									@if (gs.is_tenant && tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PENDING) {
+										<button type="button" class="btn btn-info two" (click)="decline()">
+											Reject
+										</button>
+									}
+									@if (tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED) {
+										<button type="button" class="btn btn-success status">
+											Approved
+										</button>
+									}
+									@if (tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED) {
+										<button type="button" class="btn btn-info two" (click)="terminate()">
+											Terminate Agreement
+										</button>
+									}
+									@if (tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_DECLINE) {
+										<button type="button" class="btn btn-danger">
+											Declined
+										</button>
+									}
+									@if ((gs.is_manager || gs.is_owner) && tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PENDING) {
+										<button type="button" class="btn btn-warning status">
+											Pending
+										</button>
+									}
+									@if (tenantRefrence?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PROPOSE) {
+										<button type="button" class="btn btn-warning status">
+											Pending
+										</button>
+									}
+								</div>
+								<div class="col-sm-6">
+									<div class="contract">
+										<a [href]="tenantRefrence?.doc?.path" target="_blank">
+											<i class="fas fa-file-pdf"></i> Contract
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

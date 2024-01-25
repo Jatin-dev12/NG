@@ -1,0 +1,201 @@
+<div class="bill-create">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Bills</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Add Bill</li>
+    </ol>
+  </nav>
+  <div class="formdiv">
+    <div class="form-group">
+      @if (gs.is_owner) {
+        <div>
+          <div class="btn-group">
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-tenant"
+              routerLinkActive="active"
+              ><i class="fas fa-user-tie"></i> <span>|</span>Send to Tenant</a
+            >
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-manager"
+              routerLinkActive="active"
+              ><i class="fas fa-house-user"></i> <span>|</span>Send to Property
+              Manager</a
+            >
+          </div>
+        </div>
+      }
+      @if (gs.is_manager) {
+        <div>
+          <div class="btn-group">
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-tenant"
+              routerLinkActive="active"
+              ><i class="fas fa-user-tie"></i> <span>|</span>Send to Tenant</a
+            >
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-owner"
+              routerLinkActive="active"
+              ><i class="fas fa-house-user"></i> <span>|</span>Send to Property
+              Owner</a
+            >
+          </div>
+        </div>
+      }
+      @if (gs.is_vendor) {
+        <div>
+          <div class="btn-group">
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-manager"
+              routerLinkActive="active"
+              ><i class="fas fa-user-tie"></i> <span>|</span>Send to Property
+              Manager</a
+            >
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-owner"
+              routerLinkActive="active"
+              ><i class="fas fa-house-user"></i> <span>|</span>Send to Property
+              Owner</a
+            >
+            <a
+              class="btn btn-outline-primary"
+              routerLink="/bills/bill-tenant"
+              routerLinkActive="active"
+              ><i class="fas fa-house-user"></i> <span>|</span>Send to Tenant</a
+            >
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  @if (router.url === "/bills/bill-tenant") {
+    <app-bill-form-tenant></app-bill-form-tenant>
+  }
+  @if (router.url === "/bills/bill-owner") {
+    <app-bill-form-owner></app-bill-form-owner>
+  }
+  @if (router.url === "/bills/bill-manager") {
+    <app-bill-form-manager></app-bill-form-manager>
+  }
+</div>
+<!-- <div class="bill-create bill-preview">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item"><a routerLink="/">Bills</a></li>
+    <li class="breadcrumb-item"><a routerLink="/">Issued Bills</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Selected Property</li>
+  </ol>
+</nav>
+<div class="formdiv">
+  <div class="form-group">
+    <h5>Recipient</h5>
+    <div class="listingdiv recipient">
+      <div class="listingbox">
+        <div class="propertylist">
+          <div class="row align-items-center">
+            <div class="col-sm-1">
+              <a routerLink="/"><img alt="" src="{{gs.imgUrl}}/manager-1.png"></a>
+            </div>
+            <div class="col-sm-2">Tenant</div>
+            <div class="col-sm-2 last">Brian Alex</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <h5>Selected Property</h5>
+    <div class="listingdiv selectedproperty">
+      <div class="listingbox">
+        <div class="propertytop">
+          <div class="row align-items-center">
+            <div class="col">Property title</div>
+            <div class="col">Property Location</div>
+          </div>
+        </div>
+        <div class="propertybottom">
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col-sm-2">
+                <a routerLink="/"><img alt="" src="{{gs.imgUrl}}/property-3.png"></a>
+              </div>
+              <div class="col">Asadel Mona</div>
+              <div class="col">Saudi Arabia, Riyadh City, Olaya </div>
+            </div>
+          </div>
+          <div class="propertylist">
+            <div class="row align-items-center">
+              <div class="col-sm-2">
+                <a routerLink="/"><img alt="" src="{{gs.imgUrl}}/property-3.png"></a>
+              </div>
+              <div class="col">Asadel Mona</div>
+              <div class="col">Saudi Arabia, Riyadh City, Olaya </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <h5>Currency :</h5>
+    <div class="textfeild">
+      SAR
+    </div>
+  </div>
+  <div class="prodetails">
+    <div class="detailbox">
+      <div class="row">
+        <div class="col-sm-4">
+          Gross amount
+        </div>
+        <div class="col-sm-8">
+          2,500.00
+        </div>
+      </div>
+    </div>
+    <div class="detailbox">
+      <div class="row">
+        <div class="col-sm-4">
+          Tax
+        </div>
+        <div class="col-sm-8">
+          250.00
+        </div>
+      </div>
+    </div>
+    <div class="detailbox">
+      <div class="row">
+        <div class="col-sm-4">
+          Total amount due
+        </div>
+        <div class="col-sm-8">
+          2,750.00
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <h5>Due Date</h5>
+    <div class="textfeild">
+      08/10/2021
+    </div>
+  </div>
+  <div class="form-group">
+    <h5>Description</h5>
+    <div class="textfeild description">
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+    </div>
+  </div>
+  <div class="btndiv">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-default">Cancel</button>
+  </div>
+</div>
+</div> -->

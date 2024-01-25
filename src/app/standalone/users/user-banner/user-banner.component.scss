@@ -1,0 +1,8 @@
+.profileimage {width: 160px; height: 160px; position: relative; margin: 0 auto 30px auto;}
+.profile-pic {width: 160px;height: 160px;display: block;border-radius: 100%;object-fit: cover;object-position: center;}
+.file-upload {opacity: 0;width: 45px;height: 45px;margin: 0px 0 0 0px;position: absolute;left: 0; cursor: pointer;}
+.circle {overflow: hidden;width: 160px;height: 160px;border: none;position: absolute;top: 0px;}
+.p-image {position: absolute;bottom: -15px;right: 0;left: 0;color: #666666;transition: all .3s cubic-bezier(.175, .885, .32, 1.275);margin: 0 auto;background: #34B0E3;width: 45px;height: 45px;border-radius: 100%;text-align: center;line-height: 41px;}
+.p-image:hover {transition: all .3s cubic-bezier(.175, .885, .32, 1.275);}
+.upload-button {font-size: 1.2em;}
+.upload-button:hover {transition: all .3s cubic-bezier(.175, .885, .32, 1.275);color: #999;}

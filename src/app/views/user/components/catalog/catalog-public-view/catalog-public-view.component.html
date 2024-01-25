@@ -1,0 +1,240 @@
+<div class="product-view-page">
+	<div class="pv-top">
+		<div class="row">
+			<div class="col-sm-7">
+				<div class="bedcrumbdiv">
+					<!-- 5252 M2 / VILA / GARDEN / POOL / LANDSCAPE / NATURE -->
+					@if (item?.m2_gross_price) {
+					<span>{{ item?.m2_gross_price | number }}
+						<span class="m2txt"><sub>M</sub><span class="square">2</span></span>
+						/
+					</span>
+					}
+					@if (item?.category_id) {
+						<span>{{ item?.category?.name | uppercase }} / </span>
+					}
+					{{ item?.title | uppercase }}
+				</div>
+			</div>
+			<div class="col-sm-5">
+				<div class="pr-title">
+					@if (item?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+						<div class="btndiv">
+							@if (!is_manage) {
+								<a class="btn btn-secondary status"><i class="fas fa-cog"></i><img src="{{ gs.imgUrl }}/vector-8.svg" alt="" />Managed</a>
+							}
+							@if (is_manage) {
+								<a class="btn btn-light status"><i class="fas fa-exclamation-triangle"></i><img src="{{ gs.imgUrl }}/vector-9.svg" alt="" />Not Managed</a>
+							}
+							@if (!item?.is_rented) {
+								<a class="btn btn-danger status"><i class="fas fa-check"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Vacant</a>
+							}
+							@if (item?.is_rented) {
+								<a class="btn btn-success status"><i class="fas fa-check"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Rented</a>
+							}
+						</div>
+					}
+					<div class="faveritesbtn">
+						<button type="button" class="faverites" [ngClass]="{ text: item?.is_wishlist }" (click)="actionHelper.handleWishlist(item, 'view')">
+							<!-- <i class="{{item?.is_wishlist ? 'fas' : 'far'}} fa-heart"></i> -->
+							<img src="{{ gs.imgUrl }}/{{item?.is_wishlist ? 'heart-hor.svg' : 'heart-nor.svg' }}" alt="" />Favourite
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="addtop">
+		<a routerLink="."><img src="{{ gs.imgUrl }}/addtop.png" alt="" /></a>
+	</div>
+	<div class="pv-middle">
+		<div class="row">
+			<div class="col-sm-10">
+				<div class="row">
+					<div class="col-sm-7">
+						@if ((itemObservable | async)?.id) {
+							<div class="sliderdiv">
+								<app-catalog-view-slider [item]="itemObservable | async" [type]="'carousel'" />
+							</div>
+						}
+					</div>
+					<div class="col-sm-5">
+						@defer (on viewport) {
+							<app-catalog-general-details [item]="item" />
+						} @placeholder (minimum 2000ms) {
+							<div>Loading..</div>
+						}
+					</div>
+				</div>
+				@if (gs.margeMedia(item?.media).video?.length > 0) {
+					<div class="pv-box location vedio">
+						<div class="pv-title">
+							<h1>Video</h1>
+						</div>
+						<div class="pv-body">
+							<div class="left-scroll css-scroll">
+								<div class="row">
+									@for (video of gs.margeMedia(item?.media).video; track video) {
+									<div class="col-sm-12">
+										<div class="image">
+											<video class="w-100" controls [src]="video?.path"></video>
+										</div>
+									</div>
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				@defer (on viewport) {
+					@if (item?.id) {
+						<app-catalog-features-view [item]="item" />
+					}
+				} @placeholder (minimum 2000ms) {
+					<div>Loading..</div>
+				}
+
+				@if (item?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+					@if (gs.identity) {
+						@switch (gs.identity.role) {
+							@case (Enums.ROLE_OWNER) {
+								@if (!is_manage) {
+									<ng-container *ngTemplateOutlet="propertyManager"></ng-container>
+								}
+								@if (is_manage) {
+									<ng-container *ngTemplateOutlet="propertyOwner"></ng-container>
+								}
+							}
+							@case (Enums.ROLE_MANAGERS) {
+								@if (manager) {
+									<ng-container *ngTemplateOutlet="propertyManager"></ng-container>
+								}
+								<ng-container *ngTemplateOutlet="propertyOwner"></ng-container>
+							}
+							@default {
+								@if (!is_manage) {
+									<ng-container *ngTemplateOutlet="propertyManager"></ng-container>
+								}
+								@if (is_manage) {
+									<ng-container *ngTemplateOutlet="propertyOwner"></ng-container>
+								}
+							}
+						}
+					} @else {
+						@if (!is_manage) {
+							<ng-container *ngTemplateOutlet="propertyManager"></ng-container>
+						}
+						@if (is_manage) {
+							<ng-container *ngTemplateOutlet="propertyOwner"></ng-container>
+						}
+					}
+				} @else {
+					<div class="pv-box manager">
+						<div class="pv-title">
+							<h1>Contact For Property Sale</h1>
+						</div>
+						<div class="pv-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="image">
+										<img [src]="item?.user?.avatar" [alt]="item?.user?.name" />
+									</div>
+								</div>
+								<div class="col-sm-9">
+									<div class="lefttxt">
+										<h3>{{ item?.user?.name }}</h3>
+										<h4>
+											{{ item?.user?.title ? item?.user?.title : gs.removeLastS(manager?.role) }}
+										</h4>
+										<div class="contenttwo" [innerHTML]="item?.user?.about"></div>
+										<div class="btndiv">
+											<a class="btn btn-primary" (click)="contact()">Contact</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				<ng-template #propertyManager>
+					<div class="pv-box manager">
+						<div class="pv-title">
+							<h1>Property Manager</h1>
+						</div>
+						<div class="pv-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="image">
+										<img [src]="manager?.avatar" [alt]="manager?.name" />
+									</div>
+								</div>
+								<div class="col-sm-9">
+									<div class="lefttxt">
+										<h3>{{ manager?.name }}</h3>
+										<h4>
+											{{ manager?.title ? manager?.title : gs.removeLastS(manager?.role) }}
+										</h4>
+										<div class="contenttwo" [innerHTML]="manager?.about"></div>
+										<div class="btndiv">
+											<a class="btn btn-primary" (click)="contact()">Contact</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+				<ng-template #propertyOwner>
+					<div class="pv-box manager">
+						<div class="pv-title">
+							<h1>Property Owner</h1>
+						</div>
+						<div class="pv-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="image">
+										<img [src]="owner?.avatar" [alt]="owner?.name" />
+									</div>
+								</div>
+								<div class="col-sm-9">
+									<div class="lefttxt">
+										<h3>{{ owner?.name }}</h3>
+										<h4>
+											{{ owner?.title ? owner?.title : gs.removeLastS(owner?.role) }}
+										</h4>
+										<div class="contenttwo" [innerHTML]="owner?.about"></div>
+										<div class="btndiv">
+											<a class="btn btn-primary" (click)="contact()">Contact</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+
+				<div class="pv-box location">
+					<div class="pv-title">
+						<h1>Location</h1>
+					</div>
+					<div class="pv-body">
+						@defer (on viewport) {
+							@if (item?.location_id) {
+							<app-google-map-view [location]="$any(item?.location)" />
+							} @else {
+								<div>Location not added</div>
+							}
+						} @placeholder (minimum 2000ms) {
+							<div>Loading..</div>
+						}
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="addright">
+					<a routerLink="."><img src="{{ gs.imgUrl }}/addright.png" alt="" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

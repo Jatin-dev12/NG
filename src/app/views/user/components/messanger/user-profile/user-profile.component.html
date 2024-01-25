@@ -1,0 +1,27 @@
+<div class="user-info d-flex align-items-center">
+	@if (chatRequestLoading) {
+	<div class="image">
+		<ngx-skeleton-loader [theme]="{ height: '70px', width: '70px' }" appearance="circle"></ngx-skeleton-loader>
+	</div>
+	<div class="caption col d-flex align-items-center">
+		<ngx-skeleton-loader count="2" [theme]="{ height: '10px', width: '100%' }"></ngx-skeleton-loader>
+	</div>
+	} @else {
+	<div class="image pl-3">
+		<img [src]="recipient?.avatar" alt="" width="58" height="58" class="rounded-circle" />
+	</div>
+	<div class="caption col d-flex align-items-center">
+		<div class="left col">
+			<div class="row">
+				<div class="col-sm-12">
+					<h4>
+						<!-- {{ profile?.title }} -->
+						{{ recipient?.name }}
+					</h4>
+					<time>{{ recipient?.title ? recipient?.title : gs.removeLastS(recipient?.role) }}</time>
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+</div>

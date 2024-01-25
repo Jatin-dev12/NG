@@ -1,0 +1,21 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  @if (catalog) {
+    <ks-carousel [id]="200" [images]="images"></ks-carousel>
+  }
+  <div>
+    <h4>Description</h4>
+    <div [innerHTML]="catalog?.description"></div>
+    <div class="btndiv">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="activeModal.close(true)"
+      >
+        View More Info
+      </button>
+    </div>
+  </div>
+</div>

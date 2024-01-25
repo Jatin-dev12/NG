@@ -1,0 +1,8 @@
+@import "sass/variables";
+
+.loginsociel {text-align: center; margin: 0px auto; max-width: 165px;
+    h4 {font-size: 14px; font-weight: 700; color: $dark; margin: 0 0 15px 0;}
+    a, button {width: 100%; height: 50px; font-size: 15px; font-weight: 400; box-shadow: none;background-color: $white;border: 0px solid #C9C9C9;padding: 0 0px;border-radius: 4px;display: inline-block;margin: 0 0 0 0px; color: $dark;
+        img {margin-right: 0;}
+    }
+}

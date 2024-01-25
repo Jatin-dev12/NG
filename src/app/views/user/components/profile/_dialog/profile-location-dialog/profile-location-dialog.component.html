@@ -1,0 +1,105 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="/assets/images/close-btn.svg" alt="Close" />
+  </button>
+  <h1>Edit Profile</h1>
+  <div class="editname-popup">
+    <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group" formGroupName="location">
+            <label>Location</label>
+            <app-google-location-input
+              [value]="form.value.location?.location"
+              formControlName="location"
+              [ngClass]="gs.addCls('location', form, 'location')"
+              (onAddressChange)="handleAddres($event)"
+            ></app-google-location-input>
+            <!-- <div *ngIf="gs.isValid('location', form, 'location')" class="invalid-feedback d-block">
+            <div *ngIf="form.get('location')?.get('location')?.getError('required')">{{'Location is required' }}</div>
+          </div> -->
+          </div>
+          <div class="form-group">
+            <label>Languages</label>
+            @if (loadingFields | async) {
+              @for (item of gs.generateFake(4); track item) {
+                <div class="col-sm-4">
+                  <div class="form-check">
+                    <ngx-skeleton-loader
+                      [theme]="{ height: '15px', width: '100%' }"
+                      count="2"
+                    ></ngx-skeleton-loader>
+                  </div>
+                </div>
+              }
+            } @else {
+              <div class="row">
+                @for (item of LanguagesArray; track item) {
+                  <div class="col-sm-4">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [value]="item.option_code"
+                        id="Languages{{ item.option_code }}"
+                        (change)="handleTags($event)"
+                        [checked]="tagsChacked(item.option_code)"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="Languages{{ item.option_code }}"
+                        >{{ item.option_value }}</label
+                      >
+                    </div>
+                  </div>
+                }
+                <div class="col-12">
+                  @if (gs.isValid("languages", f)) {
+                    <div class="invalid-feedback d-block">
+                      @if (
+                        f["languages"].errors &&
+                        f["languages"].errors["required"]
+                      ) {
+                        <div>Languages is required</div>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+            <!-- <ng-select
+          [items]="LanguagesArray"
+          bindLabel="option_value"
+          bindValue="option_code"
+          Class="form-control"
+          [hideSelected]="true"
+          [multiple]="true"
+          formControlName="languages"
+          [placeholder]="'Select Languages'"
+          [searchable]="true">
+        </ng-select> -->
+          </div>
+          <!-- <pre>
+      {{ form.value | json }}
+    </pre> -->
+        </div>
+      </div>
+      <div class="btndivtwo">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [appLadda]="loading | async"
+        >
+          Apply
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="activeModal.dismiss()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="sorting">
+	<div class="viewlist">
+		<a routerLink="." (click)="sort(params?.sort === 'id' ? '-id' : 'id')">
+			@if (params?.sort === "id") {
+			<img src="{{ gs.imgUrl }}/viewlist-up.svg" alt="image" class="up" />
+			} @else {
+			<img src="{{ gs.imgUrl }}/viewlist-down.svg" alt="image" class="down" />
+			}
+		</a>
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+<div class="page-body favorite-properies">
+	<div class="row">
+		@if (loading | async) {
+		@for (item of gs.generateFake(2); track item) {
+		<div class="col-sm-6">
+			<div class="vendor-favoritesbox">
+				<div class="image">
+					<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }" count="2"></ngx-skeleton-loader>
+				</div>
+				<div class="content">
+					<ngx-skeleton-loader [theme]="{ height: '15px', width: '100%' }" count="3"></ngx-skeleton-loader>
+				</div>
+			</div>
+		</div>
+		}
+		} @else {
+		@for (item of (catalogs | async)?.items; track item) {
+		<div class="col-sm-6">
+			<div class="favoritesbox">
+				<div class="image">
+					<a [routerLink]="['/search/view', item?.userCatalog.id]">
+						<img [src]=" item?.userCatalog?.cover_id ? gs.imgPath(item?.userCatalog?.cover?.path) : gs.imgUrl + '/property-2.png' " alt="" />
+					</a>
+					<div class="favlink">
+						<div class="faveritesbtn">
+							<button type="button" class="faverites text-warning" (click)="handleWishlist(item)">
+								<img src="{{ gs.imgUrl }}/heart-hor.svg" alt="" />
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="detail">
+					<h3>
+						<a [routerLink]="['/search/view', item?.userCatalog?.id]">{{ item?.userCatalog?.title }}</a>
+					</h3>
+				</div>
+			</div>
+		</div>
+		} @empty {
+		<div class="notfound">
+			<img src="{{ gs.imgUrl }}/favorites-notfound.svg" alt="Images" />
+		</div>
+		}
+		@if ($any((catalogs | async)?.total) > this.params["per-page"]) {
+		<div class="col-sm-12">
+			<app-pagination [pagination]="catalogs | async" [page]="params.page"
+				(getPage)="handlePagination($event)"></app-pagination>
+		</div>
+		}
+		}
+	</div>
+</div>
+
+<!-- <app-catalog-list [key]="CatalogRxKey.wishlist" [url]="'/search/view'" [action]="true" [layout]="'grid-inline'" [params]="params"></app-catalog-list> -->

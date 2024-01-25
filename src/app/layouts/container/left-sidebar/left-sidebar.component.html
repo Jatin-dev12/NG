@@ -1,0 +1,787 @@
+<aside>
+	<div class="sidemenu">
+		<ul class="aside-menu">
+			<li>
+				<a [routerLinkActive]="['active']" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
+					<div class="img">
+						<img src="{{ gs.imgUrl }}/dashboard-nor.svg" class="white" alt="" />
+						<img src="{{ gs.imgUrl }}/dashboard-hor.svg" class="black" alt="" />
+					</div>
+					<span class="name">Dashboard</span>
+				</a>
+			</li>
+
+			@switch (gs.identity?.role) {
+				@case (Enums.ROLE_USER) {
+					<ng-container *ngTemplateOutlet="userTalentMenu"></ng-container>
+				}
+				@case (Enums.ROLE_OWNER) {
+					<ng-container *ngTemplateOutlet="userOwnerMenu"></ng-container>
+				}
+				@case (Enums.ROLE_MANAGERS) {
+					<ng-container *ngTemplateOutlet="userManagerMenu"></ng-container>
+				}
+				@case (Enums.ROLE_VENDORS) {
+					<ng-container *ngTemplateOutlet="userVendorMenu"></ng-container>
+				}
+				@case (Enums.ROLE_STAFF) {
+					<ng-container *ngTemplateOutlet="userStafeMenu"></ng-container>
+				}
+				@case (Enums.ROLE_GUEST) {
+					<ng-container *ngTemplateOutlet="userGuestMenu"></ng-container>
+				}
+				@case (Enums.ROLE_GENERAL) {
+					<ng-container *ngTemplateOutlet="userGeneralMenu"></ng-container>
+				}
+				@default {
+					Menu not assign this user role
+				}
+			}
+		</ul>
+	</div>
+</aside>
+
+
+<ng-template #userTalentMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/contact/send-pending-requests', false) || router.isActive('/requests/contact/send-requests-history', false) ">Request Sent for Proposal</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/rented">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/home-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/home-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Rented Properties</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/search">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Properties</span>
+		</a>
+	</li>
+</ng-template>
+
+<ng-template #userOwnerMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/properties">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/my-properties-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/my-properties-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">My Properties</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests 
+					
+				</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests" [routerLinkActive]="['active']">
+							Pending Requests
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history" [routerLinkActive]="['active']">
+							Requests History
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/contact/send-pending-requests', false) || router.isActive('/requests/contact/send-requests-history', false)">
+					Request Sent for Proposal
+				</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-pending-requests"
+							[routerLinkActive]="['active']">Pending Requests ({{ user?.number_of_send_proposal_pending }})</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem>Issued Bills (15)</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/bills/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Bills (10)</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/bills/issued/requests-history"
+							[routerLinkActive]="['active']">Bills History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/marketing">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/marketing-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/marketing-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Marketing</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/search">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Properties</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/property-managers">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-manager-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-manager-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Property Managers</span>
+		</a>
+	</li>
+</ng-template>
+
+<ng-template #userManagerMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/contact/pending-requests', false) || router.isActive('/requests/contact/requests-history', false)">Request Received for Proposal
+				</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests ({{ user?.number_of_received_proposal_pending }})</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem>Issued Bills (15)</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/bills/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Bills (10)</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/bills/issued/requests-history"
+							[routerLinkActive]="['active']">Bills History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/marketing">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/marketing-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/marketing-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Marketing</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/search">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Properties</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/properties">
+			<div class="img">
+				<img src="{{gs.imgUrl}}/my-properties-nor.svg" class="white" alt="" />
+				<img src="{{gs.imgUrl}}/my-properties-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Managed Properties</span>
+		</a>
+	</li>
+</ng-template>
+
+<ng-template #userVendorMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/contact/send-pending-requests', false) || router.isActive('/requests/contact/send-requests-history', false)">
+					Request Sent for Proposal
+				</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-pending-requests"
+							[routerLinkActive]="['active']">Pending Requests ({{ user?.number_of_send_proposal_pending }})</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/marketing">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/marketing-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/marketing-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Marketing</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/property-managers">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-manager-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-manager-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Property Managers</span>
+		</a>
+	</li>
+</ng-template>
+
+<ng-template #userStafeMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/contact/send-pending-requests', false) || router.isActive('/requests/contact/send-requests-history', false)">
+					Request Sent for Proposal
+				</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/marketing">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/marketing-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/marketing-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Marketing</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/property-managers">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-manager-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-manager-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Property Managers</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/properties">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/my-properties-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/my-properties-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Managed Properties</span>
+		</a>
+	</li>
+</ng-template>
+
+<ng-template #userGuestMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/contact/send-pending-requests', false) || router.isActive('/requests/contact/send-requests-history', false)">Request Sent for Proposal</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/property-managers">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-manager-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-manager-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Property Managers</span>
+		</a>
+	</li>
+</ng-template>
+
+<ng-template #userGeneralMenu>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/contacts">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/contacts-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/contacts-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Contacts</span>
+			@if ((userObservable | async)?.number_of_unread_message_contacts) {
+				({{ user?.number_of_unread_message_contacts }})
+			}
+		</a>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/requests', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/requests-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/requests-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Requests ({{ allRequestsCount }})</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/issued', false)">Issued Requests</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/issued/requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/requests/received', false)"
+					routerLink="/requests/received">Received Requests</a>
+			</li>
+			<li>
+				<a ngbDropdownItem [class.active]="
+            router.isActive('/requests/contact/send-pending-requests', false) ||
+            router.isActive('/requests/contact/send-requests-history', false)
+          ">Request Sent for Proposal</a>
+				<ul class="submenu dropdown-menu">
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-pending-requests"
+							[routerLinkActive]="['active']">Pending Requests</a>
+					</li>
+					<li>
+						<a class="dropdown-item" routerLink="/requests/contact/send-requests-history"
+							[routerLinkActive]="['active']">Requests History</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li ngbDropdown>
+		<a ngbDropdownToggle ngbDropdownAnchor [class.active]="router.isActive('/bills', false)">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/bills-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/bills-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Bills (4)</span>
+		</a>
+		<ul ngbDropdownMenu>
+			<li>
+				<a ngbDropdownItem [class.active]="router.isActive('/bills/received', false)"
+					routerLink="/bills/received">Received Bills</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/reports">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/reports-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/reports-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Reports</span>
+		</a>
+	</li>
+	<li>
+		<a [routerLinkActive]="['active']" routerLink="/property-managers">
+			<div class="img">
+				<img src="{{ gs.imgUrl }}/search-properties-manager-nor.svg" class="white" alt="" />
+				<img src="{{ gs.imgUrl }}/search-properties-manager-hor.svg" class="black" alt="" />
+			</div>
+			<span class="name">Search Property Managers</span>
+		</a>
+	</li>
+</ng-template>

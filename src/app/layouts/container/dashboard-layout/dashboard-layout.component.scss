@@ -1,0 +1,5 @@
+@import "sass/variables";
+.AfterLoginpage {min-height: calc(100vh - 160px); background-color: $white; padding-top: 0px; padding-bottom: 40px; position: relative;
+    .Left-Side {min-height: 70px; background-color: #F0F0F0; border: 0px solid #D8DFBA; margin-bottom: 15px; border-radius: 10px;}
+}
+.AfterLoginpage.provider {background-color: $primary;}

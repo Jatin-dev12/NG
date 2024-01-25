@@ -1,0 +1,42 @@
+<div class="content-page">
+  <div class="container11">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="contentpagebox text-break">
+          @if (loading | async) {
+            <ngx-skeleton-loader [count]="5"></ngx-skeleton-loader>
+          } @else {
+            <h1>{{ item?.title }}</h1>
+            <div class="content" [innerHtml]="item?.content"></div>
+            <!-- <div class="content">
+            <p class="text-center">Amlakserv on behalf of itself and its affiliates/group companies under the brand Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make type specimen book.</p>
+            <h4>1. NATURE AND APPLICABILITY OF TERMS</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>2. CONDITIONS OF USE</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>3. TERMS OF USE APPLICABLE TO ALL USERS OTHER THAN PRACTITIONERS</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>4. TERMS OF USE PRACTITIONERS</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>5. RIGHTS AND OBLIGATIONS RELATING TO CONTENT</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>6. TERMINATION</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>7. LIMITATION OF LIABILITY</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</p>
+            <h4>8. RETENTION AND REMOVAL</h4>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.
+          </div> -->
+            @if (showError === null) {
+              <div>
+                <h1 class="text-danger">
+                  {{ "Page not available admin please add page to admin" }}
+                </h1>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

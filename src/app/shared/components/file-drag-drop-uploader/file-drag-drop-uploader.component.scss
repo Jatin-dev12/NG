@@ -1,0 +1,100 @@
+@import "sass/variables";
+
+.categories {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100% !important;
+    margin-bottom: 20px;
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 5rem;
+    background-color: #efefef;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    .btn {position: absolute; top: 4px; right: 4px;}
+    .images { object-fit: cover; height: 100px; width: 100%; object-position: center;bottom: 2px;position: relative; border-radius: 4px;}
+    video {height: 100px; object-position: center; object-fit: cover;}
+}
+
+.categories-item {
+    background-color: transparent;
+    height: 100px;
+    text-align: center;
+    line-height: 5rem;
+    position: relative;
+    //max-width: calc(33% - 6px);
+    //flex-grow: 1; 
+    margin: 15px 17px 0 0px;
+    width: 127px;
+}
+.categories-item:last-child {margin-right: 0;}
+
+// .categories-item:nth-child(3n) {
+//     margin: 5px 0px 5px 0px;
+// }
+
+.placeholder {
+    flex: 1 0 5rem;
+    margin: 5px;
+    background-color: $white;
+    height: 5rem;
+    text-align: center;
+    line-height: 5rem;
+    border: 1px;
+    max-width: 100px;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+input#file-upload-button {
+    height: 100px;background-color: red;
+}
+
+.custom-upload .custom-file .custom-file-input {
+    opacity: 1 !important;
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+    left: 0px;
+    height: 155px;
+    top: 0px;
+    visibility: hidden;
+}
+
+.custom-upload .custom-file {
+    position: relative;
+}
+
+.custom-upload .custom-file.fileover {
+    background-color: #e5e5e5;
+}
+
+.custom-upload .custom-file .custom-file-label {
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
+}
+
+.categories.filedocument {
+    .categories-item {width: 100%; max-width: 100%; height: auto; line-height: inherit; margin-right: 0px;
+        .inner {line-height: inherit; border: 0px solid #0184EF; background-color: transparent; overflow: inherit; border-radius: 0; text-align: left;
+            .fa-file, .fa-file-pdf, .fa-file-word {font-size: 20px; margin: 0 10px 0 0; color: $danger; vertical-align: middle;}
+            .title.pl-2 {margin: 3px 0 0 0; color: $dark; font-size: 15px; display: inline-block;}
+            .btn-danger {color: $danger; position: relative;right: 0;top: 0;margin: 0 0 0 10px;
+                i {font-size: 16px;}
+                img {width: 16px; margin: 2px 0 0 0;}
+            }
+            .d-flex {display: inline-block !important;}
+        }
+    }
+}
+
+.btn-danger {border-radius: 100%;width: 25px;height: 25px;color: #fff;text-align: center;padding: 0;line-height: 26px; background: none; border: none; box-shadow: none;}

@@ -1,0 +1,39 @@
+<div class="expart-profile-page my-learnings">
+  <div class="card">
+    <div class="card-title">
+      <ul class="inline">
+        <li>
+          <a
+            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLinkActive]="['active']"
+            [ngClass]="{ active: my_booking }"
+            routerLink="/booking/my-bookings"
+            >My Bookings</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLinkActive]="['active']"
+            routerLink="/booking/past-bookings"
+            [ngClass]="{ active: past_booking }"
+            >Completed Bookings</a
+          >
+        </li>
+        <!-- <li><a [routerLinkActive]="['active']" routerLink="/booking/request-bookings" [ngClass]="{'active': pending_booking}">Request Bookings</a></li> -->
+        <!-- <li><a [routerLinkActive]="['active']" routerLink="/booking/declined-bookings" [ngClass]="{'active': declined_booking}">Declined Bookings</a></li> -->
+        <li>
+          <a
+            [routerLinkActive]="['active']"
+            routerLink="/booking/cancelled-bookings"
+            [ngClass]="{ active: cancelled_booking }"
+            >Cancelled Bookings</a
+          >
+        </li>
+        <!-- <li><a [routerLinkActive]="['active']" routerLink="/booking/disputed-bookings" [ngClass]="{'active': disputed_booking}">Disputed Bookings</a></li> -->
+      </ul>
+    </div>
+    <div class="card-body">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

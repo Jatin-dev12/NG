@@ -1,0 +1,11 @@
+<div class="more-text">
+  <span [innerHTML]="currentText | parseUrl"></span>
+  @if (!linkView && text?.length > maxLength) {
+    <a class="read-more" [class.hidden]="hideToggle" (click)="toggleView()">
+      {{ isCollapsed ? readMoreText : readLessText }}
+    </a>
+  }
+  @if (linkView && text?.length > maxLength) {
+    <a class="read-more" [routerLink]="linkView">Read More</a>
+  }
+</div>

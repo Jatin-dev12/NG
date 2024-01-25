@@ -1,0 +1,18 @@
+<a routerLink="/contacts" [queryParams]="{ message_id: item.message_id }" [ngClass]="{ active: +item?.message_id == message_id }"(click)="removeCount()" [routerLinkActive]="'active'">
+	<div class="img">
+		<img [src]="recipient?.avatar" [alt]="recipient?.name" />
+	</div>
+	<div class="caption">
+		@if (count(item)) {
+			<div class="count">{{ item.count }}</div>
+		}
+		<h4>
+			<span class="name-title text-truncate">
+				{{ recipient?.name }}
+			</span>
+			<time class="mess-time">{{ timeNow(item.recent) }}</time>
+		</h4>
+		<div class="text text-truncate" [innerHtml]="item.text"></div>
+	</div>
+	<div class="clearfix"></div>
+</a>

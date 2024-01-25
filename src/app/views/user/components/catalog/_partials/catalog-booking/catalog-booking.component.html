@@ -1,0 +1,187 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+  <!-- <pre>
+  {{ this.gs.identity | json }}
+</pre> -->
+  <div class="formdiv">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label>What are you planning?</label>
+          <input
+            type="text"
+            name="planning"
+            class="form-control"
+            formControlName="title"
+            [ngClass]="gs.addCls('title', f)"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <!-- <div class="form-group">
+      <input matInput [matDatepicker]="picker" [matDatepickerFilter]="myFilter" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker ></mat-datepicker>
+    </div> -->
+        <div class="form-group">
+          <label>Start Date</label>
+          <div class="date-group">
+            <!-- <input [ngxMatDatetimePicker]="start_date" class="form-control" placeholder="Choose a start date" formControlName="start_time" [min]="minDate" [ngClass]="gs.addCls('start_time', f)">
+        <mat-datepicker-toggle matSuffix [for]="$any(start_date)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #start_date [stepMinute]="15"></ngx-mat-datetime-picker> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <label>End Date</label>
+          <div class="date-group">
+            <!-- <input [ngxMatDatetimePicker]="end_date" class="form-control" placeholder="Choose a end date" formControlName="end_time" [min]="minEndDate" [ngClass]="gs.addCls('end_time', f)">
+        <mat-datepicker-toggle matSuffix [for]="$any(end_date)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #end_date [stepMinute]="15"></ngx-mat-datetime-picker> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group-1">
+          <label>Guests</label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter no of guest"
+            [min]="4"
+            [max]="$any(item?.no_guest)"
+            formControlName="no_recipients"
+            [ngClass]="gs.addCls('no_recipients', f)"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group-1">
+          <div class="btndiv">
+            <a
+              routerLink="."
+              class="btn btn-secondary"
+              (click)="addAdditionalService()"
+              >ADDITIONAL SERVICES</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="servicesprice">
+          <div class="row">
+            <div class="col-sm-8">
+              Space price: {{ item?.price | currency }} x
+              {{ bookingHourse }} hours:
+            </div>
+            <div class="col-sm-4">
+              {{ getSubTotal | currency }}
+            </div>
+            <div class="col-sm-8">Service fee:</div>
+            <div class="col-sm-4">
+              {{ serviceFee | currency }}
+            </div>
+            <div class="col-sm-8">Additional Services</div>
+            <div class="col-sm-4">
+              {{ additionalServices | currency }}
+            </div>
+            <div class="col-sm-8">Deposit Amount</div>
+            <div class="col-sm-4">
+              {{ depositAmount | currency }}
+            </div>
+            <div class="col-sm-8">Discount Coupon</div>
+            <div class="col-sm-4">- {{ discountCouponPrice | currency }}</div>
+            <div class="col-sm-8">Estimated price:</div>
+            <div class="col-sm-4">
+              <span>{{ getTotal | currency }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="coupanapply">
+          <label>Discount Coupon</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Discount Coupon"
+              [(ngModel)]="couponCode"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="applyCoupon()"
+              [appLadda]="couponLoading"
+            >
+              APPLY
+            </button>
+          </div>
+          <div class="youpay">
+            <div class="row">
+              <div class="col-sm-8">You Pay</div>
+              <div class="col-sm-4">
+                <span>{{ getTotal | currency }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group-1">
+          <div class="btndiv">
+            <button
+              type="submit"
+              class="btn btn-success"
+              [appLadda]="loading | async"
+            >
+              REQUEST TO BOOK
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="btndiv">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              [ngClass]="{ active: item?.is_wishlist }"
+              (click)="actionHelper.handleWishlist(item, CatalogRxKey.view)"
+            >
+              <i class="fas fa-heart"></i
+              >{{ item?.is_wishlist ? "REMOVE" : "SAVE" }} TO FAVORITES
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="hostedby">
+  <h2>Hosted by {{ item?.user?.name }}</h2>
+  <img
+    [src]="item?.user?.avatar"
+    [alt]="item?.user?.name"
+    class="rounded-circle mb-3"
+    width="100"
+  />
+  <div class="name">{{ item?.user?.name }}</div>
+  <!-- <div class="usually">usually responds within 8 hours</div> -->
+  <div class="since">
+    Member since {{ moment(item?.user?.created_at, "MMM-YYYY") }}
+  </div>
+  <div class="btndiv">
+    <a routerLink="." class="btn btn-outline-primary" (click)="sendMessage()"
+      >SEND MESSAGE</a
+    >
+  </div>
+  <div class="inperson" style="cursor: pointer" (click)="inPersonView()">
+    IN-PERSON VIEWING
+  </div>
+</div>

@@ -1,0 +1,239 @@
+<div class="favorites-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item active">My Favorites</li>
+    </ol>
+  </nav>
+  <div class="addtop">
+    <a routerLink="."><img src="{{ gs.imgUrl }}/addtop.png" alt /></a>
+  </div>
+  <div class="row">
+    <div class="col-sm-10">
+      <h1 class="title">My Favorites</h1>
+      <div class="pagebox">
+        <div class="sortingdiv">
+          <div class="row">
+            <div class="col-sm-5">
+              <h3>
+                {{
+                  router.url === "/favorites/properies"
+                    ? (catalog | async)?.total ?? 0
+                    : (users | async)?.total ?? 0
+                }}
+                My Favorites
+              </h3>
+            </div>
+            <div class="col-sm-7">
+              <!-- <div class="sorting">
+								<div class="select">
+									<select class="form-control" name="showingall">
+										<option value="0" selected>Showing all</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+									</select>
+								</div>
+								<div class="select">
+									<select class="form-control" name="bydateadded">
+										<option value="0" selected>By date added</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+									</select>
+								</div>
+								<div class="viewlist">
+									<a routerLink="."><img src="{{gs.imgUrl}}/viewlist-2.svg" alt /></a>
+								</div>
+							</div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="favorites-menu">
+        @switch (gs.identity?.role) {
+          @case (Enums.ROLE_OWNER) {
+            <ul>
+              <li>
+                <a
+                  routerLink="/favorites/managers"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Managers
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/venders"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Vendors
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/properies"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Properies
+                </a>
+              </li>
+            </ul>
+          }
+          @case (Enums.ROLE_MANAGERS) {
+            <ul>
+              <li>
+                <a
+                  routerLink="/favorites/owners"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Owners
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/venders"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Vendors
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/properies"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Properies
+                </a>
+              </li>
+            </ul>
+          }
+          @case (Enums.ROLE_VENDORS) {
+            <ul>
+              <li>
+                <a
+                  routerLink="/favorites/owners"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Owners
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/managers"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Managers
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/properies"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Properies
+                </a>
+              </li>
+            </ul>
+          }
+          @case (Enums.ROLE_USER) {
+            <ul>
+              <li>
+                <a
+                  routerLink="/favorites/owners"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Owners
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/managers"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Managers
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/venders"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Vendors
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/properies"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Properies
+                </a>
+              </li>
+            </ul>
+          }
+          @case (Enums.ROLE_GUEST) {
+            <ul>
+              <li>
+                <a
+                  routerLink="/favorites/owners"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Owners
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/managers"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Property Managers
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/favorites/properies"
+                  [routerLinkActive]="['active']"
+                >
+                  Favorite Properies
+                </a>
+              </li>
+            </ul>
+          }
+        }
+      </div>
+      @switch (router.url) {
+        @case ("/favorites/managers") {
+          <div class="managers-pagebox">
+            <app-favorites-manager></app-favorites-manager>
+          </div>
+        }
+        @case ("/favorites/owners") {
+          <div class="managers-pagebox">
+            <app-favorites-owner></app-favorites-owner>
+          </div>
+        }
+        @case ("/favorites/venders") {
+          <div class="managers-pagebox">
+            <app-favorites-vendor></app-favorites-vendor>
+          </div>
+        }
+        @case ("/favorites/tenants") {
+          <div class="managers-pagebox">
+            <app-favorites-tanent></app-favorites-tanent>
+          </div>
+        }
+        @case ("/favorites/properies") {
+          <div class="managers-pagebox">
+            <app-favorites-property></app-favorites-property>
+          </div>
+        }
+      }
+    </div>
+    <div class="col-sm-2">
+      <div class="addright">
+        <a routerLink="."><img src="{{ gs.imgUrl }}/addright.png" alt /></a>
+      </div>
+    </div>
+  </div>
+</div>

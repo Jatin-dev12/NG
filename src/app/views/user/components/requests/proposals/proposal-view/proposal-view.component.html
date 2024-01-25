@@ -1,0 +1,222 @@
+<div class="bill-view-page request-view">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item">requests</li>
+			<li class="breadcrumb-item">
+				{{ (gs.identity?.id === item?.user_id) ? 'Request sent for proposal' : 'Request Received for Proposal' }}
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				Request Details
+			</li>
+		</ol>
+	</nav>
+	<div class="btndivtop">
+		<div class="row">
+			<div class="col-sm-6">
+				@if (item?.contact_id === gs.identity?.id && item?.status === Enums.USER_PROFILE_CONTACT_STATUS_PENDING) {
+				<button type="button" class="btn btn-danger" (click)="decline()" [appLadda]="decline_loading">
+					<img class="reject" src="{{ gs.imgUrl }}/reject-2.svg" alt="" />
+					<img alt src="{{ gs.imgUrl }}/vector-10.svg" />Reject
+				</button>
+				<button type="button" class="btn btn-primary" (click)="accept()" [appLadda]="accept_loading">
+					<img src="{{ gs.imgUrl }}/vacant.svg" alt="" />
+					<img alt src="{{ gs.imgUrl }}/vector-10.svg" />Accept
+				</button>
+				}
+			</div>
+			@if (item?.user_id === gs.identity?.id && item?.status === Enums.USER_PROFILE_CONTACT_STATUS_PENDING) {
+			<div class="col-sm-6 text-right">
+				<button type="button" class="btn btn-danger" (click)="remove()" [appLadda]="remove_loading">
+					<img src="{{ gs.imgUrl }}/delete-2.svg" alt="" />
+					<img alt src="{{ gs.imgUrl }}/vector-10.svg" />Delete Request
+				</button>
+			</div>
+			}
+		</div>
+	</div>
+	<div class="bv-middle">
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="prodetails">
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Request No</div>
+							<div class="col-sm-8">{{ item?.id }}</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Requester</div>
+							<div class="col-sm-8">{{ item?.user?.name }}</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Type of Request</div>
+							<div class="col-sm-8">{{ item?.type_of_request ?? "-" }}</div>
+						</div>
+					</div>
+					@if (item?.doc_id) {
+						<div class="detailbox" >
+							<div class="row">
+								<div class="col-sm-4">Attachment</div>
+								<div class="col-sm-8">
+									<!-- @if (item?.doc?.mimetype === 'image') {
+										<a [href]="item?.doc?.path" [target]="'_blank'" download>
+											<img [src]="item?.doc?.path" [alt]="item?.doc?.filename" width="200">
+										</a>
+									} @else if (item?.doc?.mimetype === 'video') {
+										<a [href]="item?.doc?.path" [target]="'_blank'" download>
+											<video [src]="item?.doc?.path" controls width="220"></video>
+										</a>
+									} @else {
+										<a [href]="item?.doc?.path" [target]="'_blank'" download>{{item?.doc?.filename}}</a>
+									} -->
+									<a [href]="item?.doc?.path" [target]="'_blank'" download>{{item?.doc?.filename}}</a>
+								</div>
+							</div>
+						</div>
+					}
+					
+				</div>
+				<div class="discription">
+					<h4>Description</h4>
+					<div class="left-scroll css-scroll">
+						<div class="content">
+							{{ item?.description ?? "--" }}
+						</div>
+					</div>
+				</div>
+
+				@if (gs.identity?.id === item?.user_id) {
+				<div class="billsent">
+					<h4>Request is sent to</h4>
+					<div class="image">
+						<img [src]="item?.contact?.avatar" [alt]="item?.contact?.name" />
+					</div>
+					<div class="detail">
+						<h5>{{ item?.contact?.name }}</h5>
+						<div class="desi">{{ item?.contact?.title ? item?.contact?.title : gs.removeLastS(item?.contact?.role) }}</div>
+						<div class="address">
+							{{ item?.contact?.location?.location ?? "--" }}
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				} @else {
+				<div class="billsent">
+					<h4>Request is received from</h4>
+					<div class="image">
+						<img [src]="item?.user?.avatar" [alt]="item?.user?.name" />
+					</div>
+					<div class="detail">
+						<h5>{{ item?.user?.name }}</h5>
+						<div class="desi">{{ item?.user?.title ? item?.user?.title : gs.removeLastS(item?.user?.role) }}</div>
+						<div class="address">
+							{{ item?.user?.location?.location ?? "--" }}
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				}
+				<div class="biilsbottom">
+					<div class="created">
+						<img alt="Images" class="create" src="{{ gs.imgUrl }}/status-red.svg" />
+						<div class="right">
+							<!-- <h5>Status :</h5> Assigned To <a routerLink=".">XYZ</a> -->
+							<h5>Status :</h5>
+							Unassigned
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="created">
+						<img alt="Images" class="create" src="{{ gs.imgUrl }}/schedule.svg" />
+						<div class="right">
+							<h5>Schedule Date & Time</h5>
+							NA
+							<!-- Mar, 03, 2021, 15:00 -->
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-7">
+				@if (item?.message_id) {
+					@defer {
+						<app-one-to-one-chat [message_id]="item?.message_id" [profile]="gs.identity?.id === item?.user_id ? item?.contact : item?.user"></app-one-to-one-chat>
+					}
+				} @else {
+				<div class="common-chat">
+					<div class="msg-list-box">
+						<div class="user-info d-flex align-items-center">
+							<div class="image pl-3">
+								<img class="rounded-circle" [src]="gs.identity?.id === item?.user_id ? item?.contact?.avatar : item?.user?.avatar" alt="avatar" />
+							</div>
+							<div class="caption col d-flex align-items-center">
+								<div class="left col">
+									<div class="row">
+										<div class="col-sm-8">
+											<h4>
+												{{ gs.identity?.id === item?.user_id ? item?.contact?.name : item?.user?.name }}
+											</h4>
+											<time>{{ (gs.identity?.id === item?.user_id) ? item?.contact?.title ? item?.contact?.title : gs.removeLastS(item?.contact?.role) : item?.user?.title ? item?.user?.title : gs.removeLastS(item?.user?.role) }}</time>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="right-scroll css-scroll">
+							<ul class="msg-list">
+								<li class="text-center"></li>
+							</ul>
+						</div>
+						<div class="rmtxt">
+							@if (item?.status === Enums.USER_PROFILE_CONTACT_STATUS_DECLINED) {
+								@if (gs.identity?.id === item?.user_id) {
+									<div class="text-primary">{{ gs.identity?.id === item?.user_id ? item?.contact?.name : item?.user?.name }} has rejected the request.</div>
+								} @else {
+									<div class="text-primary">You have rejected the request.</div>
+								}
+							}
+							@if (item?.status === Enums.USER_PROFILE_CONTACT_STATUS_PENDING) {
+								@if (gs.identity?.id === item?.user_id) {
+									<div class="text-primary">Your request is sent.</div>
+								} @else {
+									<p> You received <span class="text-primary">Request #{{item?.id}}</span> from {{ gs.identity?.id === item?.user_id ? item?.contact?.name : item?.user?.name }}.</p>
+								}								
+								You will be able to start communication once request is accepted.
+							}
+						</div>
+						<div class="comment-form" style="opacity: 0.5; pointer-events: none">
+							<div class="group clearfix">
+								<div class="text float-start">
+									<textarea class="form-control pe-0" placeholder="Write Your Message....."
+										name="text" maxlength="350"></textarea>
+								</div>
+								<div class="mess-type-box float-end">
+									<div class="write-mess-right">
+										<div class="attachment">
+											<label class="file btn btn-primary rounded-circle bg-transparent border-0"
+												for="file-upload">
+												<input type="file" name="attachments" multiple="true" id="file-upload" style="position: absolute; width: 22px; opacity: 0; display: none; " />
+												<img src="{{ gs.imgUrl }}/attach.svg" alt />
+											</label>
+										</div>
+										<div class="botton">
+											<a mat-stroked-button class="imojibtn bg-transparent" color="primary"><i class="far fa-smile"></i></a>
+											<button class="sendbtn" mat-raised-button color="primary">
+												<i class="fas fa-paper-plane"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>

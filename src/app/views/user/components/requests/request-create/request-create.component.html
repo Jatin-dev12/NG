@@ -1,0 +1,59 @@
+<div class="bill-create bill-preview request-create">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item"><a routerLink="/">Requests</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Add Request</li>
+		</ol>
+	</nav>
+	<div class="formdiv">
+		<div class="form-group">
+			@if (gs.is_owner) {
+			<div>
+				<div class="btn-group">
+					<a class="btn btn-outline-primary" routerLink="/requests/request-manager"
+						routerLinkActive="active"><i class="fas fa-user-tie"></i> <span>|</span>Send to Property
+						Manager</a>
+					<a class="btn btn-outline-primary" routerLink="/requests/request-vendor"
+						routerLinkActive="active"><i class="fas fa-house-user"></i> <span>|</span>Send to
+						Vendors</a>
+				</div>
+			</div>
+			}
+			@if (gs.is_manager) {
+			<div>
+				<div class="btn-group">
+					<a class="btn btn-outline-primary" routerLink="/requests/request-owner" routerLinkActive="active"><i
+							class="fas fa-user-tie"></i> <span>|</span>Send to Property
+						Owner</a>
+					<a class="btn btn-outline-primary" routerLink="/requests/request-vendor"
+						routerLinkActive="active"><i class="fas fa-house-user"></i> <span>|</span>Send to
+						Vendors</a>
+				</div>
+			</div>
+			}
+			@if (gs.is_tenant) {
+			<div>
+				<div class="btn-group">
+					<a class="btn btn-outline-primary" routerLink="/requests/request-manager"
+						routerLinkActive="active"><i class="fas fa-user-tie"></i> <span>|</span>Send to Property
+						Manager</a>
+					<a class="btn btn-outline-primary" routerLink="/requests/request-vendor"
+						routerLinkActive="active"><i class="fas fa-house-user"></i> <span>|</span>Send to
+						Vendors</a>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+	@if (router.url === "/requests/request-owner") {
+		<app-request-form-owner></app-request-form-owner>
+	}
+	@if (router.url === "/requests/request-manager") {
+		<app-request-form-manager></app-request-form-manager>
+	}
+	@if (router.url === "/requests/request-vendor") {
+		<app-request-form-vendor></app-request-form-vendor>
+	}
+	<!-- <app-request-form-tenant *ngIf="gs.is_tenant"></app-request-form-tenant> -->
+</div>

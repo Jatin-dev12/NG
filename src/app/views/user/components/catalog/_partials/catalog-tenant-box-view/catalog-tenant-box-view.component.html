@@ -1,0 +1,28 @@
+@if (tenantRefrence?.name && item?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+	<div class="pv-box manager">
+		<div class="pv-title">
+			<h1>Tenant</h1>
+		</div>
+		<div class="pv-body">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="image">
+						<img [src]="tenant ? tenant?.avatar : gs.imgUrl + '/manager-1.png'" [alt]="tenantRefrence?.name" />
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<div class="lefttxt">
+						<h3>{{ tenant ? tenant?.name : tenantRefrence?.name }}</h3>
+						<h4>({{ tenantRefrence?.permitted_occupier }})</h4>
+						<div class="btndiv mt-4">
+							<a routerLink="/properties/tenant-agreement/{{ item?.id }}" class="btn btn-secondary">View
+								Tenancy Agreement</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+

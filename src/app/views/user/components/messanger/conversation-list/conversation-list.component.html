@@ -1,0 +1,17 @@
+<ul class="user-list">
+	@for (item of itemsArray; track item) {
+		<li>
+			<app-conversation-list-item [item]="item" (click)="getProfile.emit(item)"></app-conversation-list-item>
+		</li>
+	} @empty {
+		<li class="border-bottom-0 text-center pt-3">
+			<i class="fas fa-user-friends d-block mt-5" style="font-size: 4rem; color: #0184ef"></i>
+			<p class="mt-3 mb-0" style="color: #191919; font-size: 15px;">
+				YOU HAVE NOT STARTED ANY CONVERSATION
+			</p>
+			<p style="color: #191919; font-size: 14px">
+				This is where you’ll see all your conversations
+			</p>
+		</li>
+	}
+</ul>

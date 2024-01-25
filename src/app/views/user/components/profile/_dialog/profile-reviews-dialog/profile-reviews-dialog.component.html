@@ -1,0 +1,63 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+
+  <h1>Reviews</h1>
+
+  <div class="reviews-popup">
+    <div class="content">
+      If you want to show the reviews publicly then please select the option
+      below
+    </div>
+    <form
+      novalidate
+      (ngSubmit)="onSubmit(form)"
+      [formGroup]="form"
+      autocomplete="off"
+    >
+      <div class="form-group">
+        <div role="group" class="btn-group">
+          <input
+            type="radio"
+            name="value"
+            id="typesSale"
+            value="Yes"
+            class="btn-check"
+            formControlName="value"
+          />
+          <label for="typesSale" class="btn btn-outline-primary"
+            ><i class="far fa-circle"></i
+            ><i class="far fa-check-circle" aria-hidden="true"></i
+            ><span>|</span>Visible Reviews</label
+          >
+          <input
+            type="radio"
+            name="value"
+            id="typesRent"
+            value="No"
+            class="btn-check"
+            formControlName="value"
+          />
+          <label for="typesRent" class="btn btn-outline-primary two"
+            ><i class="far fa-circle"></i
+            ><i class="far fa-check-circle" aria-hidden="true"></i
+            ><span>|</span>Not Visible Reviews</label
+          >
+        </div>
+      </div>
+      <div class="btndivtwo">
+        <button type="submit" class="btn btn-primary" [appLadda]="submitted">
+          Apply
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="activeModal.dismiss()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

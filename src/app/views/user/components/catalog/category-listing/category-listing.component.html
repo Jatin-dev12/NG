@@ -1,0 +1,197 @@
+<!-- <app-header class="home"></app-header> -->
+<div class="category-listing-page">
+	<!-- <div class="AfterLoginpage">
+  <div class="container">
+    <div id="Left-Side" class="Left-Side h-100">
+      <app-left-sidebar></app-left-sidebar>
+    </div>
+  </div>
+</div> -->
+	<div class="container11">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Search Properties
+				</li>
+			</ol>
+		</nav>
+	</div>
+	<div class="cl-banner">
+		<div class="container11">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="searchbox">
+						<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+							<h1>Search Properties</h1>
+							<!-- <div class="row">
+								<div class="col-sm-12">
+									<div class="form-group text-center">
+										<div class="btn-group" role="group">
+											<input class="btn-check" type="radio" name="property_classification"
+												formControlName="property_classification" id="typesResidential" [value]="
+                          enums.USER_CATALOG_PROPERTY_CLASSIFICATION_RESIDENTIAL
+                        " checked />
+											<label class="btn btn-outline-primary" for="typesResidential"><i
+													class="fas fa-home"></i>
+												<span>|</span>Residential</label>
+											<input class="btn-check" type="radio" name="property_classification"
+												formControlName="property_classification" id="typesCommercial" [value]="
+                          enums.USER_CATALOG_PROPERTY_CLASSIFICATION_COMMERCIALS
+                        " />
+											<label class="btn btn-outline-primary" for="typesCommercial"><i
+													class="far fa-building"></i>
+												<span>|</span>Commercial</label>
+										</div>
+									</div>
+								</div>
+							</div> -->
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<input type="text" name="name" placeholder="Search" class="form-control" formControlName="q" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<app-google-location-input formControlName="q_location" [value]="form.value?.q_location ?? ''" (onAddressChange)="handleAddressChange($event)"></app-google-location-input>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<ng-select formControlName="property_purpose" [placeholder]="'Purpose'">
+											<ng-option [value]="enums.USER_CATALOG_PROPERTY_PURPOSE_SALE">
+												For Sale
+											</ng-option>
+											<ng-option [value]="enums.USER_CATALOG_PROPERTY_PURPOSE_RENT">
+												For Rent
+											</ng-option>
+										</ng-select>
+										<!-- <div class="select">
+											<select class="form-control" name="Purpose"
+												formControlName="property_purpose">
+												<option value="" selected>Purpose</option>
+												<option [value]="enums.USER_CATALOG_PROPERTY_PURPOSE_SALE">
+													For Sale
+												</option>
+												<option [value]="enums.USER_CATALOG_PROPERTY_PURPOSE_RENT">
+													For Rent
+												</option>
+											</select>
+										</div> -->
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<ng-select formControlName="category_id" [placeholder]="'Type'">
+											@for (item of categoriesArray | orderBy: "id"; track item) {
+												<ng-option [value]="item.id">
+													{{ item.name }}
+												</ng-option>
+											}
+										</ng-select>
+										<!-- <div class="select">
+											<select class="form-control" name="Type" formControlName="category_id">
+												<option value="" selected>Type</option>
+												@for (item of categoriesArray | orderBy: "id"; track item) {
+													<option [value]="item.id">{{ item.name }}</option>
+												}
+											</select>
+										</div> -->
+									</div>
+								</div>
+
+								<!-- <div class="col-sm-6">
+									<div class="form-group">
+										<ng-select [items]="(countriesObservable | async) ?? []" bindLabel="name"
+											bindValue="iso2" appearance="outline" placeholder="Country"
+											[searchable]="true" class="form-control1"
+											formControlName="q_location_country_code"
+											(change)="handleCountries($event)">
+										</ng-select>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<ng-select [items]="(citiesObservable | async)?.items ?? []" bindLabel="name"
+											bindValue="name" appearance="outline" placeholder="City"
+											[searchable]="false" class="form-control1" [virtualScroll]="true"
+											[loading]="$any(citiesLoading | async)" appendTo="body"
+											(scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()"
+											formControlName="q_location_city">
+											<ng-template ng-header-tmp>
+												<small class="form-text text-muted">Loaded
+													{{ (citiesObservable | async)?.items?.length }} of
+													{{
+													(citiesObservable | async)?.pagination?.totalCount
+													}}</small>
+											</ng-template>
+											<ng-template ng-option-tmp let-item="item" let-index="index">
+												{{ item.name }}
+											</ng-template>
+										</ng-select>
+									</div>
+								</div> -->
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="btndiv">
+										<button type="submit" class="btn btn-primary">
+											Search
+										</button>
+										<button type="button" class="btn btn-default" (click)="onResultMap()">
+											Show in map
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="category-list">
+		<div class="container11">
+			<h1>Real Estate Showcase</h1>
+			<div class="row">
+				@if (loading | async) {
+				@for (item of gs.generateFake(4); track item) {
+				<div class="col-sm-3">
+					<div class="catbox">
+						<div class="image">
+							<ngx-skeleton-loader [theme]="{ height: '150px', width: '100%' }"></ngx-skeleton-loader>
+						</div>
+						<div class="name">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="2"></ngx-skeleton-loader>
+						</div>
+					</div>
+				</div>
+				}
+				} @else {
+				@for (item of categoriesArray; track item) {
+				<div class="col-sm-3">
+					<div class="catbox">
+						<a routerLink="/search/listing" [queryParams]="{ category_id: item.id }"
+							[queryParamsHandling]="'merge'">
+							<div class="image">
+								<img [src]="
+                        item.media_id
+                          ? item?.media?.path
+                          : '{{gs.imgUrl}}/spaceyou-1.jpg'
+                      " alt="" />
+							</div>
+							<div class="name">{{ item.name }}</div>
+						</a>
+					</div>
+				</div>
+				}
+				}
+			</div>
+			<!-- <div class="allbtn">
+    <a routerLink="/search/listing" class="btn btn-primary">Display All Showcase Ads</a>
+  </div> -->
+		</div>
+	</div>
+</div>

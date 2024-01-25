@@ -1,0 +1,171 @@
+@if (message) {
+  <div
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    style="display: block !important"
+  >
+    <div
+      class="modal-dialog custom-alert modal-dialog-centered"
+      role="document"
+    >
+      @switch (message?.key) {
+        @case ("alert") {
+          <div class="modal-content alert">
+            <a class="mr-2" (click)="message.yesFn()">
+              <button type="button" class="btn-close btn">
+                <i class="far fa-times-circle"></i>
+              </button>
+            </a>
+            <div class="modal-body pt-0">
+              <div class="row">
+                <div class="col-md-12">
+                  <p
+                    class="text-center confirm-message"
+                    [innerHtml]="message.message"
+                  ></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        @case ("confirm") {
+          <div class="modal-content confirm">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <p
+                    class="text-center confirm-message"
+                    [innerHtml]="message.message"
+                  ></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <p class="confirm-button">
+                    <a (click)="message.yesFn()">
+                      <button class="btn btn-yes">Yes</button>
+                    </a>
+                    <a (click)="message.noFn()">
+                      <button class="btn btn-no">No</button>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        @case ("html") {
+          <div class="modal-content html">
+            <div class="modal-body">
+              <div
+                class="text-center confirm-message"
+                [innerHtml]="message.message"
+              ></div>
+              <p class="confirm-button">
+                <a (click)="message.yesFn()">
+                  <button class="btn btn-yes">Yes</button>
+                </a>
+                <a (click)="message.noFn()">
+                  <button class="btn btn-no">No</button>
+                </a>
+              </p>
+            </div>
+          </div>
+        }
+        @case ("new-confirm") {
+          <div class="modal-content new-confirm {{ message?.mainClass }}">
+            <!-- <div class="modal-header" *ngIf="message.header">
+            <h4 class="modal-title">
+              <i *ngIf="message.icon" [ngClass]="message.icon"></i>
+              {{ message.header }}
+            </h4>
+          </div> -->
+            <div class="modal-body">
+              <button type="button" class="close" (click)="message.reject()">
+                <img src="/assets/images/close-btn.svg" alt="Close" />
+              </button>
+              @if (message.header) {
+                <div class="headdiv">
+                  <h1>
+                    @if (message.icon) {
+                      <span [innerHTML]="message.icon"></span>
+                    }
+                    <ng-container
+                      ><span [innerHtml]="gs.translate(message.header)"></span
+                    ></ng-container>
+                  </h1>
+                </div>
+              }
+              @if (message.message) {
+                <div
+                  class="content"
+                  [innerHtml]="gs.translate(message.message)"
+                ></div>
+              }
+              <div class="btndivthree">
+                @if (message.acceptVisible) {
+                  <button
+                    type="button"
+                    [ngClass]="message.acceptButtonStyleClass"
+                    (click)="message.accept()"
+                  >
+                    @if (message.acceptIcon) {
+                      <i [ngClass]="message.acceptIcon"></i>
+                    }
+                    {{ gs.translate(message.acceptLabel) }}
+                  </button>
+                }
+                @if (message.rejectVisible) {
+                  <button
+                    type="button"
+                    [ngClass]="message.rejectButtonStyleClass"
+                    (click)="message.reject()"
+                  >
+                    @if (message.rejectIcon) {
+                      <i [ngClass]="message.rejectIcon"></i>
+                    }
+                    {{ gs.translate(message.rejectLabel) }}
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+        @case ("custom") {
+          <div class="modal-content custom">
+            <div class="modal-body">
+              <div
+                class="text-center confirm-message"
+                [innerHtml]="message.message"
+              ></div>
+              <p class="confirm-button">
+                <a (click)="message.yesFn()">
+                  <button class="btn btn-yes">Yes</button>
+                </a>
+                <a (click)="message.noFn()">
+                  <button class="btn btn-no">No</button>
+                </a>
+              </p>
+            </div>
+          </div>
+        }
+        @default {
+          <div class="modal-content default">
+            <div class="modal-body">
+              Default
+              <p class="confirm-button">
+                <a (click)="message.yesFn()">
+                  <button class="btn btn-yes">Yes</button>
+                </a>
+                <a (click)="message.noFn()">
+                  <button class="btn btn-no">No</button>
+                </a>
+              </p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+}

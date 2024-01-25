@@ -1,0 +1,16 @@
+<div class="row align-items-center">
+	<div class="col">
+		<button type="button" class="btn" (click)="view()">{{ item.id }}</button>
+	</div>
+	<div class="col">{{ item.receiver.name }}</div>
+	<div class="col">{{ item.catalog_id }}</div>
+	<div class="col">{{ item.created_at * 1000 | date: "short" }}</div>
+	<!-- 07/15/2021 3:21 AM -->
+	<div class="col">
+		<div class="btndiv">
+			<a class="btn btn-{{ item.assign_to ? 'primary' : 'secondary' }}" (click)="view()">
+				{{ item.assign_to ? "Assigned" : "Unassigned" }}
+			</a>
+		</div>
+	</div>
+</div>

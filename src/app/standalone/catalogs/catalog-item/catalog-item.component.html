@@ -1,0 +1,508 @@
+@switch (layout) {
+@default {
+<div class="propertylist">
+	<div class="row align-items-center">
+		<div class="col-2">
+			<a [routerLink]="[url, item.id]">
+				<img [src]="
+                item.cover_id
+                  ? gs.imgPath(item.cover?.path)
+                  : gs.imgUrl + '/property-1.png'
+              " alt="" />
+			</a>
+		</div>
+		<div class="col">
+			<a [routerLink]="[url, item.id]">{{ item.title }}</a>
+		</div>
+		<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+		<div class="col">{{ item.number_of_rooms }}</div>
+		<div class="col">{{ item.price | currency: item.currency_code }}</div>
+		<div class="col">{{ item.created_at * 1000 | date: "mediumDate" }}</div>
+		<div class="col">{{ item.location?.city ?? "-" }}</div>
+	</div>
+</div>
+}
+@case ("search") {
+<div class="propertybox">
+
+	@defer (on viewport; on timer(1s)) {
+		<owl-carousel-o [options]="sliderimages">
+			@for (img of images; track img) {
+				<ng-template carouselSlide>
+					<div class="image">
+						<a [routerLink]="[url, item.id]">
+							<img [src]="img?.path ? gs.imgPath(img?.path) : gs.imgUrl + '/property-1.png'" alt="" />
+						</a>
+					</div>
+				</ng-template>
+			}
+		</owl-carousel-o>
+	} @placeholder {
+		<div>
+			<img [src]="item.cover_id ? gs.imgPath(item.cover?.path) : gs.imgUrl + '/property-1.png'" alt="" style="filter: blur(14px); opacity: 0.5;" />
+		</div>
+	}
+
+	<!-- <div class="image">
+		<a [routerLink]="[url, item.id]">
+			<img [src]="item.cover_id ? gs.imgPath(item.cover?.path) : gs.imgUrl + '/property-1.png'" alt="" />
+		</a>
+	</div> -->
+
+
+	<div class="protop">
+		<div class="type">{{ item.category.name }}</div>
+		<h3>
+			<a [routerLink]="[url, item.id]">{{ item.title }}</a>
+		</h3>
+		<div class="address"><img src="{{ gs.imgUrl }}/map.svg" alt="Images" />{{ item.location?.location }}</div>
+	</div>
+	<div class="promiddle">
+		<div class="details">
+			<div class="row">
+				@switch (item.category.slug) {
+					@case (AdditionalEnums.CatalogTypeSlug.APARTMENT) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_rooms }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/bath.svg" alt="Images" />{{ item.number_of_bathrooms }}
+					</div>
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.number_of_rooms }}</div>
+					<div class="col">{{ item.number_of_floors }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.VILLAS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_rooms }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/bath.svg" alt="Images" />{{ item.number_of_bathrooms }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.number_of_rooms }}</div>
+					<div class="col">{{ item.number_of_floors }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.HOUSES) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_rooms }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/bath.svg" alt="Images" />{{ item.number_of_bathrooms }}
+					</div>
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.number_of_rooms }}</div>
+					<div class="col">{{ item.number_of_floors }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.RESIDENTIAL_BUILDINGS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_floors }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.number_of_rooms }}</div>
+					<div class="col">{{ item.number_of_floors }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.COMMERCIAL_BUILDINGS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_floors }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.m2_net_price ?? 0 | number }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.OFFICES) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_rooms }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/bath.svg" alt="Images" />{{ item.number_of_bathrooms }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.number_of_rooms }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.SHOWROOMS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.number_of_floors }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.number_of_rooms }}</div>
+					<div class="col">{{ item.is_ac }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.WAREHOUSES) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.age_of_building }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.height }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.GASOLINE_STATIONS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.property_open_area }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/pump.svg" alt="Images" />{{ item.number_of_pumps }}
+					</div>
+					<!-- <div class="col">{{ item.property_open_area }}</div>
+					<div class="col">{{ item.number_of_pumps }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.SHOPS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.age_of_building }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.RESTAURANT_CAFE) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.age_of_building }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+					<div class="col">{{ item.is_ac }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.WORKSHOPS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.age_of_building }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.SPORTS_CENTERS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.age_of_building }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>	
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.HEALTH_BEAUTY_EVENT_CENTERS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/rooms.svg" alt="Images" />{{ item.age_of_building }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>		
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div> -->
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.LANDS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price }}
+					</div>	
+					}
+					@case (AdditionalEnums.CatalogTypeSlug.FARMS) {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/tree.svg" alt="Images" />{{ item.number_of_trees }}
+					</div>
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>
+					<!-- <div class="col">{{ item.m2_gross_price ?? 0 | number }}</div> -->
+					}
+					@default {
+					<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />{{ item.m2_gross_price ?? 0 | number }}
+					</div>
+					}
+					}
+
+				<!-- <div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/bath.svg" alt="Images" />{{ item.number_of_bathrooms }}
+				</div>
+				<div class="col-sm-3">
+					<img src="{{ gs.imgUrl }}/bed.svg" alt="Images" />{{ item.number_of_floors }}
+				</div>
+				<div class="col-sm-6 text-right">
+					<img src="{{ gs.imgUrl }}/sqf.svg" alt="Images" />913 sqft / 85 sqm5
+				</div> -->
+				<!-- <div class="col-sm-4 text-right">
+					<div>M<sup>2</sup> : {{ item.m2_gross_price | number }}</div>
+				</div> -->
+			</div>
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="date">
+						Listing Date: {{ item.created_at * 1000 | date: "mediumDate" }}
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="forrenbtn">For {{ item.property_purpose }}</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="probottom">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="forrenbtn">
+					<!-- {{ item.price | currency: item.currency_code }} -->
+					@if (item.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE) {
+						{{ item.currency_code }} - {{ item.price | currency: item.currency_code }}
+					} @else {
+						{{ item.currency_code }} - 
+						@for (price of item.userCatalogPrice; track price; let last = $last) {
+							{{ price.price | currency: item.currency_code }} - {{ price.name }} {{ last ? '' : ', ' }}
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div class="propertylist">
+		<div class="row align-items-center">
+			<div class="col-2">
+				<a [routerLink]="[url, item.id]">
+					<img [src]="
+					item.cover_id
+					? gs.imgPath(item.cover?.path)
+					: gs.imgUrl + '/property-1.png'
+				" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a [routerLink]="[url, item.id]">{{ item.title }}</a>
+			</div>
+			@switch (Type_Slug) {
+			@case (AdditionalEnums.CatalogTypeSlug.APARTMENT) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.number_of_rooms }}</div>
+			<div class="col">{{ item.number_of_floors }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.VILLAS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.number_of_rooms }}</div>
+			<div class="col">{{ item.number_of_floors }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.HOUSES) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.number_of_rooms }}</div>
+			<div class="col">{{ item.number_of_floors }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.RESIDENTIAL_BUILDINGS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.number_of_rooms }}</div>
+			<div class="col">{{ item.number_of_floors }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.COMMERCIAL_BUILDINGS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.m2_net_price ?? 0 | number }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.OFFICES) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.number_of_rooms }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.SHOWROOMS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.number_of_rooms }}</div>
+			<div class="col">{{ item.is_ac }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.WAREHOUSES) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.height }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.GASOLINE_STATIONS) {
+			<div class="col">{{ item.property_open_area }}</div>
+			<div class="col">{{ item.number_of_pumps }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.SHOPS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.RESTAURANT_CAFE) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			<div class="col">{{ item.is_ac }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.WORKSHOPS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.SPORTS_CENTERS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.HEALTH_BEAUTY_EVENT_CENTERS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.LANDS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			@case (AdditionalEnums.CatalogTypeSlug.FARMS) {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			@default {
+			<div class="col">{{ item.m2_gross_price ?? 0 | number }}</div>
+			}
+			}
+			<div class="col">{{ item.price | currency: item.currency_code }}</div>
+			<div class="col">{{ item.created_at * 1000 | date: "mediumDate" }}</div>
+			<div class="col">{{ item.location?.city ?? "-" }}</div>
+		</div>
+	</div> -->
+}
+@case ("my-list") {
+<div class="propertybox">
+	<div class="protop">
+		<div class="row">
+			<div class="col-sm-9">
+				<h3>
+					<a [routerLink]="[url, item.id]">{{ item.title }}</a>
+				</h3>
+				<div class="address">{{ item.location?.location }}</div>
+			</div>
+			<div class="col-sm-3">
+				@if (
+				item.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT
+				) {
+				@if (gs.is_owner) {
+				<div class="catname">
+					<span class="text-primary">{{
+						item["agreement_status"] === "managed"
+						? "Managed"
+						: "Not Managed"
+						}}
+					</span>
+				</div>
+				}
+				<div class="catname">
+					<span class="text-{{
+                    item.is_rented === 'rented' ? 'success' : 'danger'
+                  }}">{{ item.is_rented === "rented" ? "Rented" : "Vacant" }}</span>
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+	<div class="image">
+		<a [routerLink]="[url, item.id]">
+			<img [src]="
+              item.cover_id
+                ? gs.imgPath(item.cover?.path)
+                : gs.imgUrl + '/property-1.png'
+            " alt="" />
+		</a>
+	</div>
+	<div class="promiddle">
+		<div class="content">
+			<app-read-more [text]="item.description" [linkView]="url + '/' + item.id"></app-read-more>
+		</div>
+		<div class="details">
+			<div class="row">
+				<div class="col-sm-6">
+					<div>Bathroom: {{ item.number_of_bathrooms }}</div>
+					<div>Bed: {{ item.number_of_floors }}</div>
+				</div>
+				<div class="col-sm-6 text-right">
+					<div>M<sup>2</sup> : {{ item.m2_gross_price | number }}</div>
+					<!-- <div>Size : 2100Sqft</div> -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-8 p-0">
+					<div>Listing Date: {{ item.created_at * 1000 | date: "mediumDate" }}</div>
+				</div>
+				<div class="col-sm-4 p-0 text-right">
+					<div>For {{ item.property_purpose }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="probottom">
+		<div class="row">
+			<!-- <div class="col-sm-6">
+				<div class="forrenbtn">For {{ item.property_purpose }}</div>
+			</div> -->
+			<div class="col-sm-12">
+				<div class="forrenbtn">
+					@if (item.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE) {
+						{{ item.currency_code }} - {{ item.price | currency: item.currency_code }}
+					} @else {
+						{{ item.currency_code }} - 
+						@for (price of item.userCatalogPrice; track price; let last = $last) {
+							{{ price.price | currency: item.currency_code }} - {{ price.name }} {{ last ? '' : ', ' }}
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+}
+@case ("grid-inline") {
+<div class="favoritesbox">
+	<div class="image">
+		<a [routerLink]="[url, item.id]">
+			<img [src]=" item.cover_id
+					? gs.imgPath(item.cover?.path)
+					: gs.imgUrl + '/property-2.png'
+				" alt="" />
+		</a>
+		<div class="favlink">
+			<!-- <div class="download">
+			<button type="button"><img src="{{gs.imgUrl}}/download.png" alt="" /></button> publications
+			</div> -->
+			<div class="faveritesbtn">
+				<button type="button" class="faverites" [ngClass]="{ 'text-warning': item.is_wishlist }"
+					(click)="actionHelper.handleWishlist(item, key)">
+					<img src="{{ gs.imgUrl }}/heart-hor.svg" alt="" />
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="detail">
+		<h3>
+			<a [routerLink]="[url, item.id]">{{ item.title }}</a>
+		</h3>
+		<div class="prideldiv">
+			{{ item.price | currency: item.currency_code }}
+			<button type="button" [ngClass]="{ 'text-warning': item.is_wishlist }"
+				(click)="actionHelper.handleWishlist(item, key)">
+				<img src="{{ gs.imgUrl }}/trash.svg" alt="" />
+			</button>
+		</div>
+		<div class="clearfix"></div>
+		<div class="content">
+			{{ item.location?.location }}
+		</div>
+	</div>
+</div>
+}
+@case ("inline") {
+<td>#{{ item.id }}</td>
+<td>
+	<a [routerLink]="[url, item.id]">{{ item.title }}</a>
+</td>
+<td>{{ item.user.name }}</td>
+<td>{{ item.no_guest }}</td>
+<td>{{ item.price | currency: item.currency_code }}</td>
+<td>{{ item.moment(item.created_at, "MM/DD/YYYY - h:mm A") }}</td>
+<td>
+	@if (showActionButton) {
+	<div class="btndivtop">
+		<button type="button" class="faverites" [ngClass]="{ 'text-warning': item.is_wishlist }"
+			(click)="actionHelper.handleWishlist(item, key)">
+			<i class="fas fa-heart"></i>
+		</button>
+		<a routerLink="." class="deletecard2" (click)="remove()"><img src="{{ gs.imgUrl }}/trash.svg" alt="" /></a>
+		<a [routerLink]="['/properties/update', item.id]" class="deletecard2"><img src="{{ gs.imgUrl }}/edit.svg"
+				alt="" /></a>
+	</div>
+	}
+</td>
+}
+}

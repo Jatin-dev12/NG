@@ -1,0 +1,12 @@
+
+@defer (on viewport; on timer(4s)) {
+	@if (location) {
+		<google-map [options]="mapOptions" [center]="center" [zoom]="zoom" [height]="'470px'" [width]="'500px'">
+			@for (markerPosition of markerPositions; track markerPosition) {
+				<map-marker #marker="mapMarker" [position]="markerPosition" [options]="markerOptions"></map-marker>
+			}
+		</google-map>
+	}
+} @placeholder {
+	<div>Loading...</div>
+}

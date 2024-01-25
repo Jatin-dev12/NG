@@ -1,0 +1,23 @@
+<div class="modal-body">
+	<button type="button" class="close" (click)="activeModal.dismiss()">
+		<img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+	</button>
+	<h1>Terminate Agreement?</h1>
+	<div class="readytoapply-popup">
+		<form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+			<div class="form-group">
+				<label>Reason</label>
+				<textarea class="form-control" placeholder="Reason" formControlName="note"></textarea>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<div class="btndivtwo">
+							<button type="submit" class="btn btn-primary" [appLadda]="submitted">Send</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

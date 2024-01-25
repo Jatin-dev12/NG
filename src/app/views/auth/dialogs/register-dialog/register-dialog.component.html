@@ -1,0 +1,10 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <h1>SIGN UP</h1>
+  <app-register-form
+    (modalEvent)="modalEvent($event)"
+    [isModal]="true"
+  ></app-register-form>
+</div>

@@ -1,0 +1,65 @@
+<section id="login-form" class="login-page otpbox">
+  <div class="container">
+    <div class="row main">
+      <div class="col-sm-6 main">
+        <div class="image">
+          <img src="{{ gs.imgUrl }}/login-img.png" alt="" />
+        </div>
+      </div>
+      <div class="col-sm-6 main">
+        <div class="login-box">
+          <div class="logodiv">
+            <a routerLink="/"
+              ><img src="{{ gs.imgUrl }}/login-logo.png" alt=""
+            /></a>
+          </div>
+          <div class="otpimg">
+            <img src="{{ gs.imgUrl }}/otp.svg" alt="" />
+          </div>
+          <!-- <button type="button" (click)="resendOtp()" [appLadda]="otpLoading">Resend.</button> -->
+          <!-- <button (click)='startTimer()'>Start Timer</button>
+          <button (click)='pauseTimer()'>Pause</button>
+          <button (click)='resetTimer()'>Reset</button>
+          <p>{{ transform(timeLeft) }}</p>  -->
+          <form novalidate (ngSubmit)="onLogin(form)" [formGroup]="form">
+            <app-error-summary></app-error-summary>
+            <h2>2-Step verification</h2>
+            <div>
+              {{ transform(timeLeft) }}
+            </div>
+            @if (show_resend_opt) {
+              <div class="didnt">
+                Didn’t received a code?
+                <button
+                  type="button"
+                  (click)="resendOtp()"
+                  [appLadda]="otpLoading"
+                >
+                  Resend.
+                </button>
+              </div>
+            }
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="G - Enter the 6-digit code"
+                formControlName="otp"
+                [ngClass]="gs.addCls('otp', f)"
+              />
+            </div>
+            <div class="btndiv">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [appLadda]="loading | async"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

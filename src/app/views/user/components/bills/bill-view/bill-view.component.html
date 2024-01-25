@@ -1,0 +1,144 @@
+<div class="bill-view-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Bills</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Issued Bills</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Bill History</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Bill History Details
+      </li>
+    </ol>
+  </nav>
+
+  <div class="btndivtop">
+    <div class="row">
+      <div class="col-sm-6">
+        <a
+          routerlink="."
+          class="btn btn-danger"
+          ng-reflect-router-link="."
+          href="/properties/create"
+          ><i class="fas fa-trash" aria-hidden="true"></i
+          ><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />Delete Bills</a
+        >
+        <a
+          routerlink="/"
+          class="btn btn-primary"
+          ng-reflect-router-link="/"
+          href="/"
+          ><i class="fas fa-file-pdf"></i
+          ><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />View Bill</a
+        >
+      </div>
+      <div class="col-sm-6 text-right">
+        <a
+          routerlink="/"
+          class="btn btn-primary two"
+          ng-reflect-router-link="/"
+          href="/"
+          >Add Bills<i class="fas fa-plus" aria-hidden="true"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bv-middle">
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="sliderdiv">Slider here</div>
+        <div class="statusdiv">
+          <button type="button" class="btn btn-secondary status">
+            <i class="fas fa-check-circle"></i
+            ><img src="{{ gs.imgUrl }}/vector-9.svg" alt="" />Paid
+          </button>
+          <button type="button" class="btn btn-secondary status">
+            <img src="{{ gs.imgUrl }}/pending.svg" class="icone" alt="" /><img
+              src="{{ gs.imgUrl }}/vector-9.svg"
+              alt=""
+            />Pending
+          </button>
+        </div>
+        <div class="prodetails">
+          <div class="detailbox">
+            <div class="row">
+              <div class="col-sm-7">Bill No <span>:</span></div>
+              <div class="col-sm-5">0123456789</div>
+            </div>
+          </div>
+          <div class="detailbox">
+            <div class="row">
+              <div class="col-sm-7">Total amount Due <span>:</span></div>
+              <div class="col-sm-5">$2,500.00</div>
+            </div>
+          </div>
+          <div class="detailbox">
+            <div class="row">
+              <div class="col-sm-7">Due Date <span>:</span></div>
+              <div class="col-sm-5">0123456789</div>
+            </div>
+          </div>
+        </div>
+        <div class="discription">
+          <h4>Description <span>High</span></h4>
+          <div class="content">
+            Lorem Ipsum is simply dummy text of industry.
+          </div>
+        </div>
+        <div class="billsent">
+          <h4>Bill Was sent to</h4>
+          <div class="image">
+            <img src="{{ gs.imgUrl }}/manager-1.png" alt="" />
+            <div class="online danger"></div>
+          </div>
+          <div class="detail">
+            <h5>Jone Doe</h5>
+            <div class="desi">Property Manager</div>
+            <div class="address">Saudi Arabia, Riyadh City</div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="biilsbottom">
+          <div class="created">
+            <img
+              alt="Images"
+              class="create"
+              src="{{ gs.imgUrl }}/created.svg"
+            />
+            <div class="right">
+              <h5>Created</h5>
+              Sep, 03, 2021, 15:00
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="created">
+            <img
+              alt="Images"
+              class="create"
+              src="{{ gs.imgUrl }}/updated.svg"
+            />
+            <div class="right">
+              <h5>Updated</h5>
+              Sep, 03, 2021, 15:00
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <app-one-to-one-chat></app-one-to-one-chat>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv-box location">
+    <div class="pv-title">
+      <h1>Location of Property</h1>
+    </div>
+    <div class="pv-body">
+      <div class="image">
+        <img alt="" src="/assets/images/map.png" />
+      </div>
+    </div>
+  </div>
+</div>

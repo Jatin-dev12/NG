@@ -1,0 +1,113 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+
+  <!-- <h1>Edit Name</h1> -->
+
+  <div class="bills-status-popup">
+    <div class="sliderdiv">
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+          <owl-carousel-o [options]="options">
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div><img src="{{ gs.imgUrl }}/property-4.png" alt="" /></div>
+            </ng-template>
+          </owl-carousel-o>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </div>
+
+    <div class="billsbox description">
+      <h2>Description</h2>
+      <div class="contenttwo">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book.
+      </div>
+    </div>
+
+    <div class="billsbox details">
+      <div class="row">
+        <div class="col-sm-4">
+          <h2>Recipient</h2>
+          <div class="contenttwo">Lorem Ipsum dollar</div>
+        </div>
+        <div class="col-sm-5">
+          <h2>Total Amount Due</h2>
+          <div class="contenttwo">$2,500.00</div>
+        </div>
+        <div class="col-sm-3">
+          <h2>Due Date</h2>
+          <div class="contenttwo">10 - Jan - 2021</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="biilsbottom">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="created">
+                <img
+                  src="{{ gs.imgUrl }}/created.svg"
+                  class="create"
+                  alt="Images"
+                />
+                <div class="right">
+                  <h5>Created</h5>
+                  Sep, 03, 2021, 15:00
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="created">
+                <img
+                  src="{{ gs.imgUrl }}/updated.svg"
+                  class="create"
+                  alt="Images"
+                />
+                <div class="right">
+                  <h5>Updated</h5>
+                  Sep, 03, 2021, 15:00
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="btndivbottom">
+            <button (click)="viewBill()" class="btn btn-primary">
+              <i class="fas fa-file-pdf"></i
+              ><img alt="" src="/assets/images/vector-7.svg" />View Bill
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

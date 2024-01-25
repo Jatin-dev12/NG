@@ -1,0 +1,55 @@
+<div class="modal-body">
+    <button type="button" class="close" (click)="dismiss()">
+        <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+    </button>
+    <h1>Contact Request</h1>
+    <div class="formdiv">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+            <div class="form-group">
+                <div class="input-group" controlErrorContainer>
+                    <input type="text" class="form-control" formControlName="type_of_request"
+                        placeholder="Type of Request" name="Type of requests" readonly (click)="myDrop.open()" />
+                    <span class="input-group-text" id="basic-addon2">
+                        <div ngbDropdown #myDrop="ngbDropdown">
+                            <button type="button" ngbDropdownToggle ngbDropdownAnchor>
+                                <span class="name"><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt="" /></span>
+                            </button>
+                            <ul ngbDropdownMenu>
+                                @for (item of TypeOfRequestArray; track item) {
+                                    <li>
+                                        <a ngbDropdownItem (click)="form.patchValue({ type_of_request: item.value })">{{ item.value }}</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group-1">
+                <textarea class="form-control" placeholder="Description" name="Description" cols="30" rows="10" formControlName="description" maxlength="{{ gs.maxLength }}"></textarea>
+                @if (form.value?.description) {
+                    <div class="crtcount">
+                        {{ gs.maxLength - form.value?.description?.length }}
+                        characters left
+                    </div>
+                }
+            </div>
+
+            <div class="form-group filesupload">
+                <app-file-drag-drop-uploader [layout]="'inline'" title="" [browseLabel]="'+ Add attachment...'" [multiple]="false" [accept]="'.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.pdf'" (getFileId)="form.patchValue({ doc_id: $event[0] })" [hint]="'Accepted file formats: .pdf, .docx, .xls, .png, .jpeg.'" [checkExtensions]="true" [extensions]="'image_doc'"></app-file-drag-drop-uploader>                    
+                    @if (gs.isValid("doc_id", f)) {
+                        <div class="invalid-feedback d-block">
+                            @if (f["doc_id"].errors && f["doc_id"].errors["required"]) {
+                            <div>{{ "Attachment is required" }}</div>
+                            }
+                        </div>
+                    }
+            </div>
+            <div class="btndiv">
+                <button type="submit" class="btn btn-primary" [appLadda]="submitted">
+                    {{ (user?.in_contact === Enums.USER_PROFILE_CONTACT_STATUS_DECLINED) ? 'Re-Submit' : 'Send' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

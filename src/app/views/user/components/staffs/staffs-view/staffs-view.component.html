@@ -1,0 +1,505 @@
+<div class="staffs-create-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Manage Staff</li>
+    </ol>
+  </nav>
+
+  <div class="addtop">
+    <a routerLink="/"><img src="{{ gs.imgUrl }}/addtop.png" alt="" /></a>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="bedcrumbdiv">
+        <a routerLink="/staffs"
+          ><img src="{{ gs.imgUrl }}/bedcarrow.svg" alt="" />Back to Manage
+          Staff</a
+        >
+      </div>
+      <div class="staff-filter">
+        <h1>Add Staff</h1>
+        <div class="btndivtop">
+          <button type="button" class="btn btn-danger" (click)="remove()">
+            <i class="fas fa-trash" aria-hidden="true"></i
+            ><img alt="" src="{{ gs.imgUrl }}/vector-10.svg" />Delete
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plus"></i
+            ><img src="{{ gs.imgUrl }}/vector-7.svg" alt="" />Apply
+          </button>
+        </div>
+      </div>
+
+      <form>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>First Name :</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+                readonly
+                [value]="item?.userProfile?.first_name"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Last Name :</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+                readonly
+                [value]="item?.userProfile?.last_name"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Email :</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="xyz@gmail.com"
+                readonly
+                [value]="item?.email"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Password :</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="*******"
+                readonly
+                [value]="'******'"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="listingdiv">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="title">Screen</div>
+              <div class="bodydiv">
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/dashboard-nor.svg" alt="" />
+                  </div>
+                  Dashboard
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/contacts-nor.svg" alt="" />
+                  </div>
+                  Contacts
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/requests-nor.svg" alt="" />
+                  </div>
+                  Requests
+                  <div class="droparrow">
+                    <img src="{{ gs.imgUrl }}/drop-arrow-2.svg" alt="" />
+                  </div>
+                  <div class="clearfix"></div>
+                  <ul>
+                    <li>
+                      Received Requests
+                      <button
+                        type="button"
+                        placement="end"
+                        ngbPopover="Request Module enables user to issue a bill for the completed requests"
+                      >
+                        <i class="fas fa-info-circle"></i>
+                      </button>
+                    </li>
+                    <li>Issued Requests</li>
+                    <li>Requests for Proposal</li>
+                  </ul>
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/bills-nor.svg" alt="" />
+                  </div>
+                  Bills
+                  <div class="droparrow">
+                    <img src="{{ gs.imgUrl }}/drop-arrow-2.svg" alt="" />
+                  </div>
+                  <div class="clearfix"></div>
+                  <ul>
+                    <li>Received Bills</li>
+                    <li>Issued Bills</li>
+                  </ul>
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/marketing-nor.svg" alt="" />
+                  </div>
+                  Marketing
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/reports-nor.svg" alt="" />
+                  </div>
+                  Reports
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img
+                      src="{{ gs.imgUrl }}/search-properties-nor.svg"
+                      alt=""
+                    />
+                  </div>
+                  Search Properties
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/my-properties-nor.svg" alt="" />
+                  </div>
+                  Managed Properties
+                </div>
+                <div class="itemdiv">
+                  <div class="image">
+                    <img src="{{ gs.imgUrl }}/payment.svg" alt="" />
+                  </div>
+                  Payments
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="title">Action & Edit</div>
+              <div class="bodydiv">
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="dashboard"
+                    />
+                    <label class="form-check-label" for="dashboard"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="contacts"
+                    />
+                    <label class="form-check-label" for="contacts"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo requests">
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="receivedrequests"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="receivedrequests"
+                      ></label>
+                    </div>
+                  </div>
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="issuedrequests"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="issuedrequests"
+                      ></label>
+                    </div>
+                  </div>
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="proposalrequests"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="proposalrequests"
+                      ></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="itemdivtwo requests">
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="receivedbills"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="receivedbills"
+                      ></label>
+                    </div>
+                  </div>
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="issuedbills"
+                      />
+                      <label class="form-check-label" for="issuedbills"></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="marketing"
+                    />
+                    <label class="form-check-label" for="marketing"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="reports"
+                    />
+                    <label class="form-check-label" for="reports"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="searchproperties"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="searchproperties"
+                    ></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="managedproperties"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="managedproperties"
+                    ></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="payments"
+                    />
+                    <label class="form-check-label" for="payments"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="title">View</div>
+              <div class="bodydiv">
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="dashboard"
+                    />
+                    <label class="form-check-label" for="dashboard"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="contacts"
+                    />
+                    <label class="form-check-label" for="contacts"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo requests">
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="receivedrequests"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="receivedrequests"
+                      ></label>
+                    </div>
+                  </div>
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="issuedrequests"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="issuedrequests"
+                      ></label>
+                    </div>
+                  </div>
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="proposalrequests"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="proposalrequests"
+                      ></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="itemdivtwo requests">
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="receivedbills"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="receivedbills"
+                      ></label>
+                    </div>
+                  </div>
+                  <div class="itemdivthree">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="issuedbills"
+                      />
+                      <label class="form-check-label" for="issuedbills"></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="marketing"
+                    />
+                    <label class="form-check-label" for="marketing"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="reports"
+                    />
+                    <label class="form-check-label" for="reports"></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="searchproperties"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="searchproperties"
+                    ></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="managedproperties"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="managedproperties"
+                    ></label>
+                  </div>
+                </div>
+                <div class="itemdivtwo">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="payments"
+                    />
+                    <label class="form-check-label" for="payments"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-2">
+      <div class="addright">
+        <a routerLink="/"><img src="{{ gs.imgUrl }}/addright.png" alt="" /></a>
+      </div>
+    </div>
+  </div>
+</div>

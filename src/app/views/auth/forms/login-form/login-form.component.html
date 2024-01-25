@@ -1,0 +1,126 @@
+<form novalidate (ngSubmit)="onLogin(form)" [formGroup]="form">
+  <app-error-summary></app-error-summary>
+  <div class="form-group-2">
+    <!-- <label>{{'Email Address*' }}</label> -->
+    <div class="input-group" controlErrorContainer>
+      @if (f["username"].pending) {
+        <mat-progress-spinner
+          matSuffix
+          [mode]="'indeterminate'"
+          [diameter]="20"
+        ></mat-progress-spinner>
+      }
+      <span class="input-group-text" id="basic-addon1"
+        ><img src="{{ gs.imgUrl }}/email.svg" alt=""
+      /></span>
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Email Address"
+        formControlName="username"
+        name="Email Address"
+        [customErrors]="{ emailNotExists: 'The email address don’t exists' }"
+        (keyup.enter)="onLogin(form)"
+      />
+    </div>
+  </div>
+  <div class="form-group-2">
+    <!-- <label>{{'Password*' }}</label> -->
+    <div class="input-group" controlErrorContainer>
+      <span class="input-group-text" id="basic-addon1"
+        ><img src="{{ gs.imgUrl }}/password.svg" alt=""
+      /></span>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Password"
+        formControlName="password"
+        passwordToggle
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="rememberMe"
+            id="RememberMe"
+          />
+          <label class="form-check-label" for="RememberMe">{{
+            "Remember me"
+          }}</label>
+        </div>
+        <!-- <div *ngIf="gs.isValid('rememberMe', f)" class="invalid-feedback d-block">
+        <div *ngIf="f.rememberMe.errors?.required">Remember and conditions is required</div>
+      </div> -->
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <div class="forgottxt">
+          @if (isModal) {
+            <button type="button" class="forgot" (click)="openForgot()">
+              {{ "Forgot Password?" }}
+            </button>
+          }
+          @if (!isModal) {
+            <a class="forgot" routerLink="/forgot-password">{{
+              "Forgot Password?"
+            }}</a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group-2">
+        <div class="bysigning">
+          By Signing in, I agree to Amlakserv Privacy Statement and Terms of
+          Service.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group-2">
+        <div class="btndiv">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [appLadda]="loading | async"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group-4">
+        <div class="donthave">
+          New on our platform?
+          @if (isModal) {
+            <button type="button" (click)="openRegister()">
+              Create an account
+            </button>
+          }
+          @if (!isModal) {
+            <a class="forgot" routerLink="/register">Create an account</a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+<div class="col-sm-12">
+  <div class="with">Or Sign in with</div>
+  <app-social-login></app-social-login>
+</div>
+</div> -->
+</form>

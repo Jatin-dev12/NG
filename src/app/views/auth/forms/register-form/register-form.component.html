@@ -1,0 +1,125 @@
+<form novalidate (ngSubmit)="onLogin(form)" [formGroup]="form">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group-2">
+				<div class="input-group" controlErrorContainer>
+					<span class="input-group-text" id="basic-addon1"><img src="{{ gs.imgUrl }}/role.svg"
+							alt="" /></span>
+					<div class="form-control two">
+						<ng-select formControlName="role" (change)="handleRole($event)"
+							placeholder="Please select a role type">
+							@for (item of RoleArray; track item) {
+							<ng-option [value]="item.role">{{ item.name }}</ng-option>
+							}
+						</ng-select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@if (
+	form.value?.role === role.ROLE_MANAGERS ||
+	form.value?.role === role.ROLE_VENDORS
+	) {
+	<div class="row">
+		<div class="col-sm-12">
+			<app-file-drag-drop-uploader title="+ Add attachments..." [multiple]="true" [accept]="'*'"
+				[layout]="'default'" (getFileId)="fileUpdate($event)" [checkMaxFile]="true" [maxFile]="3"
+				[checkExtensions]="true" [extensions]="'mix'"></app-file-drag-drop-uploader>
+			<div class="mb-3">
+				@if (gs.isValid("files", f)) {
+				<div class="invalid-feedback d-block">
+					@if (f["files"].errors && f["files"].errors["required"]) {
+					<div>Attachments is required</div>
+					}
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+	}
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group-2">
+						<div class="input-group" controlErrorContainer>
+							<span class="input-group-text" id="basic-addon1"><img src="{{ gs.imgUrl }}/name.svg"
+									alt="" /></span>
+							<input type="text" class="form-control" placeholder="Name" formControlName="name" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="form-group-2">
+				<div class="input-group" controlErrorContainer>
+					<span class="input-group-text" id="basic-addon1"><img src="{{ gs.imgUrl }}/email.svg"
+							alt="" /></span>
+					<input type="email" class="form-control" placeholder="Email Address" formControlName="email"
+						name="Email Address" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group-2">
+				<div class="input-group" controlErrorContainer>
+					<span class="input-group-text" id="basic-addon1"><img src="{{ gs.imgUrl }}/password.svg"
+							alt="" /></span>
+					<input type="password" class="form-control" placeholder="Password" formControlName="password"
+						passwordToggle />
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="form-group-2">
+				<div class="input-group" controlErrorContainer>
+					<span class="input-group-text" id="basic-addon1"><img src="{{ gs.imgUrl }}/password.svg"
+							alt="" /></span>
+					<input type="password" class="form-control" placeholder="Confirm your Password"
+						formControlName="confirm_password" [customErrors]="{
+              mustMatch: 'Confirm Password must match with Password'
+            }" passwordToggle />
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="form-group-2">
+				<!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (reset)="handleReset()" (expire)="handleExpire()"
+					(load)="handleLoad()" (success)="handleSuccess($event)" [type]="'image'" formControlName="recaptcha"
+					name="Captcha">
+				</ngx-recaptcha2> -->
+				<re-captcha formControlName="recaptcha" (resolved)="addTokenLog('Reactive form mode resolved', $event)" ></re-captcha>
+			</div>
+			<div class="form-group-1 registercheck">
+				<div class="form-check" controlErrorContainer>
+					<input class="form-check-input" type="checkbox" formControlName="terms" id="RememberMe"
+						name="Terms and condition" />
+					<label class="form-check-label" for="RememberMe">By creating new account you have to agree with our
+						<a (click)="openTermCondition('terms-condition')">Terms And Conditions</a></label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<div class="btndiv">
+					<button type="submit" class="btn btn-primary" [appLadda]="loading | async">
+						Sign Up
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="form-group11">
+				<div class="with">
+					Already have an account? <a routerLink="/login">Sign In</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

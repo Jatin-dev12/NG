@@ -1,0 +1,96 @@
+<div class="othercourses">
+  <div class="container">
+    @if (is_public) {
+      <h1>{{ item?.user?.name }} other Courses</h1>
+    }
+    <div class="slider">
+      @if (loading | async) {
+        <div class="row justify-content-center">
+          @for (item of gs.generateFake(3); track item) {
+            <div class="col-sm-12 col">
+              <div class="courseboxtwo">
+                <div class="image">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '150px', width: '100%' }"
+                  >
+                  </ngx-skeleton-loader>
+                </div>
+                <div class="detail">
+                  <ngx-skeleton-loader
+                    [theme]="{ height: '25px', width: '100%' }"
+                    count="3"
+                  >
+                  </ngx-skeleton-loader>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- <div *ngIf="!is_public">
+        <div class="courseboxtwo" *ngFor="let item of (catalog | async)?.items">
+          <div class="image">
+            <a [routerLink]="['/search/view', item?.id]">
+              <img [src]="item?.cover_id ? item?.cover?.path : '{{gs.imgUrl}}/course-5.png'" alt="" />
+            </a>
+          </div>
+          <div class="detail">
+            <h3><a [routerLink]="['/search/view', item?.id]">{{ item.title }}</a></h3>
+            <div class="instructor"><span>Instructor:</span> {{ item?.user?.name }}</div>
+            <div class="totallessons"><span>Total Lessons:</span> {{item?.lessons }}</div>
+            <div class="price">{{ item.price | currency }}</div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div> -->
+        @if ((catalog | async)?.items.length > 0) {
+          <div>
+            <owl-carousel-o [options]="othercourses">
+              @for (catalogList of catalogArray; track catalogList) {
+                <ng-template carouselSlide>
+                  @for (item of catalogList; track item) {
+                    <div class="courseboxtwo">
+                      <div class="image">
+                        <a [routerLink]="['/search/view', item?.id]">
+                          <img
+                            [src]="
+                              item?.cover_id
+                                ? item?.cover?.path
+                                : '{{gs.imgUrl}}/course-5.png'
+                            "
+                            alt=""
+                          />
+                        </a>
+                      </div>
+                      <div class="detail">
+                        <h3>
+                          <a [routerLink]="['/search/view', item?.id]">{{
+                            item.title
+                          }}</a>
+                        </h3>
+                        <div class="instructor">
+                          <span>Instructor:</span> {{ item?.user?.name }}
+                        </div>
+                        <div class="totallessons">
+                          <span>Total Lessons:</span> {{ item?.lessons }}
+                        </div>
+                        <div class="price">{{ item.price | currency }}</div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  }
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        }
+        @if (
+          (catalog | async)?.items === null ||
+          (catalog | async)?.items.length === 0
+        ) {
+          <div>Course not found</div>
+        }
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,209 @@
+<div class="prodetails">
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Post No</div>
+            <div class="col-sm-5">
+                {{ item?.id }}
+            </div>
+        </div>
+    </div>
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Listing Date</div>
+            <div class="col-sm-5">
+                {{ item?.created_at * 1000 | date }}
+            </div>
+        </div>
+    </div>
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Classification</div>
+            <div class="col-sm-5">
+                {{ item?.property_classification | titlecase }}
+            </div>
+        </div>
+    </div>
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Purpose</div>
+            <div class="col-sm-5">For {{ item?.property_purpose | titlecase }}</div>
+        </div>
+    </div>
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Type</div>
+            <div class="col-sm-5">
+                {{ item?.category?.name }}
+            </div>
+        </div>
+    </div>
+    @if (item?.location?.city) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">District</div>
+            <div class="col-sm-5">
+                {{ item?.location?.city }}
+            </div>
+        </div>
+    </div>
+    }
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Price</div>
+            <div class="col-sm-5">
+                <!-- {{ item?.price | currency: item?.currency_code + ' ': true }} -->
+                @if (item?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE) {
+                    {{ item?.currency_code }} - {{ item?.price | currency: item?.currency_code }}
+                } @else {
+                    {{ item?.currency_code }} - 
+                    @for (price of item?.userCatalogPrice; track price; let last = $last) {
+                        {{ price.price | currency: item?.currency_code }} - {{ price.name }} {{ last ? '' : ', ' }}
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    @if (item?.m2_gross_price) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">
+                <span class="m2txt"><sub>M</sub><span class="square">2</span></span>
+                (Gross)
+            </div>
+            <div class="col-sm-5">
+                {{ item?.m2_gross_price }}
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.m2_net_price) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">
+                <span class="m2txt"><sub>M</sub><span class="square">2</span></span>
+                (Net)
+            </div>
+            <div class="col-sm-5">
+                {{ item?.m2_net_price }}
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.number_of_rooms) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Number of rooms</div>
+            <div class="col-sm-5">
+                {{
+                gs.find(AdditionalEnums.CatalogFormRooms, item?.number_of_rooms)
+                ?.value
+                }}
+                <!-- <pre>
+          {{ gs.find(AdditionalEnums.NumberOfRoomsArray, item?.number_of_rooms)?.value | json }}
+        </pre> -->
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.number_of_bathrooms) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Number of bathrooms</div>
+            <div class="col-sm-5">
+                {{
+                gs.find(
+                AdditionalEnums.CatalogFormBathrooms,
+                item?.number_of_bathrooms
+                )?.value
+                }}
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.status_of_use) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Status of Use</div>
+            <div class="col-sm-5">
+                @if (item?.status_of_use === 1) {
+                <span>Used</span>
+                }
+                @if (item?.status_of_use === 2) {
+                <span>New</span>
+                }
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.age_of_building) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Age of Building</div>
+            <div class="col-sm-5">
+                {{
+                gs.find(
+                AdditionalEnums.CatalogFormAgeOfBuilding,
+                item?.age_of_building
+                )?.value
+                }}
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.number_of_floors) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Number of Floors</div>
+            <div class="col-sm-5">
+                {{
+                gs.find(AdditionalEnums.CatalogFormFloors, item?.number_of_floors)
+                ?.value
+                }}
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.is_furnished) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Furnished</div>
+            <div class="col-sm-5">
+                {{
+                gs.find(AdditionalEnums.CatalogFormFurnished, item?.is_furnished)
+                ?.value
+                }}
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.is_available_loan) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Available for Loan</div>
+            <div class="col-sm-5">
+                @if (item?.is_available_loan === 1) {
+                <span>No</span>
+                }
+                @if (item?.is_available_loan === 2) {
+                <span>Yes</span>
+                }
+            </div>
+        </div>
+    </div>
+    }
+    @if (item?.is_swap) {
+    <div class="detailbox">
+        <div class="row">
+            <div class="col-sm-7">Available for Swap</div>
+            <div class="col-sm-5">
+                @if (item?.is_swap === 1) {
+                <span>No</span>
+                }
+                @if (item?.is_swap === 2) {
+                <span>Yes</span>
+                }
+            </div>
+        </div>
+    </div>
+    }
+</div>

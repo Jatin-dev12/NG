@@ -1,0 +1,93 @@
+<div class="booking-invoice-page">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>Transaction Individual</h1>
+    </div>
+    <div class="col-sm-6">
+      <!-- <app-order-invoice-download *ngIf="item" [order]="item"></app-order-invoice-download> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 mt-4 mt-sm-0">
+      <div class="from">
+        <div class="row">
+          <div class="col-sm-2">From:</div>
+          <div class="col-sm-10">
+            {{ item?.catalog?.user?.name }}<br />
+            {{ item?.catalog?.location?.location }}
+          </div>
+        </div>
+      </div>
+      <div class="from to">
+        <div class="row">
+          <div class="col-sm-2">To:</div>
+          <div class="col-sm-10">
+            {{ item?.user?.name }}<br />
+            {{ item?.user?.location?.location }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 mb-4 mb-lg-0">
+      <div class="invoice">
+        <div class="row">
+          <div class="col-6">Invoice</div>
+          <div class="col-6 text-right">#{{ item?.id }}</div>
+        </div>
+        <div class="row">
+          <div class="col-6">Inv Date</div>
+          <div class="col-6 text-right">
+            {{ $any(item?.created_at) * 1000 | date: "longDate" }}
+          </div>
+        </div>
+        <!-- <div class="row">
+        <div class="col-6 bold">Due Date</div>
+        <div class="col-6 bold text-right">{{ $any(item?.end_time) * 1000 | date: 'longDate' }}</div>
+      </div> -->
+        <div class="row">
+          <div class="col-6 bold">Total Due</div>
+          <div class="col-6 bold text-right">{{ item?.total | currency }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Service Name</th>
+          <th scope="col">Duration (Hours)</th>
+          <th scope="col">Per Hour Rate</th>
+          <th scope="col">Extra Service Rate</th>
+          <th scope="col">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of item?.ordersItems; track order) {
+          <tr>
+            <td>{{ item?.moment(order.created_at) }}</td>
+            <td>{{ order.catalog.title }}</td>
+            <td>{{ item?.bookingHours }}hours</td>
+            <td>{{ order.catalog.price | currency }}</td>
+            <td>{{ item?.additionalServicesPrice | currency }}</td>
+            <td>{{ order.price | currency }}</td>
+          </tr>
+        }
+        <!-- <tr>
+      <td>12/1/2021</td>
+      <td>Unique Apartment with Beautiful VIEW</td>
+      <td>1 Day</td>
+      <td>$98.00</td>
+      <td>$25.00</td>
+      <td>$123.00</td>
+    </tr> -->
+        <tr class="total">
+          <td colspan="5" class="text-end">Total Amout</td>
+          <!-- <td>$25.00</td> -->
+          <td>{{ item?.total | currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

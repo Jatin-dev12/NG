@@ -1,0 +1,10 @@
+<input
+  [type]="type"
+  class="form-control"
+  [value]="value ?? ''"
+  ngx-gp-autocomplete
+  #places="ngx-places"
+  [ngClass]="ngClass"
+  (onAddressChange)="onAddressChange.emit($event)"
+  [placeholder]="placeholder"
+/>

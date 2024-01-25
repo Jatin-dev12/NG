@@ -1,0 +1,35 @@
+<div class="vendor-favoritesbox">
+	<div class="image">
+		<a routerLink="/profile/view/{{ item?.favorites?.username }}"><img [src]="item?.favorites?.avatar"
+				[alt]="item?.favorites?.name" /></a>
+	</div>
+	<h3>
+		<a routerLink="/profile/view/{{ item?.favorites?.username }}">{{
+			item?.favorites?.name
+			}}</a>
+	</h3>
+	<div class="desina">
+		({{
+		item?.favorites?.title ? item?.favorites?.title : item?.favorites?.role
+		}})
+	</div>
+	<div class="faveritesbtn">
+		<button type="button" class="faverites text" (click)="handleFavourite()" [appLadda]="favourileLoading">
+			<img src="{{ gs.imgUrl }}/heart-hor.svg" alt="" />Favorite
+		</button>
+	</div>
+	@if (item?.favorites?.location?.location) {
+	<div class="address">
+		<img src="{{ gs.imgUrl }}/map.svg" alt="" />{{
+		item?.favorites?.location?.location ?? "-"
+		}}
+	</div>
+	}
+	<div class="clearfix"></div>
+	<div class="content">{{ item?.favorites?.about ?? "-" }}</div>
+	<!-- <div class="catlist">
+        <div class="catname">Property Management</div>
+        <div class="catname">Property Maintenance</div>
+        <div class="catname">Property Marketing</div>
+    </div> -->
+</div>

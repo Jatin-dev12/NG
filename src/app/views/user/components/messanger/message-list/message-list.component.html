@@ -1,0 +1,42 @@
+@if (requestLoading) {
+<ul class="user-list">
+	@for (item of gs.generateFake(3); track item) {
+	<li class="p-3">
+		<div class="d-flex align-items-center">
+			<div class="img mr-2" style="width: 80px">
+				<ngx-skeleton-loader [theme]="{ height: '70px', width: '70px' }" appearance="circle">
+				</ngx-skeleton-loader>
+			</div>
+			<div class="caption">
+				<ngx-skeleton-loader count="3" [theme]="{ height: '10px', width: '100%' }"></ngx-skeleton-loader>
+			</div>
+		</div>
+	</li>
+	}
+</ul>
+} @else {
+@if (loading) {
+<div class="text-center">
+	<div class="spinner-border text-primary"></div>
+</div>
+}
+<ul class="msg-list">
+	@for (item of itemsArray; track item; let i = $index; let first = $first; let last = $last) {
+	<li [ngClass]="item.sender.id !== gs.identity?.id ? 'youmsg' : 'mymsg'">
+		<div [ngClass]="{'items-end': isMine(item), 'items-start': !isMine(item), 'mt-0.5': i > 0 && isMine(itemsArray[i - 1]) === isMine(item), 'mt-3': i > 0 && isMine(itemsArray[i - 1]) !== isMine(item)}">
+			<ng-container *ngIf="first || (itemsArray[i - 1]?.created_at | date:'d') !== (item?.created_at | date:'d')">
+				<div class="d-flex align-items-center justify-content-center">
+					<div class="flex-auto border-b"></div>
+					<div class="flex-0 mx-3 text-sm font-medium leading-5 text-primary">
+						{{item?.created_at | date: 'longDate'}}
+					</div>
+					<div class="flex-auto border-b"></div>
+				</div>
+			</ng-container>
+			<app-message-item [item]="item"></app-message-item>
+			<!-- <div *ngIf="first || last || (isMine(items[i + 1]) !== isMine(item)) || ((items[i + 1]?.created_at | date: 'mm') !== (item.created_at | date: 'mm'))">{{ timeNow(item.created_at) }}</div> -->
+	</div>
+	</li>
+	}
+</ul>
+}

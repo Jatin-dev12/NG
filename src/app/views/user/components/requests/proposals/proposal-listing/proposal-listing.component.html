@@ -1,0 +1,119 @@
+<div class="request-listing-page">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+			<li class="breadcrumb-item">Requests</li>
+			<li class="breadcrumb-item">{{ parent_title }}</li>
+			<li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+		</ol>
+	</nav>
+	<div class="searchtop">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="searchdiv">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search" [(ngModel)]="q"
+							[ngModelOptions]="{ standalone: true }" (keyup.enter)="search()" />
+						<button class="input-group-text" id="basic-addon2" type="button" (click)="search()">
+							<img src="{{ gs.imgUrl }}/search-btn-2.svg" alt="Search" />
+						</button>
+					</div>
+					<div class="btndiv">
+						<button type="button" (click)="clear()">Clear</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="listingdiv">
+		<div class="listingbox">
+			<div class="propertytop">
+				<div class="row align-items-center">
+					<div class="col">Request No.</div>
+					@switch (gs.identity?.role) {
+						@case (Enums.ROLE_OWNER) {
+							<div class="col">Request Sent to</div>
+						}
+						@case (Enums.ROLE_MANAGERS) {
+							<div class="col">Request is received from</div>
+						}
+						@case (Enums.ROLE_VENDORS) {
+							<div class="col">Request Sent to</div>
+						}
+						@default {
+							<div class="col">Request Sent to</div>
+						}
+					}
+					<div class="col">Status</div>
+				</div>
+			</div>
+			<div class="propertybottom">
+				@if (loading | async) {
+				@for (item of gs.generateFake(3); track item) {
+				<div class="propertylist">
+					<div class="row align-items-center">
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+						<div class="col">
+							<ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+								count="1"></ngx-skeleton-loader>
+						</div>
+					</div>
+				</div>
+				}
+				} @else {
+				@for (item of (catalogs | async)?.items; track item) {
+					<div app-proposal-listing-item class="propertylist" [item]="item"></div>
+				} @empty {
+				<div class="notfound">
+					@switch (gs.identity?.role) {
+						@case (Enums.ROLE_OWNER) {
+							@if (title === 'Pending Requests') {
+								<img src="{{ gs.imgUrl }}/owner-pending-requests.svg" alt="Images" />
+							}
+							@if (title === 'Requests History') {
+								<img src="{{ gs.imgUrl }}/owner-requests-history.svg" alt="Images" />
+							}
+						}
+						@case (Enums.ROLE_MANAGERS) {
+							@if (title === 'Pending Requests') {
+								<img src="{{ gs.imgUrl }}/manager-pending-requests.svg" alt="Images" />
+							}
+							@if (title === 'Requests History') {
+								<img src="{{ gs.imgUrl }}/manager-requests-history.svg" alt="Images" />
+							}
+						}
+						@case (Enums.ROLE_VENDORS) {
+							@if (title === 'Pending Requests') {
+								<img src="{{ gs.imgUrl }}/vender-pending-requests.svg" alt="Images" />
+							}
+							@if (title === 'Requests History') {
+								<img src="{{ gs.imgUrl }}/vender-requests-history.svg" alt="Images" />
+							}
+						}
+						@default {
+							{{ title }} not found.
+						}
+					}
+				</div>
+				}
+				
+				}
+			</div>
+		</div>
+	</div>
+
+	@if ($any((catalogs | async)?.total) > this.params["size"]) {
+		<div class="handle-pagination">
+			<app-pagination [pagination]="catalogs | async" [page]="page"
+				(getPage)="handlePagination($event)"></app-pagination>
+		</div>
+	}
+
+</div>

@@ -1,0 +1,20 @@
+@if (pagination.total > pagination.size - 1) {
+  <ngb-pagination
+    [collectionSize]="pagination.total"
+    [pageSize]="pagination.size"
+    [(page)]="page"
+    (pageChange)="handlePagination($event)"
+    [maxSize]="3"
+    class="justify-content-center d-flex"
+  >
+    <ng-template ngbPaginationPrevious class="prev">
+      <img src="{{ gs.imgUrl }}/prev-nor.png" class="white" alt="" />
+      <img src="{{ gs.imgUrl }}/prev-hor.png" class="black" alt="" />
+    </ng-template>
+    <ng-template ngbPaginationNext class="next">
+      <img src="{{ gs.imgUrl }}/next-nor.png" class="white" alt="" />
+      <img src="{{ gs.imgUrl }}/next-hor.png" class="black" alt="" />
+    </ng-template>
+    <ng-template ngbPaginationNumber let-p>{{ p }}</ng-template>
+  </ngb-pagination>
+}

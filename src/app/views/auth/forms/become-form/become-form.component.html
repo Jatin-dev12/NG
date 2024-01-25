@@ -1,0 +1,202 @@
+<form novalidate (ngSubmit)="onLogin(form)" [formGroup]="form">
+  <app-error-summary></app-error-summary>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label
+              ><img src="{{ gs.imgUrl }}/first-name.svg" alt="" />First
+              Name</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="first_name"
+              [ngClass]="gs.addCls('first_name', f)"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label
+              ><img src="{{ gs.imgUrl }}/first-name.svg" alt="" />Last
+              Name</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="last_name"
+              [ngClass]="gs.addCls('last_name', f)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label
+          ><img src="{{ gs.imgUrl }}/email.svg" alt="" />Email Address</label
+        >
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          [ngClass]="gs.addCls('email', f)"
+        />
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label
+          ><img src="{{ gs.imgUrl }}/phone.svg" alt="" />Contact Number</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="telephone"
+          [ngClass]="gs.addCls('telephone', f)"
+        />
+      </div>
+    </div>
+    <!-- <div class="col-sm-12">
+    <div class="form-group">
+      <label><img src="{{gs.imgUrl}}/phone.svg" alt="" />SSN Number</label>
+      <input type="text" class="form-control" formControlName="ssn_number" ssnNumberMask [ngClass]="gs.addCls('ssn_number', f)">
+      <div *ngIf="gs.isValid('ssn_number', f)" class="invalid-feedback">
+        <div *ngIf="f.ssn_number.errors?.required">SSN number is required</div>
+        <div *ngIf="f.ssn_number.errors?.pattern">SSN number not valid</div>
+        <div *ngIf="f.ssn_number.errors?.maxLength">SSN number no maximum 32 digit only</div>
+      </div>
+    </div>
+  </div> -->
+    <div class="col-sm-12 custom-upload mb-3">
+      <label><img src="{{ gs.imgUrl }}/upload-id.svg" alt="" />Upload ID</label>
+      <div class="custom-file loader-file">
+        <input
+          type="file"
+          class="custom-file-input"
+          id="uploadVideo"
+          [accept]="'*'"
+          (change)="uploadVideo($event)"
+        />
+        <label class="custom-file-label" for="uploadVideo">
+          <img src="{{ gs.imgUrl }}/upload-cloud.svg" alt="" />Drop documents
+          here to upload or <u>Choose File</u>
+        </label>
+        @if (uploadLoading) {
+          <div class="loader"><span></span> <span></span></div>
+        }
+      </div>
+      @if (coverView) {
+        <ul class="images">
+          <li>
+            @if (coverView.mimetype === "image") {
+              <img
+                [src]="coverView.path"
+                alt="Upload {{ coverView.id }}"
+                title="coverView"
+              />
+            }
+            @if (coverView.mimetype === "application") {
+              <div>
+                <i class="far fa-file-pdf"></i>
+              </div>
+            }
+            @if (coverView.mimetype === "video") {
+              <video style="max-height: 170px; width: 100%" controls>
+                <source [src]="coverView.path" [type]="coverView.type" />
+                Your browser does not support the video tag.
+              </video>
+            }
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              (click)="removeVideo(coverView.id)"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+          </li>
+        </ul>
+      }
+      @if (gs.isValid("document_id", f)) {
+        <div class="invalid-feedback d-block">
+          @if (f["document_id"].errors && f["document_id"].errors["required"]) {
+            <div>Document id is required</div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label><img src="{{ gs.imgUrl }}/password.svg" alt="" />Password</label>
+        <input
+          type="password"
+          class="form-control password"
+          formControlName="password"
+          [ngClass]="gs.addCls('password', f)"
+        />
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="form-group">
+        @if (gs.isValid("recaptcha", f)) {
+          <div class="invalid-feedback d-block">
+            @if (f["recaptcha"].errors && f["recaptcha"].errors["required"]) {
+              <div>Recaptcha is required</div>
+            }
+          </div>
+        }
+      </div>
+      <div class="form-group-1">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="terms"
+            id="RememberMe"
+          />
+          <label class="form-check-label" for="RememberMe"
+            >Accept the
+            <a routerLink="/pages/terms-condition">terms and conditions</a> of
+            the website</label
+          >
+        </div>
+        @if (gs.isValid("terms", f)) {
+          <div class="invalid-feedback d-block">
+            @if (f["terms"].errors && f["terms"].errors["required"]) {
+              <div>Terms and conditions is required</div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group-3">
+        <div class="btndiv">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [appLadda]="loading | async"
+          >
+            SIGN UP
+          </button>
+          <!-- <a class="btn btn-outline-primary">Become a Host</a> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="donthave">
+        Already have an Account? Please
+        <a routerLink="." (click)="modalEvent.emit('Login')">Login</a>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- <pre>
+{{ form.value | json }}
+</pre> -->

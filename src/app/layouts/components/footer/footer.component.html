@@ -1,0 +1,70 @@
+<div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="footermenu">
+          <h3>Menu</h3>
+          <ul>
+            <li>
+              <a routerLink="/">> {{ "Home" }}</a>
+            </li>
+            <li>
+              <a routerLink="/about">> {{ "About Us" }}</a>
+            </li>
+            <li><a routerLink="/contact">> Contact Us</a></li>
+            <li><a routerLink="/how-it-works">> How It Works</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="footermenu">
+          <h3>Browse Property</h3>
+          <ul>
+            <li>
+              <a routerLink="/search/listing" [queryParams]="{
+                  property_purpose: Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT
+                }" [queryParamsHandling]="'merge'">> Rent Properties</a>
+            </li>
+            <li>
+              <a routerLink="/search/listing" [queryParams]="{
+                  property_purpose: Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE
+                }" [queryParamsHandling]="'merge'">> Sale Properties</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="footermenu">
+          <h3>General Links</h3>
+          <ul>
+            <li>
+              <a routerLink="/pages/terms-condition">> {{ "Terms & Conditions" }}</a>
+            </li>
+            <li>
+              <a routerLink="/pages/privacy-policy">> {{ "Privacy Policy" }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="copyright">
+            &copy; {{ year }} {{ gs.mainTitle }} Have All Right Reserved
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="sociel-media">
+            <a href="/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="/" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

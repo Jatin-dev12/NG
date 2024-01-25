@@ -1,0 +1,135 @@
+<div class="pv-box tenant">
+	<div class="pv-title">
+		<h1>Tenant Info</h1>
+	</div>
+	<div class="pv-body">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="image">
+					<!-- <img src="{{gs.imgUrl}}/manager-1.png" alt="Images" /> -->
+					<img [src]="tenant ? tenant?.avatar : gs.imgUrl + '/manager-1.png'" [alt]="tenantRefrence?.name" />
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="lefttxt">
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Tenant Name</div>
+							<div class="col-sm-8">
+								{{ tenant ? tenant?.name : tenantRefrence?.name }}
+							</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Permitted Occupier</div>
+							<div class="col-sm-8">
+								{{ tenantRefrence?.permitted_occupier }}
+							</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Rent Amount</div>
+							<div class="col-sm-8">
+								{{ tenantRefrence?.amount | currency }}
+							</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Payable</div>
+							<div class="col-sm-8">{{ tenantRefrence?.payment_terms }}</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Deposit</div>
+							<div class="col-sm-8">
+								{{ tenantRefrence?.deposit_amount | currency }}
+							</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Contract</div>
+							<div class="col-sm-8">
+								@if (tenantRefrence?.doc_id) {
+								<a [href]="tenantRefrence?.doc?.path" target="_blank"><i class="fas fa-file-pdf"></i>
+									contract</a>
+								}
+							</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">Start Date</div>
+							<div class="col-sm-8">
+								{{ tenantRefrence?.start_time | date: "longDate" }}
+							</div>
+						</div>
+					</div>
+					<div class="detailbox">
+						<div class="row">
+							<div class="col-sm-4">End Date</div>
+							<div class="col-sm-8">
+								{{ tenantRefrence?.end_time | date: "longDate" }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="lefttxt">
+					<h3>Terms & Conditions</h3>
+					<div class="left-scroll css-scroll" infiniteScroll>
+						<div class="contenttwo" [innerHTML]="tenantRefrence?.terms"></div>
+					</div>
+					<div class="btndiv">
+						@if (
+						tenantRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PENDING
+						) {
+						<button type="button" class="btn btn-info" (click)="accept()">
+							Accept
+						</button>
+						}
+						@if (
+						tenantRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_PENDING
+						) {
+						<button type="button" class="btn btn-info two" (click)="decline()">
+							Reject
+						</button>
+						}
+						@if (
+						tenantRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+						) {
+						<button type="button" class="btn btn-success status">
+							Approved
+						</button>
+						}
+						@if (
+						tenantRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED
+						) {
+						<a routerLink="/properties/tenant-agreement/{{ item?.id }}" class="btn btn-light">View Tenancy
+							Agreement</a>
+						}
+						@if (
+						tenantRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_DECLINE
+						) {
+						<button type="button" class="btn btn-danger status">
+							Declined
+						</button>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

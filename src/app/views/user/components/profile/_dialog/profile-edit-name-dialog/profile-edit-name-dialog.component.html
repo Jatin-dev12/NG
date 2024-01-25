@@ -1,0 +1,41 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+
+  <h1>Edit Name</h1>
+
+  <div class="editname-popup">
+    <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <input
+              type="text"
+              placeholder="Full Name"
+              formControlName="name"
+              class="form-control"
+              [customErrors]="{ maxlength: 'Only 50 alphabets allowed' }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="btndivtwo">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [appLadda]="loading | async"
+        >
+          Apply
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="activeModal.dismiss()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

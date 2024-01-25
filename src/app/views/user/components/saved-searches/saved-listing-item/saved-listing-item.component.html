@@ -1,0 +1,28 @@
+<div class="row align-items-center">
+	<div class="col-sm-7">
+		<h3 [ngClass]="{ active: item.params === '' }">
+			<a [routerLink]="item.url ?? '/'" [queryParams]="q_param" [queryParamsHandling]="'merge'">
+			{{ item.params ? item.params : "You haven't selected any Type" }}</a>
+		</h3>
+		<div class="catname text-truncate" title="{{ q_param?.q_location }}">
+			@if (q_param?.property_classification) {
+				<span class="classification">{{ q_param?.property_classification | titlecase }}{{ q_param?.property_purpose ? ',' : '' }} </span>
+			}
+			@if (q_param?.property_purpose) {
+				<span class="for">For {{ q_param?.property_purpose | titlecase }}{{ q_param?.q_location ? ',' : '' }} </span>
+			}
+			@if (q_param?.q_location) {
+				<span class="location">{{ q_param?.q_location }}</span>
+			}
+		</div>
+	</div>
+	<div class="col-sm-5">
+		<div class="btndiv">
+			<div class="status">Subscriptions are ON</div>
+			<!-- <button type="button" class="edit" (click)="edit()"><img alt="" src="{{gs.imgUrl}}/edit.svg">Edit</button> -->
+			<button type="button" class="edit" (click)="remove()" [appLadda]="loading">
+				<img alt="" src="{{ gs.imgUrl }}/trash-2.svg" />Delete
+			</button>
+		</div>
+	</div>
+</div>

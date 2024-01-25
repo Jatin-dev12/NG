@@ -1,0 +1,72 @@
+<div class="expart-profile-page after-product-view">
+  <div class="card">
+    <div class="card-title">
+      <div class="orderid"><span>Order ID:</span> #{{ item?.id }}</div>
+      <div class="address">
+        <span>Delivery Address:</span> {{ item?.location?.location }}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total price</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (loading | async) {
+              @for (item of gs.generateFake(3); track item) {
+                <tr>
+                  <td [colSpan]="5">
+                    <ngx-skeleton-loader
+                      [theme]="{ height: '10px', width: '100%' }"
+                      count="1"
+                    ></ngx-skeleton-loader>
+                  </td>
+                </tr>
+              }
+            } @else {
+              @for (order of item?.ordersItems; track order) {
+                <tr>
+                  <td>
+                    <div class="proname">{{ order?.catalog?.title }}</div>
+                  </td>
+                  <td>{{ order.catalog.price | currency }}</td>
+                  <td>{{ order.quantity }}</td>
+                  <td>{{ order.price | currency }}</td>
+                  <td></td>
+                </tr>
+              }
+            }
+            <tr class="total">
+              <td colspan="3"></td>
+              <td>Subtotal</td>
+              <td>{{ item?.subtotal | currency }}</td>
+            </tr>
+            <!-- <tr class="total">
+            <td colspan="3"></td>
+            <td>Delivery Location (Kano)</td>
+            <td>₦10.00</td>
+          </tr> -->
+            <tr class="total">
+              <td colspan="3"></td>
+              <td>Coupon Discount</td>
+              <td>- {{ item?.discountPrice | currency }}</td>
+            </tr>
+            <tr class="grandtotal">
+              <td colspan="3"></td>
+              <td>GRAND TOTAL</td>
+              <td>{{ item?.total | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <app-order-delivery-status *ngIf="item" [order]="item"></app-order-delivery-status> -->
+    </div>
+  </div>
+</div>

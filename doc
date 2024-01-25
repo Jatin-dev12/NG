@@ -1,0 +1,562 @@
+Refrence website
+https://www.splacer.co/
+
+1. Register Success = '/success-message';
+
+
+ng generate service services/web-socket
+
+
+1. Profile page category data not display
+2. 
+
+
+
+
+catalog_rooms  132
+catalog_bathroom  133
+catalog_team_meeting  134
+catalog_tv_set  135 
+catalog_extra_chair  136
+catalog_space  137
+
+npm install @types/socket.io-client@1.4.36 ngx-socket-io@3.4.0 socket.io@2.2.0 socket.io-client@2.2.0  --save --force
+
+npm install ngx-auto-scroll ngx-infinite-scroll @ctrl/ngx-emoji-mart --save --force
+
+
+ng g c standalone/demo --standalone=true
+ng g c standalone/google-location-input --standalone=true
+ng g c standalone/reviews-listing --standalone=true
+
+ng g c standalone/membership-listing --standalone=true
+ng g c standalone/membership-form --standalone=true
+ng g c standalone/membership-item --standalone=true
+ng g c standalone/google-map-view --standalone=true
+
+ng g c standalone/catalogs/catalog-related --standalone=true
+ng g c standalone/catalogs/catalog-similar --standalone=true
+ng g c standalone/catalogs/catalog-other --standalone=true
+ng g c standalone/catalogs/catalog-item --standalone=true
+ng g c standalone/catalogs/catalog-list --standalone=true
+
+ng g c standalone/users/user-banner --standalone=true
+ng g c standalone/users/user-avatar --standalone=true
+ng g c standalone/users/user-verify --standalone=true
+ng g c standalone/users/user-verify --standalone=true
+ng g c standalone/users/user-search-listing --standalone=true
+ng g c standalone/users/user-search-item --standalone=true
+ng g c standalone/users/user-search-view --standalone=true
+ng g c standalone/one-to-one-chat --standalone=true
+ng g c standalone/CatalogRequestViewSlider --standalone=true
+
+
+ng g c dialogs/SuggestionFormDialog --standalone=true
+ng g c dialogs/SharedLoginDialog --standalone=true
+ng g c dialogs/membership-payment-dialogs --standalone=true
+ng g c dialogs/catalog-contact-dialog --standalone=true
+ng g c dialogs/catalog-videoplay-dialog --standalone=true
+ng g c dialogs/messages-reply-dialog --standalone=true
+ng g c dialogs/catalog-select-dialog --standalone=true
+ng g c dialogs/vendor-search-dialog --standalone=true
+ng g c dialogs/CatalogRequestSliderDialog --standalone=true
+ng g c dialogs/CatalogRequestViewSliderDialog --standalone=true
+
+ng g c dialogs/RequestManagerSuccessDialog
+ng g c dialogs/CatalogRepostDialog
+ng g c dialogs/CatalogContactRequestDialog
+
+
+
+
+ng g guard guards/instructor
+
+
+ng g c shared/components/shared-login-dialog
+ng g c shared/components/select-language
+ng g c shared/components/error-summary
+ng g c shared/components/custom-drop-down
+ng g d shared/directive/drag-and-drop
+ng g d shared/directive/lazy-img
+ng g d shared/directive/ssn-number
+ng g p shared/pipe/HtmlToPlainText
+ng g p shared/pipe/filter
+
+
+ng g c views/auth/components/reactivation
+
+
+ng g c views/user/components/_partials/catalog-contact-dialog
+ng g c views/user/components/_partials/catalog-view-details
+ng g c views/user/components/_partials/catalog-view-location
+ng g c views/user/components/_partials/catalog-view-info
+ng g c views/user/components/_partials/catalog-view-amenities
+ng g c views/user/components/_partials/catalog-view-rules
+ng g c views/user/components/_partials/catalog-view-service
+ng g c views/user/components/_partials/catalog-view-slider
+ng g c views/user/components/_partials/catalog-view-feedback
+ng g c views/user/components/_partials/catalog-view-reviews-listing
+
+
+ng g c views/user/components/catalog/catalog-form/catalog-form-step1
+ng g c views/user/components/catalog/catalog-form/catalog-form-step2
+ng g c views/user/components/catalog/catalog-form/catalog-form-step3
+ng g c views/user/components/catalog/catalog-form/catalog-form-step4
+ng g c views/user/components/catalog/_partials/catalog-booking
+ng g c views/user/components/catalog/_partials/RelatedProducts
+ng g c views/user/components/catalog/_partials/CatalogUserProducts
+ng g c views/user/components/catalog/_partials/catalog-google-map-view
+ng g c views/user/components/catalog/_partials/catalog-send-message
+ng g c views/user/components/catalog/_partials/catalog-add-additional-services
+ng g c views/user/components/catalog/_partials/catalog-payment
+ng g c views/user/components/catalog/_partials/catalog-in-person-view-form
+ng g c views/user/components/catalog/_partials/rules-and-cancellation-policy-dialog
+ng g c views/user/components/catalog/_partials/add-section-dialog
+ng g c views/user/components/catalog/_partials/catalog-topics
+ng g c views/user/components/catalog/_partials/catalog-topic-item
+ng g c views/user/components/catalog/_partials/catalog-topic-form
+ng g c views/user/components/catalog/_partials/catalog-feature-dialog
+ng g c views/user/components/catalog/_partials/catalog-feature-search-dialog
+ng g c views/user/components/catalog/_partials/catalog-general-details
+ng g c views/user/components/catalog/_partials/catalog-features-view
+ng g c views/user/components/catalog/_partials/catalog-owner-box-view
+ng g c views/user/components/catalog/_partials/catalog-manager-box-view
+ng g c views/user/components/catalog/_partials/catalog-tenant-box-view
+ng g c views/user/components/catalog/_partials/catalog-owner-agreement-view
+ng g c views/user/components/catalog/_partials/catalog-manager-agreement-view
+ng g c views/user/components/catalog/_partials/catalog-tenant-agreement-view
+ng g c views/user/components/catalog/category-congratulation
+ng g c views/user/components/catalog/category-listing
+ng g c views/user/components/catalog/catalog-course
+ng g c views/user/components/catalog/catalog-form/catalog-course-form
+ng g c views/user/components/catalog/catalog-intro-great-course
+ng g c views/user/components/catalog/catalog-intro-increasing-sales
+ng g c views/user/components/catalog/rented
+ng g c views/user/components/catalog/rented/rented-listing
+ng g c views/user/components/catalog/rented/rented-view
+
+ng g c views/user/components/catalog/catalog-favorites/favorites-item
+ng g c views/user/components/catalog/catalog-favorites/favorites-owner
+ng g c views/user/components/catalog/catalog-favorites/favorites-manager
+ng g c views/user/components/catalog/catalog-favorites/favorites-tanent
+ng g c views/user/components/catalog/catalog-favorites/favorites-vendor
+ng g c views/user/components/catalog/catalog-favorites/favorites-property
+
+ng g c views/user/components/catalog/catalog-agreement-manager-page
+ng g c views/user/components/catalog/catalog-agreement-tenant-page
+
+ng g c views/user/components/catalog/catalog-form/catalog-form-owner-info
+ng g c views/user/components/catalog/catalog-form/catalog-form-tenant-info
+ng g c views/user/components/catalog/catalog-add-new
+
+ng g c views/user/components/catalog/_dialogs/catalog-apply-dialog
+ng g c views/user/components/catalog/_dialogs/catalog-contact-dialog
+ng g c views/user/components/catalog/_dialogs/add-location-dialog
+ng g c views/user/components/catalog/_dialogs/catalog-more-filter-dialog
+ng g c views/user/components/catalog/_dialogs/catalog-terminate-tenancy-agreement-dialog
+ng g c views/user/components/catalog/_dialogs/catalog-terminate-management-agreement-dialog
+
+ng g c views/user/components/dialogs/milestone-create-dialog
+ng g c views/user/components/dialogs/milestone-payment-dialog
+ng g c views/user/components/dialogs/message-create-dialog
+ng g c views/user/components/dialogs/become-instructor-dialog
+
+
+ng g c views/user/components/in-viewing/in-viewing-form-dialog
+
+ng g c views/default/components/home/BestSelling
+ng g c views/default/components/home/RecentAdded
+ng g c views/default/components/home/ExploreCourses
+ng g c views/default/components/HowItWorks
+ng g c views/default/components/features
+
+
+ng g c shared/components/catalog-list
+ng g c shared/components/catalog-item
+ng g c shared/components/catalog-item-inline
+
+ng g c views/user/components/_partials/catalog-add-service-form-dialog
+
+ng g c views/user/components/order/order-item-listing
+
+ng g c views/user/components/order/_partials/order-item-listing
+ng g c views/user/components/order/_partials/order-grid-item
+ng g c views/user/components/order/_partials/order-inline-item
+ng g c views/user/components/order/_partials/order-item
+ng g c views/user/components/order/_partials/order-DeliveryStatus
+ng g c views/user/components/order/_partials/order-
+ng g c views/user/components/order/milestones-listing
+ng g c views/user/components/order/milestones-item
+ng g c views/user/components/order/course-listing
+ng g c views/user/components/order/course-view
+
+
+ng g c views/user/components/in-viewing/in-viewing-item
+ng g c views/user/components/in-viewing/in-viewing-list
+
+ng g c views/user/components/order/_dialogs/order-write-review-dialog
+ng g c views/user/components/order/_dialogs/order-write-review-reply-dialog
+ng g c views/user/components/order/_dialogs/order-course-suggestion
+
+
+ng g c modules/input-number/input-number-demo --inline-template=true --inline-style=true
+
+
+
+
+mganesh.alkurn@gmail.com / alkurn@123#.  => Host
+tufan.alkurn@gmail.com / alkurn@123#.  => User
+
+
+// New Components
+ng g c views/default/components/HomeDialog
+ng g c views/user/components/dialogs/Interest-dialog
+
+
+
+ng g c views/user/components/profile/profile-settings
+ng g c views/user/components/profile/profile-notification
+ng g c views/user/components/profile/profile-view
+ng g c views/user/components/profile/_partials
+ng g c views/user/components/profile/_dialog/profile-edit-name-dialog
+ng g c views/user/components/profile/_dialog/profile-screen-name-dialog
+ng g c views/user/components/profile/_dialog/profile-reviews-dialog
+ng g c views/user/components/profile/_dialog/profile-edit-email-dialog
+ng g c views/user/components/profile/_dialog/profile-edit-mobile-dialog
+ng g c views/user/components/profile/_dialog/profile-verify-account-dialog
+ng g c views/user/components/profile/_dialog/profile-2step-verification-dialog
+ng g c views/user/components/profile/_dialog/profile-unlink-accouint-dialog
+ng g c views/user/components/profile/_dialog/profile-deactive-account-dialog
+ng g c views/user/components/profile/_dialog/profile-privacy-cookies-dialog
+ng g c views/user/components/profile/_dialog/profile-notification-favorites-dialog
+ng g c views/user/components/profile/_dialog/profile-photos-dialog
+ng g c views/user/components/profile/_dialog/profile-password-dialog
+ng g c views/user/components/profile/_dialog/profile-google-dialog
+ng g c views/user/components/profile/_dialog/profile-location-dialog
+ng g c views/user/components/profile/_dialog/profile-about-dialog
+ng g c views/user/components/profile/_dialog/profile-specialities-dialog
+ng g c views/user/components/profile/_dialog/notification-favorites-dialog
+ng g c views/user/components/profile/_dialog/notification-saved-searches-dialog
+ng g c views/user/components/profile/_dialog/notification-product-updates-dialog
+
+ng g m views/user/components/requests
+ng g c views/user/components/requests/request-listing
+
+
+ng g c views/user/components/bills
+ng g c views/user/components/bills/bill-listing
+ng g c views/user/components/bills/bill-listing-item
+ng g c views/user/components/bills/bill-create
+ng g c views/user/components/bills/bill-update
+ng g c views/user/components/bills/bill-form
+ng g c views/user/components/bills/bill-view
+ng g c views/user/components/bills/_partials/bill-status-dialog
+ng g c views/user/components/bills/_partials/bill-search-property-dialog
+
+ng g c views/user/components/bills/issued
+ng g c views/user/components/bills/issued/issued-listing
+ng g c views/user/components/bills/issued/issued-listing-item
+ng g c views/user/components/bills/received
+ng g c views/user/components/bills/received/received-listing
+ng g c views/user/components/bills/received/received-listing-item
+ng g c views/user/components/bills/bill-form-owner
+ng g c views/user/components/bills/bill-form-manager
+ng g c views/user/components/bills/bill-form-tenant
+ng g c views/user/components/bills/bill-form-vendor
+
+
+
+ng g m views/user/components/marketing
+ng g c views/user/components/marketing
+ng g c views/user/components/marketing/marketing-listing
+ng g c views/user/components/marketing/marketing-listing-item
+ng g c views/user/components/marketing/marketing-create
+ng g c views/user/components/marketing/marketing-update
+ng g c views/user/components/marketing/marketing-form
+ng g c views/user/components/marketing/marketing-view
+ng g c views/user/components/marketing/marketing-disclaimer
+ng g c views/user/components/marketing/marketing-form/marketing-payment
+
+ng g c views/user/components/marketing/_partials/marketing-firstTopForm
+ng g c views/user/components/marketing/_partials/marketing-firstInnerForm
+ng g c views/user/components/marketing/_partials/marketing-firstFeaturedForm
+ng g c views/user/components/marketing/_partials/marketing-secondTopForm
+ng g c views/user/components/marketing/_partials/marketing-secondInnerForm
+ng g c views/user/components/marketing/_partials/marketing-secondFeaturedForm
+ng g c views/user/components/marketing/_partials/marketing-Payment
+
+
+
+ng g c views/user/components/marketing/_partials/mktg-owner-form
+ng g c views/user/components/marketing/_partials/mktg-manager-form
+ng g c views/user/components/marketing/_partials/mktg-vendor-form
+ng g c views/user/components/marketing/_partials/mktg-owner-disclaimer
+ng g c views/user/components/marketing/_partials/mktg-manager-disclaimer
+ng g c views/user/components/marketing/_partials/mktg-vendor-disclaimer
+ng g c views/user/components/marketing/_partials/mktg-upper-right-ad-availability
+ng g c views/user/components/marketing/_partials/mktg-inner-page-ad-availability
+ng g c views/user/components/marketing/_partials/mktg-featured-ad-availability
+ng g c views/user/components/marketing/_partials/mktg-featured-profile-ad-availability
+ng g c views/user/components/marketing/_partials/mktg-upper-right-ad-form
+ng g c views/user/components/marketing/_partials/mktg-inner-page-ad-form
+ng g c views/user/components/marketing/_partials/mktg-featured-ad-form
+ng g c views/user/components/marketing/_partials/mktg-featured-profile-ad-form
+ng g c views/user/components/marketing/_partials/mktg-payment
+ng g c views/user/components/marketing/_partials/mktg-congratulations
+
+
+
+ng g c views/user/components/reports
+ng g c views/user/components/reports/report-listing
+
+
+ng g c views/user/components/property-managers
+ng g c views/user/components/property-managers/search/search-managers-listing
+ng g c views/user/components/property-managers/search/search-managers-listing-item
+ng g c views/user/components/property-managers/search/search-managers-view
+
+
+ng g c views/user/components/marketing
+ng g c views/user/components/marketing/marketing-listing
+
+ng g c views/user/components/staffs
+ng g c views/user/components/staffs/staffs-listing
+ng g c views/user/components/staffs/staffs-listing-item
+ng g c views/user/components/staffs/staffs-create
+ng g c views/user/components/staffs/staffs-updatate
+ng g c views/user/components/staffs/staffs-form
+ng g c views/user/components/staffs/staffs-view
+
+
+ng g c views/user/components/requests/request-view
+ng g c views/user/components/requests/request-listing
+ng g c views/user/components/requests/request-listing-item
+ng g c views/user/components/requests/request-create
+ng g c views/user/components/requests/request-update
+ng g c views/user/components/requests/request-form
+ng g c views/user/components/requests/received-requests
+ng g c views/user/components/requests/issued-requests
+ng g c views/user/components/requests/received
+ng g c views/user/components/requests/received/received-listing
+ng g c views/user/components/requests/received/received-listing-item
+
+ng g c views/user/components/requests/catalog-contact
+ng g c views/user/components/requests/catalog-contact/contact-received-listing
+ng g c views/user/components/requests/catalog-contact/contact-received-listing-item
+ng g c views/user/components/requests/catalog-contact/contact-send-listing
+ng g c views/user/components/requests/catalog-contact/contact-send-listing-item
+ng g c views/user/components/requests/catalog-contact/contact-view
+
+ng g c views/user/components/requests/request-form-owner
+ng g c views/user/components/requests/request-form-manager
+ng g c views/user/components/requests/request-form-tenant
+ng g c views/user/components/requests/request-form-vendor
+
+ng g c views/user/components/requests/_partials/
+
+ng g c views/user/components/requests/proposals
+ng g c views/user/components/requests/proposals/proposal-listing
+ng g c views/user/components/requests/proposals/proposal-listing-item
+ng g c views/user/components/requests/proposals/proposal-view
+
+ng g c views/user/components/reports/report-view
+ng g c views/user/components/reports/report-listing-item
+ng g c views/user/components/reports/report-create
+ng g c views/user/components/reports/report-update
+ng g c views/user/components/reports/report-form
+
+
+npm install @angular/animations@14.2.0 @angular/cdk@14.2.0 @angular/common@14.2.0 @angular/compiler@14.2.0 @angular/core@14.2.0 @angular/platform-browser@14.2.0 @angular/compiler-cli@14.2.0 --save --force
+
+npm install @ngrx/effects@14.3.0 @ngrx/entity@14.3.0 @ngrx/store@14.3.0 --save --force
+
+scp * ssh amla@amlakserv.com:/var/www/html/code/uploads/storage/
+scp * ssh amla@164.92.65.34:/var/www/html/code/uploads/storage/
+scp * ssh amla@amlakserv.com:/var/www/html/web
+scp * ssh genie@147.182.167.197:/var/www/html/code/uploads/storage/
+
+
+Password Protected Website
+amla
+Alk@123#.
+
+git remote set-url origin git@gitlab.com:tech.alkurn/web.amlakserv.git
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDR02sOVpGMqKb4SoVswNXo8gVVsKeNl5ZQ4UpAr9M87+z8gVZvZMxAgl+k+LXRdUO/k8QsK/duJ/1dYqHsPG/iHD2xTtGX+0+WybYSHM7mxXf5phF+4lNE4Qwl0CZ82jiXQkUjqdRsSPFIxC6CkA63Yx2LgKbDFX9guqyxAIZ0OrZwH3qj1gTSF/SdGBdXhSU+nqojAZiH027fa1Y5ZzxuVxBqWh95zvAcjiao5N3PqbdEIlF8IR+QyBHw9YnHT5zdCNob4E+PuwdL0iGjB15ckRWvsrPZ7Nuau6Qk5CnD/Q0o1czTY/ddny7NCZR767bZ99HeG0B4hplp/aoDbcGwIhoNPmkYuLbuLiRNCAmNB16J770qRrs1SSvpZqJ8fe51bUILsPNL0911bXcQhMla3XarOuzgaYEOcUI8krh4EHaZNMRGdkGHGZ5czsZq8l+eZaszGVMhk5WJMZRTovZfbQ6e0g5q50iBqssv3V1RPsqjQ1IaYEAYXSA1rsSupXUPf7zsrjyaNi5bKAtT6WOA1oauQ== muzammila.alkurn.gmail.com
+
+
+Owners 7 rowb2dQ3AqI/WwXdiN6bNoaIETAyC7BnPeQXNwqf4O1B/51QbRYz2D6vZXdu061WxrvF+5TE+zqs/esPO+WRq5mmeTEziaN/9LEC6rBoP/5oS6Bqcq3PWgSFe6fibyTsSV7IDyDidPdNmLOjSMBN
+
+
+'message', 'message-unread', 'message-recipients'
+'support', 'support-unread', 'support-recipients'
+'notification', 'notification-actions', 'pull'
+
+
+
+Ground floor: 1 room + living room + kitchen + 2 wc + bathroom + large entrance hall.
+1st floor: 2 rooms + living room + kitchen + large hall + large balcony.
+2nd floor: 3 rooms + WC/bathroom + large entrance + 2 small balconies +1 large balcony.
+
+
+
+
+
+Design links
+     1. https://www.figma.com/file/FPqSUsINrUyQtEYr4WtT43/Amlakserv-Tenant-Vendor-Other?type=design&mode=design&t=l5I97ToOxgttu6BA-11  => Tenant, Vendor, Other users
+     
+
+
+
+
+
+ngx-bootstrap@10.3.0 ngx-intl-tel-input@3.2.0 ngx-stripe@16.2.0
+
+
+
+
+1. make repo on git demo.git
+2. git clone demo.git on local
+3. git clone demo.git on server
+
+4. create demo.git directory on server
+     cd demo.git
+     git init --bare
+
+5. create "post-receive" file on demo.git/hooks/
+cd hooks/
+
+     #!/bin/bash
+
+     git --work-tree=/var/www/html/web --git-dir=/var/www/html/web.git checkout -f
+     cd /var/www/html/web
+     npm install --force
+     ng build && ng run web:server
+     pm2 restart 0
+
+6. execute command as below:
+     chmod +x post-receive 
+
+---- Local Directory ----
+7. exec following command for create git remote production on local directory
+
+     cd /var/www/html/deploy/demo
+     git remote add dev amla@164.92.65.34:/var/www/html/web.git
+
+8. make a git push in local directory
+     git add .
+     git commit -am "update to live server"
+     git push origin master
+
+9. after that execute command  "git push production master"
+     git push live master
+
+git remote add live amla@amlakserv.com:/var/www/html/web.git
+git push dev master
+git remote remove dev
+
+
+
+
+
+
+M-3.2
+Search PM -> Done
+PM Individual Page -> Done
+Contact PM  -> Done
+Contact PO ->  Done 
+Contacts list  -> Done 
+My Favorites -> Done
+Saved Searches -> Done
+
+M-4
+Search Properties -> Process
+Search Result - Property Listing -> Process
+Property Individual Page  -> Done
+Contact PM/PO ->  Done 
+Contacts ->  Done 
+My Favorites ->  Done 
+Saved Searches ->  Done 
+ 
+
+M-5
+Contacts ->  Done 
+Create Management Agreement ->  Done 
+CreateTenancy Agreement  ->  Done 
+Requests -> Process
+Issued Request Section View Issued Request Listing -> Process
+Issued Request Section Add Request  -> Process
+Issued Request Section View Individual Issued Request Details -> Process
+Received Request Section View Received Request Listing -> Process 
+Received Request Section View Individual Received Request Details -> Process
+
+unzip -r 
+
+
+Control Flow Format
+npm run format:write
+
+
+
+
+
+
+
+invite-contract-reference-owner-pending
+invite-contract-reference-owner-confirmed
+invite-contract-reference-owner-decline
+invite-agreement-reference-tenant-pending
+invite-agreement-reference-tenant-confirmed
+invite-agreement-reference-tenant-decline
+
+
+
+
+
+number_of_properties => All User
+number_of_contacts => All User
+
+
+
+number_of_requests
+number_of_issued_requests
+number_of_received_requests
+number_of_send_proposal
+
+number_of_send_proposal_pending
+number_of_send_proposal_history
+
+number_of_bills
+number_of_issued_bills
+number_of_issued_bills_pending
+number_of_issued_bills_history
+number_of_received_bills
+
+
+
+https://feapi.dev.amlakserv.com/contact/index?key=message-recipients&page=0&size=20
+
+{{url}}/contact/index?key=message-recipients
+
+{{url}}/contact/index?key=message&message_id=6
+
+{{url}}/contact/index?key=message&message_id=6&created_at=1234646465Oiu
+
+
+
+Point No. 922 Delete Talant not working
+
+
+
+https://www.figma.com/file/9zCej7PuBJygatJdtgQVIR/Milestone-3-Screens?type=design&node-id=4-3178&mode=design
+
+
+
+
+
+		"@ng-select/ng-select": "^11.1.1",
+		"ngx-bootstrap": "^10.3.0",
+
+
+

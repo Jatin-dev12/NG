@@ -1,0 +1,12 @@
+.more-text {position: relative;}
+.read-more {
+    cursor: grab;
+    //position: absolute;
+    right: 0px;
+    top: auto;
+    bottom: 0px;
+    margin: 0 0 0 5px;
+}
+.read-more.hidden {
+    display: none;
+}

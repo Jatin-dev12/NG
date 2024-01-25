@@ -1,0 +1,504 @@
+<div class="tabmenu">
+	@if (showPreview) {
+	<div class="addtop mb-4">
+		<a routerLink="/"><img src="{{ gs.imgUrl }}/addtop.png" alt="" class="w-100" /></a>
+	</div>
+	}
+	<ul class="nav-tabs nav">
+		<li class="nav-item">
+			<a routerLink="." class="nav-link" (click)="clickOutside('/properties/add/update')">Property Details</a>
+		</li>
+		@if (gs.is_manager) {
+		<li class="nav-item">
+			<a routerLink="/properties/add/owner/{{ update?.id }}" class="nav-link active">Property Owner Info</a>
+		</li>
+		}
+		@if (update?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+		@if (gs.is_owner) {
+		<li class="nav-item">
+			<a routerLink="." class="nav-link" (click)="clickOutside('/properties/add/tenant')">Tenant Info</a>
+		</li>
+		}
+		@if (gs.is_manager && update?.is_contract) {
+		<li class="nav-item">
+			<a routerLink="." class="nav-link" (click)="clickOutside('/properties/add/tenant')">Tenant Info</a>
+		</li>
+		}
+		}
+	</ul>
+	<!-- <pre> 123
+		{{ update?.property_purpose | json }} 
+	</pre> -->
+	<div class="tab-content">
+		<div class="tab-pane fade show active">
+			@if (update?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE) {
+				<ngb-alert [dismissible]="false" [type]="'warning'">
+					<strong>Warning!</strong> Update the property first, then added the owner information.
+				</ngb-alert>
+			}
+			<form [formGroup]="form" (ngSubmit)="onSubmitPreview(form)">
+				@if (!showPreview) {
+				<div class="formdiv">
+					<h1>{{ "Owner Information" }}</h1>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Name" }}<span class="star">*</span></label>
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="name" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Email" }}<span class="star">*</span></label>
+								@if (f["email"].pending) {
+								<mat-progress-spinner matSuffix [mode]="'indeterminate'"
+									[diameter]="20"></mat-progress-spinner>
+								}
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="email" />
+								@if (gs.isValid("email", f)) {
+								<div class="invalid-feedback d-block">
+									@if (
+									f["email"].errors &&
+									f["email"].errors["emailExistWithRole"]
+									) {
+									<div>
+										Email Id already registered as a different User Role
+										on the system
+									</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Country Code" }}<span class="star">*</span></label>
+								<ng-select [items]="(countriesObservable | async) ?? []" bindLabel="name"
+									bindValue="phone_code" appearance="outline" placeholder="- Please Enter -"
+									[searchable]="true" class="form-control1" formControlName="phone_code" name="Country code">
+									<!-- @for (item of (countriesObservable | async) ?? []; track item) {
+										<ng-option [value]=""></ng-option>
+									} -->
+									<ng-template ng-option-tmp let-item="item" let-index="index">
+										<!-- <img height="15" width="15" [src]="item.avatar"/> -->
+										{{ item.name }} ({{item.phone_code}})
+									</ng-template>
+								</ng-select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Phone Number" }}</label>
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="telephone" [maxlength]="15"
+									[customErrors]="{ pattern: 'Phone number not valid' }" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Address" }}<span class="star">*</span></label>
+								<input type="text" class="form-control" placeholder="- Please Enter -"
+									formControlName="location" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Type of Contract" }}<span class="star">*</span></label>
+								<div class="input-group" controlErrorContainer>
+									<input type="text" class="form-control" placeholder="- Please Select -"
+										formControlName="contract_type" name="Type of Contract" readonly
+										(click)="myDrop.open()" />
+									<span class="input-group-text">
+										<div ngbDropdown #myDrop="ngbDropdown">
+											<button type="button" ngbDropdownToggle ngbDropdownAnchor>
+												<span class="name">
+													<img src="{{ gs.imgUrl }}/drop-arrow.svg" alt="" />
+												</span>
+											</button>
+											<ul ngbDropdownMenu>
+												@for (item of CatalogRefRequestType; track item) {
+												<li>
+													<a ngbDropdownItem (click)="
+                                  form.patchValue({ contract_type: item.value })
+                                ">{{ item.value }}
+													</a>
+												</li>
+												}
+											</ul>
+										</div>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Management Commission" }}<span class="star">*</span></label>
+								<a-inputNumber formControlName="commission" inputId="percent" suffix=" %" [max]="100"
+									[maxlength]="5"></a-inputNumber>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Payable" }}<span class="star">*</span></label>
+								<div class="input-group" controlErrorContainer>
+									<input type="text" class="form-control" formControlName="payment_terms"
+										placeholder="- Please Select -" name="Payable" readonly
+										(click)="myDrop2.open()" />
+									<span class="input-group-text">
+										<div ngbDropdown #myDrop2="ngbDropdown">
+											<button type="button" ngbDropdownToggle ngbDropdownAnchor>
+												<span class="name"><img src="{{ gs.imgUrl }}/drop-arrow.svg"
+														alt="" /></span>
+											</button>
+											<ul ngbDropdownMenu>
+												@for (
+												item of UserCatalogOrderPaymentTerms;
+												track item
+												) {
+												<li>
+													<a ngbDropdownItem (click)="
+                                  form.patchValue({ payment_terms: item.value })
+                                ">{{ item.value }}</a>
+												</li>
+												}
+											</ul>
+										</div>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "Start Date" }}<span class="star">*</span></label>
+								<div controlErrorContainer>
+									<input type="text" class="form-control" placeholder="- Please Select -"
+										formControlName="start_time" [matDatepicker]="start_time" [min]="minDate"
+										name="Start Date" readonly />
+									<button class="calendericon" type="button" (click)="start_time.open()">
+										<img src="{{ gs.imgUrl }}/calender.svg" alt="Images" />
+									</button>
+									<mat-datepicker #start_time></mat-datepicker>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>{{ "End Date" }}<span class="star">*</span></label>
+								<div controlErrorContainer>
+									<input type="text" class="form-control" placeholder="- Please Select -"
+										formControlName="end_time" [matDatepicker]="end_time"
+										[min]="form.value?.start_time ?? minDate" name="End Date" readonly />
+									<button class="calendericon" type="button" (click)="end_time.open()">
+										<img src="{{ gs.imgUrl }}/calender.svg" alt="Images" />
+									</button>
+									<mat-datepicker #end_time></mat-datepicker>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>{{ "Terms & Conditions" }}<span class="star">*</span></label>
+								<textarea class="form-control" rows="3" name="Terms & Conditions"
+									placeholder="- Write a Description -" formControlName="terms"></textarea>
+								@if (form.value?.terms) {
+								<div class="crtcount">
+									{{ gs.maxLength - form.value?.terms?.length }} characters
+									left
+								</div>
+								}
+							</div>
+						</div>
+						<div class="col-sm-12 fileuploader contract">
+							<div class="form-group">
+								<label>{{ "Contract" }}<span class="star">*</span></label>
+								<app-file-drag-drop-uploader title="Contract" [multiple]="false"
+									[accept]="'application/pdf'" [extensions]="'doc'" [checkExtensions]="true" [layout]="'inline'"
+									(getFileId)="form.patchValue({ doc_id: $event[0] })" [allFiles]="UploadPropertyDoc"
+									(getFiles)="UploadPropertyDoc = $event"
+									placeholder="- Please Upload Contract -"></app-file-drag-drop-uploader>
+								@if (gs.isValid("doc_id", f)) {
+								<div class="invalid-feedback d-block">
+									@if (
+									f["doc_id"].errors && f["doc_id"].errors["required"]
+									) {
+									<div>Contract is required</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+					</div>
+					<div class="btndiv">
+						<button type="submit" class="btn btn-primary">
+							{{ "Preview" }}
+						</button>
+					</div>
+				</div>
+				}
+				@if (showPreview) {
+				<div class="product-view-page property-view-page owner-property-info-view">
+					<div class="pr-title">
+						<h1>Owner Information</h1>
+						@if (ownerRefrence?.status === null || ownerRefrence?.status ===
+						Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_NONE) {
+						<div class="btndiv">
+							<button type="button" class="btn btn-primary" (click)="showPreview = false">
+								<i class="fas fa-pencil-alt"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Edit
+							</button>
+							<button type="button" class="btn btn-primary"
+								(click)="onSubmit(form, 'save', Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_NONE)"
+								[appLadda]="saveLoading">
+								<img src="{{ gs.imgUrl }}/plus.svg" alt="" /><img src="{{ gs.imgUrl }}/vector-10.svg"
+									alt="" />Save
+							</button>
+							<button type="button" class="btn btn-primary" [appLadda]="requestLoading"
+								(click)="onSubmit(form, 'request', Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING)">
+								Request Confirmation
+							</button>
+						</div>
+						} @else {
+						@if (
+						ownerRefrence?.status !==
+						Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED &&
+						ownerRefrence?.status !==
+						Enums.USER_CATALOG_RECIPIENTS_STATUS_DECLINED
+						) {
+						<div class="btndiv">
+							<button type="button" class="btn btn-primary" (click)="showPreview = false">
+								<i class="fas fa-pencil-alt"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Edit
+							</button>
+							<button type="button" class="btn btn-primary" (click)="
+                        onSubmit(
+                          form,
+                          'save',
+                          Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_NONE
+                        )
+                      " [appLadda]="saveLoading">
+								<img src="{{ gs.imgUrl }}/plus.svg" alt="" /><img src="{{ gs.imgUrl }}/vector-10.svg"
+									alt="" />Save
+							</button>
+							@if (
+							ownerRefrence?.status ===
+							Enums.USER_CATALOG_RECIPIENTS_STATUS_NONE
+							) {
+							<button type="button" class="btn btn-primary" [appLadda]="requestLoading" (click)="
+                          onSubmit(
+                            form,
+                            'request',
+                            Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING
+                          )
+                        ">
+								Request Confirmation
+							</button>
+							}
+						</div>
+						}
+
+
+						}
+					</div>
+					<div class="pv-middle">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="pv-box propertyownertwo">
+									<div class="pv-title">
+										<h1>Property Owner</h1>
+									</div>
+									<div class="pv-body">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="image">
+													<img [src]="
+                                owner
+                                  ? owner.avatar
+                                  : gs.imgUrl + '/manager-1.png'
+                              " alt="" />
+												</div>
+											</div>
+											<div class="col-sm-9">
+												<div class="lefttxt">
+													<h3>{{ owner ? owner.name : form.value?.name }}</h3>
+													@if (owner?.title) {
+													<h4>({{ owner?.title ?? "" }})</h4>
+													}
+													<div class="left-scroll css-scroll" infiniteScroll>
+														@if (owner?.about) {
+														<div class="contenttwo" [innerHTML]="
+                                    owner?.about ? owner?.about : '-'
+                                  "></div>
+														}
+													</div>
+													@if (
+													ownerRefrence?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+													) {
+													<div class="btndiv">
+														<a class="btn btn-primary">Contact</a>
+													</div>
+													}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pv-box management mb-0">
+									<div class="pv-title">
+										<h1>Management Agreement</h1>
+									</div>
+									<div class="pv-body">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="prodetails">
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Owner Name</div>
+															<div class="col-sm-6">
+																{{ form.value?.name }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Email Address</div>
+															<div class="col-sm-6">
+																{{ form.value?.email }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Country Code</div>
+															<div class="col-sm-6">
+																{{ form.value?.phone_code ?? "-" }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Phone Number</div>
+															<div class="col-sm-6">
+																{{ form.value?.telephone }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Address</div>
+															<div class="col-sm-6">
+																{{ form.value?.location }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Type of Contract</div>
+															<div class="col-sm-6">
+																{{ form.value.contract_type }}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="prodetails">
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">
+																Management Commission
+															</div>
+															<div class="col-sm-6">
+																{{ form.value.commission }}%
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Payable</div>
+															<div class="col-sm-6">
+																{{ form.value.payment_terms }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">Start Date</div>
+															<div class="col-sm-6">
+																{{ form.value.start_time | date: "longDate" }}
+															</div>
+														</div>
+													</div>
+													<div class="detailbox">
+														<div class="row">
+															<div class="col-sm-6">End Date</div>
+															<div class="col-sm-6">
+																{{ form.value.end_time | date: "longDate" }}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="termssection">
+											<h1>Terms & Conditions</h1>
+											<div class="left-scroll css-scroll" infiniteScroll>
+												<div class="content" [innerHTML]="form.value.terms"></div>
+											</div>
+										</div>
+										<div class="btndivbottom">
+											<div class="row">
+												<div class="col-sm-6">
+													@if (
+													ownerInfo?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_PENDING
+													) {
+													<button type="button" class="btn btn-warning status">
+														Pending
+													</button>
+													}
+													@if (
+													ownerInfo?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_DECLINED
+													) {
+													<button type="button" class="btn btn-danger status">
+														Declined
+													</button>
+													}
+													@if (
+													ownerInfo?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+													) {
+													<button type="button" class="btn btn-success status">
+														Approved
+													</button>
+													}
+													@if (
+													ownerInfo?.status ===
+													Enums.USER_CATALOG_RECIPIENTS_STATUS_CONFIRMED
+													) {
+													<a routerLink="/properties/manager-agreement/{{
+                                  update?.id
+                                }}" class="btn btn-info">View Management Agreement</a>
+													}
+												</div>
+												<div class="col-sm-6">
+													<div class="contract">
+														<a [href]="contractFile(UploadPropertyDoc)" target="_blank"><i
+																class="fas fa-file-pdf"></i> Contract</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				}
+				<!-- Property View page star here -->
+			</form>
+		</div>
+	</div>
+</div>

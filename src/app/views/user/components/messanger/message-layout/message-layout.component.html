@@ -1,0 +1,90 @@
+<main class="all-content user-layout">
+	<div class="message-page">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Message</li>
+			</ol>
+		</nav>
+		<div class="container11">
+			<!-- <h1>Message</h1> -->
+			<div class="row gy-3">
+				<div class="col-sm-5">
+					<div class="user-box">
+						<div class="row">
+							<div class="col-sm-8">
+								<h2>
+									<!-- <img src="{{ gs.imgUrl }}/back-1.svg" alt="" /> -->
+									Message
+								</h2>
+							</div>
+							<div class="col-sm-4">
+								<!-- <div class="rightmenu">
+									<button type="button" class="btn p-0"><img src="{{ gs.imgUrl }}/three-dots.svg" alt="" /></button>
+								</div> -->
+							</div>
+						</div>
+						<div class="search-list-group">
+							<div class="search-user">
+								<div class="input-group">
+									<span class="input-group-text" id="basic-addon1">
+										<img src="{{ gs.imgUrl }}/search-btn-2.svg" alt="" />
+									</span>
+									<input class="form-control" type="search" placeholder="Search" autocomplete="off" [(ngModel)]="searchText" (ngModelChange)="dataChanged($event)" />
+								</div>
+							</div>
+						</div>
+						<div class="tabbtn">
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary {{ (sort === 'all') ? 'active' : '' }}" (click)="handleSort('all')">All</button>
+								<button type="button" class="btn btn-primary {{ (sort === 'unread') ? 'active' : '' }}" (click)="handleSort('unread')">Unread</button>
+							</div>
+						</div>
+						<div class="recipients">
+							@if (conversationRequestLoading) {
+								<ul class="user-list">
+									@for (item of gs.generateFake(4); track item) {
+									<li class="p-3">
+										<div class="d-flex align-items-center">
+											<div class="img mr-2" style="width: 60px">
+												<ngx-skeleton-loader [theme]="{ height: '70px', width: '70px' }" appearance="circle"></ngx-skeleton-loader>
+											</div>
+											<div class="caption">
+												<ngx-skeleton-loader count="3" [theme]="{ height: '10px', width: '100%' }"></ngx-skeleton-loader>
+											</div>
+										</div>
+									</li>
+									}
+								</ul>
+							} @else {
+								<div class="left-scroll css-scroll" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" [scrollWindow]="false" (scrolled)="onScrollConversation($event)">
+									@if (conversations) {
+										<app-conversation-list [conversations]="conversations" (getProfile)="handleProfile($event)" [sort]="sort"></app-conversation-list>
+									}
+								</div>
+								@if (conversationLoading) {
+									<div class="">Loading...</div>
+								}
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-7">
+					@if (message_id) {
+						<div class="msg-list-box">
+							<message-user-profile [profile]="chatProfile"></message-user-profile>
+							<div class="right-scroll css-scroll" auto-scroll [lock-y-offset]="10" observe-attributes infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" [scrollWindow]="false" (scrolled)="onScroll($event)" (scrolledUp)="scrolledUp($event)">
+								<app-message-list [items]="chatList" [requestLoading]="chatRequestLoading" [loading]="chatLoading"></app-message-list>
+							</div>
+							<app-compose [message_id]="message_id" [chatRequestLoading]="chatRequestLoading"></app-compose>
+						</div>
+					}
+					@if (!message_id) {
+						<app-not-found></app-not-found>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<!-- <button (click)="Send()">Send</button> -->

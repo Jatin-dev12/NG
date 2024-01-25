@@ -1,0 +1,133 @@
+<div class="reviewsratings">
+  <div class="card">
+    <div class="card-header">Reviews & Ratings</div>
+    <div class="card-body">
+      @if (loading | async) {
+        @for (item of gs.generateFake(2); track item) {
+          <div class="reviews-box">
+            <ngx-skeleton-loader
+              [theme]="{ height: '25px', width: '100%' }"
+              count="2"
+            ></ngx-skeleton-loader>
+          </div>
+        }
+      } @else {
+        @for (item of (reviews | async)?.items; track item) {
+          <div class="reviewsbox">
+            <div class="image">
+              <img [src]="item?.reviewBy?.avatar" alt="" />
+            </div>
+            <div class="detail">
+              <h4>{{ item?.reviewBy?.name }}</h4>
+              <div class="rating">
+                <ngb-rating
+                  [max]="5"
+                  [readonly]="true"
+                  [rate]="item.rating"
+                ></ngb-rating>
+              </div>
+              <div class="date">
+                {{ item.created_at * 1000 | date: "mediumDate" }}
+              </div>
+              <div class="content">"{{ item?.comment }}"</div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        } @empty {
+          <div class="text-center p-3">Reviews not found.</div>
+        }
+      }
+      <ng-template #gridElse>
+        @for (item of (reviews | async)?.items; track item) {
+          <div class="reviewsbox">
+            <div class="image">
+              <img [src]="item?.reviewBy?.avatar" alt="" />
+            </div>
+            <div class="detail">
+              <h4>{{ item?.reviewBy?.name }}</h4>
+              <div class="rating">
+                <ngb-rating
+                  [max]="5"
+                  [readonly]="true"
+                  [rate]="item.rating"
+                ></ngb-rating>
+              </div>
+              <div class="date">
+                {{ item.created_at * 1000 | date: "mediumDate" }}
+              </div>
+              <div class="content">"{{ item?.comment }}"</div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        } @empty {
+          <div class="text-center p-3">Reviews not found.</div>
+        }
+      </ng-template>
+      @if ((reviews | async)?.pagination; as pagination) {
+        @if (
+          pagination.pageSize < pagination.totalCount &&
+          pagination.totalCount !== (reviews | async)?.items?.length
+        ) {
+          <div class="loadmorebtn">
+            <a
+              class="btn btn-outline-secondary"
+              [appLadda]="moreLoading | async"
+              (click)="handleLoadMore()"
+              >Load More</a
+            >
+          </div>
+        }
+      }
+      <!-- <div class="reviewsbox">
+  <div class="image">
+    <img src="{{gs.imgUrl}}/Ellipse.png" alt="" />
+  </div>
+  <div class="detail">
+    <h4>John Paul</h4>
+    <div class="rating">
+      <ngb-rating [max]="5" [readonly]="true" [rate]="4"></ngb-rating>
+    </div>
+    <div class="date">4/18/2022</div>
+    <div class="content">
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the"
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="loadmorebtn">
+  <a routerLink="/" class="btn btn-outline-secondary">LOAD MORE REVIEWS</a>
+</div> -->
+    </div>
+  </div>
+</div>
+<!-- <div class="detailbox reviews">
+<h2>Reviews ({{(reviews | async)?.pagination?.totalCount ?? 0}})</h2>
+<div class="clearfix"></div>
+<div class="reviews-listing">
+  <ng-container *ngIf="loading | async; else gridElse">
+    <div class="reviews-box" *ngFor="let item of gs.generateFake(2)">
+      <ngx-skeleton-loader [theme]="{ height: '25px', width: '100%'}" count="2"></ngx-skeleton-loader>
+    </div>
+  </ng-container>
+  <ng-template #gridElse>
+    <div class="reviews-box" *ngFor="let item of (reviews | async )?.items">
+      <img [src]="item?.reviewBy?.avatar" alt="" />
+      <h3>{{item?.reviewBy?.name}}</h3>
+      <div class="rating">
+        <ngb-rating [max]="5" [readonly]="true" [rate]="item.rating"></ngb-rating>
+      </div>
+      <div class="date">{{ item.created_at * 1000 | date:'mediumDate' }} \ {{ item.order_title }} \ {{ item.no_recipients }} guests</div>
+      <div class="clearfix"></div>
+      <div class="content">
+        {{item?.comment}}
+      </div>
+    </div>
+    <div *ngIf="((reviews | async)?.items === null) || ((reviews | async)?.items.length === 0)">Reviews not found.</div>
+  </ng-template>
+  <ng-container *ngIf="(reviews | async)?.pagination as pagination">
+    <div class="loadmore text-center" *ngIf="(pagination.pageSize < pagination.totalCount) && (pagination.totalCount !== (reviews | async)?.items?.length)">
+      <a class="btn btn-primary" routerLink="." [appLadda]="moreLoading | async" (click)="handleLoadMore()">Load More</a>
+    </div>
+  </ng-container>
+</div>
+</div> -->

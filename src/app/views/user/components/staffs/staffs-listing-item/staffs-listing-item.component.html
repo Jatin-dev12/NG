@@ -1,0 +1,29 @@
+<div class="row align-items-center">
+  <div class="col">{{ item?.name }}</div>
+  <div class="col">{{ item?.name }}</div>
+  <div class="col">{{ item?.email }}</div>
+  <div class="col">******</div>
+  <div class="col">
+    @if (item?.status === 10) {
+      <div class="statusdiv">
+        <a class="btn btn-primary" (click)="updateStatus()"
+          >Enabled <span><i class="fas fa-plus"></i></span
+        ></a>
+      </div>
+    }
+    @if (item?.status !== 10) {
+      <div class="statusdiv">
+        <a class="btn btn-secondary" (click)="updateStatus()"
+          >Disabled <span><i class="fas fa-times"></i></span
+        ></a>
+      </div>
+    }
+  </div>
+  <div class="col">
+    <div class="btndiv">
+      <a routerLink="/staffs/view/{{ item?.id }}" class="btn btn-primary"
+        >Click to manage</a
+      >
+    </div>
+  </div>
+</div>

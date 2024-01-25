@@ -1,0 +1,67 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <h1>Ready to Contact?</h1>
+  <div class="readytoapply-popup">
+    <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+      <app-error-summary></app-error-summary>
+      <div class="form-group">
+        <div class="input-group" controlErrorContainer>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="type_of_request"
+            placeholder="Type of Request"
+            name="Type of requests"
+            readonly
+            (click)="myDrop.open()"
+          />
+          <span class="input-group-text" id="basic-addon2">
+            <div ngbDropdown #myDrop="ngbDropdown">
+              <button type="button" ngbDropdownToggle ngbDropdownAnchor>
+                <span class="name"
+                  ><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt=""
+                /></span>
+              </button>
+              <ul ngbDropdownMenu>
+                @for (item of TypeOfRequestArray; track item) {
+                  <li>
+                    <a
+                      ngbDropdownItem
+                      (click)="form.patchValue({ type_of_request: item.value })"
+                      >{{ item.value }}</a
+                    >
+                  </li>
+                }
+              </ul>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Enter your message</label>
+        <textarea
+          class="form-control"
+          placeholder="Why would you like to apply for this property? (optional)"
+          formControlName="description"
+        ></textarea>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <div class="btndivtwo">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [appLadda]="loading"
+              >
+                Send Request
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

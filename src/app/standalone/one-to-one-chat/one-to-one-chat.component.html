@@ -1,0 +1,166 @@
+<div class="common-chat two">
+	<div class="msg-list-box">
+		<div class="user-info d-flex align-items-center">
+			<div class="image pl-3">
+				<img class="rounded-circle" [src]="profile?.avatar" alt="" />
+			</div>
+			<div class="caption col d-flex align-items-center">
+				<div class="left col">
+					<div class="row">
+						<div class="col-sm-12">
+							<h4>
+								<!-- {{ profile?.title }} -->
+								{{ profile?.name }}
+							</h4>
+							<time>{{ profile?.title ? profile?.title : gs.removeLastS(profile?.role) }}</time>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="right-scroll css-scroll" auto-scroll infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" [scrollWindow]="false" (scrolled)="onScroll($event)" (scrolledUp)="scrolledUp($event)">
+			<app-message-list [items]="chatList" [requestLoading]="chatRequestLoading" [loading]="chatLoading"></app-message-list>
+			<!-- <ul class="msg-list">
+				@if (chatRequestLoading) {
+					@for (item of gs.generateFake(3); track item) {
+						<li class="youmsg">
+							<div class="d-flex align-items-center">
+								<div class="img mr-2" style="width: 80px">
+									<ngx-skeleton-loader [theme]="{ height: '70px', width: '70px' }" appearance="circle">
+									</ngx-skeleton-loader>
+								</div>
+								<div class="caption">
+									<ngx-skeleton-loader count="3"
+										[theme]="{ height: '10px', width: '100%' }"></ngx-skeleton-loader>
+								</div>
+							</div>
+						</li>
+					}
+				} @else {
+				@if (chatLoading) {
+					<li class="text-center">
+						<div class="spinner-border text-primary"></div>
+					</li>
+				}
+				@for (item of chatList.slice().reverse(); track item; let i = $index; let first = $first; let last = $last) {
+					<li [ngClass]="isMine(item) ? 'mymsg' : 'youmsg'">
+						<div [ngClass]="{'items-end': isMine(item), 'items-start': !isMine(item), 'mt-0.5': i > 0 && isMine(chatList.slice().reverse()[i - 1]) === isMine(item), 'mt-3': i > 0 && isMine(chatList.slice().reverse()[i - 1]) !== isMine(item)}">
+							<ng-container *ngIf="first || (chatList.slice().reverse()[i - 1]?.created_at | date:'d') !== (item?.created_at | date:'d')">
+								<div class="d-flex align-items-center justify-content-center">
+									<div class="flex-auto border-b"></div>
+									<div class="flex-0 mx-4 text-sm font-medium leading-5 text-primary">
+										{{item?.created_at | date: 'longDate'}}
+									</div>
+									<div class="flex-auto border-b"></div>
+								</div>
+							</ng-container>
+							<div class="pic">
+								<img alt="" src="https://uploads.amlakserv.com/cache/default-90x90.png" />
+							</div>
+							<div class="msg-text" ngbTooltip="{{ timeNow(item.created_at) }}" [placement]="isMine(item) ? 'left' : 'right'">
+								<div class="borderdiv">
+									<div class="text" [innerHtml]="item.text"></div>
+									@if (item.attachments?.length > 0) {
+										<div class="attachments w-100 d-flex flex-wrap">
+											<div class="w-100 d-flex flex-wrap nullImg first-img">
+												@for (image of item.attachments; track image; let i = $index; let first = $first) {
+													<div class="img w-25 custom">
+														<a href="{{ image.path }}" target="_blank" download>
+															@if (image.mimetype == "image") {
+																<img [src]="image.path" class="img-fluid" />
+															}
+															@if (image.mimetype == "video") {
+																<video width="225" height="225" controls>
+																	<source src="{{ image.path }}" type="{{ image.mimetype }}" />
+																</video>
+															}
+															@if (image.mimetype == "application") {
+																<div class="files">
+																	<i class="fas fa-file-pdf"></i> <span>{{ image.filename }}</span>
+																</div>
+															}
+														</a>
+													</div>
+												}
+											</div>
+										</div>
+									}
+								</div>
+								<div class="timetxt">
+									{{ timeNow(item.created_at) }}
+								</div>
+
+								<div *ngIf="first || last || (isMine(chatList[i + 1]) !== isMine(item)) || ((chatList[i + 1]?.created_at | date: 'mm') !== (item.created_at | date: 'mm'))">{{ timeNow(item.created_at) }}</div>
+								
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</li>
+				}
+				}
+			</ul> -->
+		</div>
+
+		<app-compose></app-compose>
+
+		<!-- <div class="comment-form">
+			@if (loading) {
+			<div class="spinner-border mt-2">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+			}
+			@if (imageView.length > 0) {
+				<div>
+					<div class="uploads d-flex flex-wrap">
+						@for (img of imageView; track img) {
+							<div class="images">
+								@if (img.mimetype === "image") {
+									<img [src]="img.path" [alt]="img.filename" />
+								}
+								@if (img.mimetype === "video") {
+									<video name="media" style="width: 80px !important">
+										<source src="{{ img.path }}" type="{{ img.type }}" />
+									</video>
+								}
+								@if (img.mimetype === "application") {
+									<i class="fas fa-file-pdf"></i>
+								}
+								<a class="btn btn-danger btn-sm" (click)="deletePhoto(img)"><i class="fas fa-trash-alt"></i></a>
+							</div>
+						}
+					</div>
+				</div>
+			}
+			<form name="form" (ngSubmit)="sendMsg(form)" [formGroup]="form" novalidate>
+				<div class="group clearfix">
+					<div class="text float-start">
+						<textarea class="form-control pe-0" placeholder="Write Your Message....." name="text" maxlength="350" formControlName="text" #posttext></textarea>
+					</div>
+					<div class="mess-type-box float-end">
+						<div class="write-mess-right">
+							<div class="attachment">
+								<label class="file btn btn-primary rounded-circle bg-transparent border-0"
+									for="file-upload">
+									<input type="file" #uploadFileElement name="attachments" (change)="upload($event)" multiple="true" id="file-upload" style="position: absolute; width: 22px; opacity: 0; display: none; " />
+									<img src="{{ gs.imgUrl }}/attach.svg" alt="" />
+								</label>
+							</div>
+							<div class="botton" (clickOutside)="show = false" (overOutside)="show = false">
+								<a mat-stroked-button class="imojibtn bg-transparent" color="primary"
+									(click)="show = !show"><i class="far fa-smile"></i></a>
+								<button class="sendbtn" mat-raised-button color="primary" [appLadda]="submitted">
+									<i class="fas fa-paper-plane"></i>
+								</button>
+								@if (show) {
+									<emoji-mart (emojiClick)="addEmojiPost($event)" title="Pick your emoji" [showPreview]="false" [emojiTooltip]="true" set="facebook" [style]="{position: 'absolute', bottom: '45px', right: '4px' }"></emoji-mart>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div> -->
+
+
+	</div>
+</div>

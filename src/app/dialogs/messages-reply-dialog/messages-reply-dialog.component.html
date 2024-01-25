@@ -1,0 +1,99 @@
+<div class="modal-body msg-reply-dialog">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <h1>Send Messages</h1>
+  <div class="comment-form">
+    @if (loading) {
+      <div class="spinner-border mt-2">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    }
+    @if (imageView.length !== 0) {
+      <div>
+        <div class="uploads d-flex flex-wrap">
+          @for (photoView of imageView; track photoView) {
+            <div class="images">
+              @if (photoView.mimetype === "image") {
+                <img src="{{ photoView.url }}" alt="" />
+              }
+              @if (photoView.mimetype === "video") {
+                <video name="media" style="width: 80px !important">
+                  <source
+                    src="{{ photoView.url }}"
+                    type="{{ photoView.type }}"
+                  />
+                </video>
+              }
+              @if (photoView.mimetype === "application") {
+                <i class="far fa-file-alt"></i>
+              }
+              <a class="btn btn-danger btn-sm" (click)="deletePhoto(photoView)"
+                ><i class="fas fa-trash-alt"></i
+              ></a>
+            </div>
+          }
+        </div>
+      </div>
+    }
+    <!-- <form novalidate #f="ngForm" (ngSubmit)="sendMsg(form)" autocomplete="off"> -->
+    <form name="form" (ngSubmit)="onSubmit(form)" [formGroup]="form" novalidate>
+      <!-- <pre>{{form.value | json }}</pre> -->
+      <div class="group clearfix">
+        <div class="text float-start">
+          <textarea
+            class="form-control pe-0"
+            placeholder="Write Your Message....."
+            name="text"
+            maxlength="1800"
+            formControlName="text"
+            #posttext
+          ></textarea>
+        </div>
+        <div class="mess-type-box float-end">
+          <div class="write-mess-right">
+            <div class="attachment">
+              <label
+                class="file btn btn-primary rounded-circle bg-transparent border-0"
+                for="file-upload"
+              >
+                <input
+                  type="file"
+                  name="attachments"
+                  (change)="upload($event)"
+                  multiple="true"
+                  id="file-upload"
+                  style="
+                    position: absolute;
+                    width: 22px;
+                    opacity: 0;
+                    display: none;
+                  "
+                />
+                <img src="{{ gs.imgUrl }}/attach.svg" alt="" />
+              </label>
+            </div>
+            <div
+              class="botton"
+              (clickOutside)="show = false"
+              (overOutside)="show = false"
+            >
+              <!-- <a mat-stroked-button class="imojibtn bg-transparent" color="primary" (click)="show = !show"><i class="far fa-smile"></i></a> -->
+              <button
+                class="sendbtn"
+                mat-raised-button
+                color="primary"
+                [appLadda]="submitted"
+              >
+                <i class="fas fa-paper-plane"></i>
+              </button>
+              <!-- <ng-container *ngIf="show">
+              <emoji-mart  (emojiClick)="addEmojiPost($event)" title="Pick your emoji" [showPreview]="false" [emojiTooltip]="true" set="facebook" [style]="{ position: 'absolute', bottom: '45px', right: '4px' }"></emoji-mart>
+            </ng-container> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

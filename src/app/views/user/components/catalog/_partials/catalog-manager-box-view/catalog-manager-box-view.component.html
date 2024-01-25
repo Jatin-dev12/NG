@@ -1,0 +1,33 @@
+@if (manager?.id) {
+	<div class="pv-box manager">
+		<div class="pv-title">
+			<h1>Property Manager</h1>
+		</div>
+		<div class="pv-body">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="image">
+						<img [src]=" manager?.avatar ? manager?.avatar : gs.imgUrl + '/manager-1.png'" [alt]="manager?.name" />
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<div class="lefttxt">
+						<h3>{{ manager?.name }}</h3>
+						<h4>{{ manager?.title ? manager?.title : manager?.role }}</h4>
+						<div class="left-scroll css-scroll" infiniteScroll>
+							<div class="contenttwo" [innerHTML]="manager?.about"></div>
+						</div>
+						<div class="btndiv">
+							@if (ownerAgreement?.status === Enums.USER_CATALOG_ORDERS_REFERENCE_STATUS_CONFIRMED && manager?.id !== gs.identity?.id) {
+								<a (click)="contact()" class="btn btn-primary">Contact</a>
+							}
+							@if (gs.is_owner || gs.is_manager) {
+								<a routerLink="/properties/manager-agreement/{{ item?.id }}" class="btn btn-secondary">View Management Agreement</a>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

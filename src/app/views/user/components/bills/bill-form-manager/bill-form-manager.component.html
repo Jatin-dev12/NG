@@ -1,0 +1,331 @@
+@if (!showPreview) {
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <div class="formdiv">
+      <div class="form-group">
+        <div class="btndivtop">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="SelectProperty()"
+          >
+            @if (!catalog) {
+              <div>
+                <img alt="" src="{{ gs.imgUrl }}/Select-Property.svg" /><img
+                  alt=""
+                  src="{{ gs.imgUrl }}/Vector-13.svg"
+                />Select Property
+              </div>
+            }
+            @if (catalog) {
+              <div class="d-flex">
+                <div>
+                  <img
+                    [src]="catalog.cover?.path"
+                    [alt]="catalog.title"
+                    style="width: 50px"
+                  />
+                </div>
+                <div style="line-height: 14px; padding-top: 10px">
+                  <p>Selected Property</p>
+                  <p class="mb-0">
+                    {{ catalog.location?.location ?? catalog.title }}
+                  </p>
+                </div>
+              </div>
+            }
+          </button>
+          <!-- <button class="btn btn-primary ms-4" type="button"><img alt="" src="{{gs.imgUrl}}/Select-Property.svg"><img alt="" src="{{gs.imgUrl}}/Vector-13.svg">Expenses Report</button> -->
+        </div>
+        @if (gs.isValid("catalog_id", f)) {
+          <div class="invalid-feedback d-block">
+            @if (f["catalog_id"].errors && f["catalog_id"].errors["required"]) {
+              <div>{{ "Property is required" }}</div>
+            }
+          </div>
+        }
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          value="Tenancy Information"
+          readonly
+          class="form-control"
+        />
+      </div>
+      <div class="prodetails">
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Property Owner</div>
+            <div class="col-sm-8">{{ catalog?.owner?.name }}</div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Tenant</div>
+            <div class="col-sm-8">{{ manager?.name }}</div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Permitted Occupier</div>
+            <div class="col-sm-8">
+              {{ managerRefrence?.permitted_occupier }}
+            </div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Rent Amount</div>
+            <div class="col-sm-8">{{ managerRefrence?.amount | currency }}</div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Payable</div>
+            <div class="col-sm-8">{{ managerRefrence?.amount | currency }}</div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Deposit</div>
+            <div class="col-sm-8">
+              {{ managerRefrence?.deposit_amount | currency }}
+            </div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Start Date</div>
+            <div class="col-sm-8">
+              {{
+                managerRefrence?.start_time && managerRefrence?.start_time
+                  | date
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">End Date</div>
+            <div class="col-sm-8">
+              {{
+                managerRefrence?.end_time && managerRefrence?.end_time | date
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Terms</div>
+            <div class="col-sm-8">{{ managerRefrence?.terms }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <h5>Type of Bills</h5>
+        <div class="input-group" controlErrorContainer>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Type of Request"
+            [value]="form.value?.type_of_request"
+            readonly
+            (click)="myDrop.open()"
+            formControlName="type_of_request"
+          />
+          <span class="input-group-text">
+            <div ngbDropdown #myDrop="ngbDropdown">
+              <button type="button" ngbDropdownToggle ngbDropdownAnchor>
+                <span class="name"
+                  ><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt=""
+                /></span>
+              </button>
+              <ul ngbDropdownMenu>
+                @for (item of typeOfIssuesArray; track item) {
+                  <li>
+                    <a
+                      ngbDropdownItem
+                      (click)="form.patchValue({ type_of_request: item.value })"
+                      >{{ item.value }}</a
+                    >
+                  </li>
+                }
+              </ul>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label>Bill Start Date</label>
+            <div class="input-group" controlErrorContainer>
+              <input
+                [matDatepicker]="start_time"
+                class="form-control"
+                placeholder="Choose a start date"
+                formControlName="start_time"
+                [min]="minDate"
+                [ngClass]="gs.addCls('start_time', f)"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="$any(start_time)"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #start_time></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label>Bill End Date</label>
+            <div class="input-group" controlErrorContainer>
+              <input
+                [matDatepicker]="end_time"
+                class="form-control"
+                placeholder="Choose a start date"
+                formControlName="end_time"
+                [min]="minDate"
+                [ngClass]="gs.addCls('end_time', f)"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="$any(end_time)"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #end_time></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label>Due Date</label>
+            <div class="input-group" controlErrorContainer>
+              <input
+                [matDatepicker]="due_date"
+                class="form-control"
+                placeholder="Choose a start date"
+                formControlName="due_date"
+                [min]="minDate"
+                [ngClass]="gs.addCls('due_date', f)"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="$any(due_date)"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #due_date></mat-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Currency</label>
+        <div class="input-group" controlErrorContainer>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="--Please Select--"
+            [value]="form.value?.currency_code"
+            readonly
+            (click)="myDrop2.open()"
+            formControlName="currency_code"
+          />
+          <span class="input-group-text">
+            <div ngbDropdown #myDrop2="ngbDropdown">
+              <button type="button" ngbDropdownToggle ngbDropdownAnchor>
+                <span class="name"
+                  ><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt=""
+                /></span>
+              </button>
+              <ul ngbDropdownMenu>
+                @for (item of currenciesArray; track item) {
+                  <li>
+                    <a
+                      ngbDropdownItem
+                      (click)="form.patchValue({ currency_code: item.key })"
+                      >{{ item.key }}</a
+                    >
+                  </li>
+                }
+              </ul>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="prodetails">
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Gross amount</div>
+            <div class="col-sm-8">
+              <a-inputNumber
+                mode="currency"
+                [currency]="form.value?.currency_code ?? 'USD'"
+                locale="en-SA"
+                formControlName="amount"
+                placeholder="- Please Enter -"
+                inputStyleClass="w-50 bg-white"
+              ></a-inputNumber>
+            </div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Tax</div>
+            <div class="col-sm-8">
+              <a-inputNumber
+                mode="currency"
+                [currency]="form.value?.currency_code ?? 'USD'"
+                locale="en-SA"
+                formControlName="tax_rates"
+                placeholder="- Please Enter -"
+                inputStyleClass="w-50 bg-white"
+              ></a-inputNumber>
+            </div>
+          </div>
+        </div>
+        <div class="detailbox">
+          <div class="row">
+            <div class="col-sm-4">Total amount due</div>
+            <div class="col-sm-8">
+              <a-inputNumber
+                mode="currency"
+                [currency]="form.value?.currency_code ?? 'USD'"
+                locale="en-SA"
+                formControlName="total_amount"
+                placeholder="- Please Enter -"
+                inputStyleClass="w-50 bg-white"
+              ></a-inputNumber>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <textarea
+          placeholder="Description"
+          name="Description"
+          formControlName="description"
+          class="form-control"
+        ></textarea>
+      </div>
+      <div class="form-group filesupload">
+        <app-file-drag-drop-uploader
+          [layout]="'inline'"
+          [multiple]="true"
+          [title]="''"
+          [accept]="'*'"
+          (getFileId)="form.patchValue({ files: $event })"
+          (getFiles)="allFiles = $event"
+        ></app-file-drag-drop-uploader>
+      </div>
+      <div class="btndiv">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+    <!-- <pre>
+    {{ form.value | json }}
+  </pre> -->
+  </form>
+}
+@if (showPreview) {
+  <div class="formdiv">Priview</div>
+}

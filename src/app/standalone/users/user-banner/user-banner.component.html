@@ -1,0 +1,32 @@
+<div class="profileimage">
+  <div class="circle">
+    <!-- User Profile Image -->
+    <img
+      class="profile-pic"
+      [src]="
+        gs.identity?.banner ? gs.identity?.banner : '{{gs.imgUrl}}/avatar.webp'
+      "
+      alt=""
+    />
+    <!-- Default Image -->
+    <!-- <i class="fa fa-user fa-5x"></i> -->
+    @if (loading) {
+      <div class="loader rounded-circle"><span></span> <span></span></div>
+    }
+  </div>
+  <div class="p-image">
+    <img
+      src="{{ gs.imgUrl }}/camra-icon.svg"
+      class="upload-button"
+      alt=""
+      for="banner_avatar"
+    />
+    <input
+      class="file-upload"
+      type="file"
+      accept="image/*"
+      (change)="upload($event)"
+      id="banner_avatar"
+    />
+  </div>
+</div>

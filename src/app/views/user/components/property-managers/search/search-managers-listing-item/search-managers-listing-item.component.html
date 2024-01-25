@@ -1,0 +1,74 @@
+<div class="row">
+	<div class="col-sm-3">
+		<div class="image">
+			<a routerLink="/profile/view/{{ item?.username }}">
+				<!-- <img [src]="item?.avatar" [alt]="item?.name" /> -->
+				<img ngSrc="{{item?.avatar}}" width="400" height="200"  [alt]="item?.name" />
+			</a>
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<div class="detail">
+			<h3>
+				<a routerLink="/profile/view/{{ item?.username }}">{{ item?.name }}</a>
+			</h3>
+			<div class="faveritesbtn">
+				<button type="button" class="faverites text" [ngClass]="{ text: item?.is_favorite }"
+					(click)="handleFavourite(item)" [appLadda]="favourileLoading">
+					<img src="{{ gs.imgUrl }}/{{
+              item?.is_favorite ? 'heart-hor.svg' : 'heart-nor.svg'
+            }}" alt="" />Favorite
+					<!-- <i class="{{ item?.is_favorite ? 'fas' : 'far' }} fa-heart"></i> -->
+				</button>
+			</div>
+			@if (item?.badge) {
+			<div class="ratebadge">
+				<img src="{{ gs.imgUrl }}/rat-badge.svg" alt="" />
+			</div>
+			}
+			<div class="desina">{{ item?.title ? item?.title : gs.removeLastS(item?.role) }}</div>
+			<div class="address">{{ item?.location?.location ?? "-" }}</div>
+			<div class="row">
+				<div class="col-sm-10">
+					@for (tag of tagsArray; track tag) {
+					@if (tag) {
+					<div class="catname">{{ tag }}</div>
+					}
+					}
+					@if (item && tagsArray?.length === 0) {
+					<div class="w-100">Specialities not found</div>
+					}
+				</div>
+				<div class="col-sm-2">
+					<div class="btndiv">
+						@switch (item?.in_contact) {
+							@case (Enums.USER_PROFILE_CONTACT_STATUS_PENDING) {
+								<a class="btn btn-secondary" routerLink="/requests/contact/view/{{ item?.contact_id }}">Pending</a>
+							}
+							@case (Enums.USER_PROFILE_CONTACT_STATUS_DECLINED) {
+								<!-- <a routerLink="/property-managers/view/{{ item?.username }}" class="btn btn-primary">Re-Submit</a> -->
+								<a class="btn btn-danger" routerLink="/requests/contact/view/{{ item?.contact_id }}">Rejected</a>
+							}
+							@case (Enums.USER_PROFILE_CONTACT_STATUS_ACCEPT) {
+								<a class="btn btn-primary" routerLink="/requests/contact/view/{{ item?.contact_id }}">Accepted</a>
+							}
+							@case (Enums.USER_PROFILE_CONTACT_STATUS_RESUBMITTED) {
+								<a class="btn btn-primary" style="pointer-events: none;">Resubmitted</a>
+							}
+							@default {
+								<a routerLink="/property-managers/view/{{ item?.username }}" class="btn btn-primary">Contact</a>
+							}
+						}
+					</div>
+				</div>
+			</div>
+			<!-- <div class="rating">
+      <ngb-rating [max]="5" [readonly]="true" [rate]="item?.rating_avg"></ngb-rating>
+    </div> -->
+			<div class="content">
+				{{ item?.about }}
+				<!-- <app-read-more [text]="item?.about ?? '--'" [linkView]="'/profile/view/'+ item?.username"></app-read-more> -->
+			</div>
+		</div>
+	</div>
+</div>

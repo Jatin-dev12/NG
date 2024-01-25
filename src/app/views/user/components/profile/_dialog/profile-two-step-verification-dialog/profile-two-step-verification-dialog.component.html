@@ -1,0 +1,99 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+
+  <h1>2-Steps verification</h1>
+
+  <div class="verification2-popup two">
+    <form
+      novalidate
+      (ngSubmit)="onSubmit(form)"
+      [formGroup]="form"
+      autocomplete="off"
+    >
+      <!-- <div class="row">
+                <div class="col-sm-12">
+                    <div class="image">
+                        <img src="{{gs.imgUrl}}/veri-2-steps.svg" alt="" />
+                    </div>
+                    <h2>Enter a verification code</h2>
+                    <div class="content">
+                        A text message with a verification code<br /> was just sent to *** *** **99
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type="text" placeholder="G - Enter the 6-digit code" name="last_name" class="form-control">
+                    </div>
+                </div>
+            </div> -->
+      <div class="contenttwo">
+        Please select any of 1 option to enable or disable 2 step verification
+        process.
+      </div>
+      <div class="form-group">
+        <div role="group" class="btn-group">
+          <input
+            type="radio"
+            name="value"
+            id="typesSale"
+            value="Yes"
+            class="btn-check"
+            formControlName="value"
+          />
+          <label for="typesSale" class="btn btn-outline-primary"
+            ><i class="far fa-check-circle" aria-hidden="true"></i
+            ><span>|</span>Enable 2-Step verification</label
+          >
+          <input
+            type="radio"
+            name="value"
+            id="typesRent"
+            value="No"
+            class="btn-check"
+            formControlName="value"
+          />
+          <label for="typesRent" class="btn btn-outline-primary two"
+            ><i class="far fa-check-circle" aria-hidden="true"></i
+            ><span>|</span>Disable 2-Step verification</label
+          >
+        </div>
+      </div>
+      <div class="btndivtwo">
+        <button type="submit" class="btn btn-primary" [appLadda]="submitted">
+          Submit
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="activeModal.dismiss()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- <br/><br/>
+    <div class="verification-popup">
+        <form>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="image">
+                        <img src="{{gs.imgUrl}}/veri-steps.svg" alt="" />
+                    </div>
+                    <div class="content">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    </div>
+                </div>
+            </div>
+            <div class="btndivtwo">
+                <button type="button" class="btn btn-primary" (click)="activeModal.close()">Send Email Verification</button>
+                <button type="button" class="btn btn-default" (click)="activeModal.dismiss()">Cancel</button>
+            </div>
+        </form>
+    </div> -->
+</div>

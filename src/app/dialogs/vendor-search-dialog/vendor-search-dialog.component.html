@@ -1,0 +1,165 @@
+<div class="modal-body">
+    <button type="button" class="close" (click)="activeModal.dismiss()">
+        <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+    </button>
+    <div class="selectpro-popup">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+            <div class="filter">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="keywords" class="form-control"
+                                            placeholder="Search Vendors" formControlName="q" />
+                                        <span id="basic-addon2" class="input-group-text">
+                                            <button type="submit" class="btn btn-primary">
+                                                <img src="{{ gs.imgUrl }}/search-meg.svg" alt="" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="btndivtop">
+                                    <button type="button" (click)="addVendor()" class="btn btn-primary">
+                                        Done
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <ng-select [items]="countriesObservable | async" bindLabel="name" bindValue="iso2"
+                                appearance="outline" placeholder="Country" [searchable]="true" class="form-control1"
+                                formControlName="q_location_country_code" (change)="handleCountries($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <ng-select [items]="citiesObservable | async" bindLabel="name" bindValue="name"
+                                appearance="outline" placeholder="City" [searchable]="true" class="form-control1"
+                                formControlName="q_location_city" (change)="handleCity($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="select">
+                                <select name="services" class="form-control">
+                                    <option value="0" selected="" ng-reflect-value="0">
+                                        Services
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="btndivbottom">
+                            <button type="button" (click)="reset()" class="btn btn-primary">
+                                <i class="fas fa-users"></i><img alt="" src="/assets/images/Vector-14.svg" />All Vendors
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="listingdiv">
+            <div class="listingbox">
+                <!-- {{ vendor_ids | json }} -->
+                <div class="propertytop">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <!-- <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="select" />
+                                <label class="form-check-label" for="select"></label>
+                            </div> -->
+                            Select
+                        </div>
+                        <div class="col">Vendors</div>
+                        <div class="col">Country</div>
+                        <div class="col">City</div>
+                        <div class="col">District</div>
+                    </div>
+                </div>
+                <div class="propertybottom">
+                    @if (loading | async) {
+                    @for (item of gs.generateFake(3); track item) {
+                    <div class="propertylist">
+                        <ngx-skeleton-loader [theme]="{ height: '10px', width: '100%' }"
+                            count="1"></ngx-skeleton-loader>
+                    </div>
+                    }
+                    } @else {
+                    @for (item of (users | async)?.items; track item) {
+                    <div class="propertylist">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                {{ chackedVendor(item) | json }}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                        id="flexRadioDefault{{ item.id }}" [checked]="chackedVendor(item)"
+                                        (change)="handleSelect($event, item)" [value]="item.id" />
+                                    <label class="form-check-label" for="flexRadioDefault{{ item.id }}">
+                                    </label>
+                                </div>
+                                <img [src]="item.avatar ? item.avatar : '{{gs.imgUrl}}/property-1.png'"
+                                    [alt]="item.name" />
+                            </div>
+                            <div class="col">{{ item.name }}</div>
+                            <div class="col">
+                                {{ item?.location?.country_code ?? "-" }}
+                            </div>
+                            <div class="col">{{ item?.location?.city ?? "-" }}</div>
+                            <div class="col">{{ item?.location?.state_code ?? "-" }}</div>
+                        </div>
+                    </div>
+                    } @empty {
+                    <div>
+                        <div>Vendor not found</div>
+                    </div>
+                    }
+                    }
+                    <ng-template #inlineElse>
+                        @for (item of (users | async)?.items; track item) {
+                        <div class="propertylist">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                            id="flexRadioDefault{{ item.id }}" [checked]="chackedVendor(item)"
+                                            (change)="handleSelect($event, item)" [value]="item.id" />
+                                        <label class="form-check-label" for="flexRadioDefault{{ item.id }}">
+                                        </label>
+                                    </div>
+                                    <img [src]="item.avatar ? item.avatar : '{{gs.imgUrl}}/property-1.png'"
+                                        [alt]="item.name" />
+                                </div>
+                                <div class="col">{{ item.name }}</div>
+                                <div class="col">
+                                    {{ item?.location?.country_code ?? "-" }}
+                                </div>
+                                <div class="col">{{ item?.location?.city ?? "-" }}</div>
+                                <div class="col">{{ item?.location?.state_code ?? "-" }}</div>
+                            </div>
+                        </div>
+                        } @empty {
+                        <div>
+                            <div>Vendor not found</div>
+                        </div>
+                        }
+                    </ng-template>
+                </div>
+            </div>
+            @if ($any((users | async)?.total) > form.value.size) {
+                <app-pagination [pagination]="(users | async)?.pagination" [page]="form.value.page + 1" (getPage)="handlePagination($event)"></app-pagination>
+            }
+            <div class="btndiv mt-4">
+                <button class="btn btn-primary" type="button" (click)="addVendor()">Add Vendor</button>
+            </div>
+        </div>
+    </div>
+</div>

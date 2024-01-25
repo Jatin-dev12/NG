@@ -1,0 +1,35 @@
+<!-- <div class="expart-profile-page my-property">
+<div class="card">
+  <div class="card-title">
+    <h1>Update Property</h1>
+  </div>
+  <div class="card-body">
+    <ng-container *ngIf="(view | async) === null; else second">
+      Loading....
+    </ng-container>
+    <ng-template #second>
+      <app-catalog-form [update]="view | async"></app-catalog-form>
+    </ng-template>
+  </div>
+</div>
+</div> -->
+<div class="create-property">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item">
+        <a routerLink="/properties">My Properties</a>
+      </li>
+      <li class="breadcrumb-item">Update Property</li>
+      <li class="breadcrumb-item active">{{ (view | async)?.title }}</li>
+    </ol>
+  </nav>
+  @if ((view | async) === null) {
+    Loading....
+  } @else {
+    <app-catalog-form [update]="view | async"></app-catalog-form>
+  }
+  <ng-template #second>
+    <app-catalog-form [update]="view | async"></app-catalog-form>
+  </ng-template>
+</div>

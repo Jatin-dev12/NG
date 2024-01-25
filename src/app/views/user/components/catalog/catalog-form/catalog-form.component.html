@@ -1,0 +1,1019 @@
+<div class="tabmenu">
+    @if (showPreview) {
+    <div class="addtop mb-4">
+        <a routerLink="/"><img src="{{ gs.imgUrl }}/addtop.png" alt="" class="w-100" /></a>
+    </div>
+    }
+    <!-- Navigation tabs -->
+    <ul class="nav nav-tabs">
+        <!-- Property Details tab -->
+        <li class="nav-item">
+            <a routerLink="/properties/add/create" class="nav-link active">Property Details</a>
+        </li>
+        <!-- Tenant Info tab, visible only if the property is for rent -->
+        @if (form.value?.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT) {
+            <!-- Property Owner Info tab, visible only to managers -->
+            @if (gs.is_manager) {
+                <li class="nav-item" [class.disabled]="!update?.id">
+                    <a routerLink="/properties/add/owner/{{ update?.id }}" class="nav-link" [class.disabled]="!update?.id">Property Owner Info</a>
+                </li>
+            }
+            @if (gs.is_owner) {
+                <li class="nav-item" [class.disabled]="!update?.id">
+                    <a routerLink="/properties/add/tenant/{{ update?.id }}" class="nav-link" [class.disabled]="!update?.id">Tenant Info</a>
+                </li>
+            }
+
+            @if (gs.is_manager && update?.is_contract) {
+                <li class="nav-item" [class.disabled]="!update?.id">
+                    <a routerLink="/properties/add/tenant/{{ update?.id }}" class="nav-link" [class.disabled]="!update?.id">Tenant Info</a>
+                </li>
+            }
+        }
+    </ul>
+
+    <!-- {{ showPreview | json }} -->
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active">
+            <form [formGroup]="form" (ngSubmit)="onSubmitPreview(form)">
+                @if (!showPreview) {
+                <div class="formdiv">
+                    <h1>{{ "Add Property" }}</h1>
+                    <div class="form-group property_purpose" [ngClass]="{ disabled: isPurposeDisabled }">
+                        <div controlErrorContainer>
+                            <div class="btn-group" role="group">
+                                <input class="btn-check" type="radio" name="property_purpose" id="typesSale" [value]="Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE" formControlName="property_purpose" (change)="handlePurpose($event, Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE)" />
+                                <label class="btn btn-outline-primary" for="typesSale">
+                                    <i class="far fa-check-circle"></i>
+                                    <i class="far fa-circle"></i> <span>|</span>For Sale</label>
+                                <input class="btn-check" type="radio" name="property_purpose" id="typesRent" [value]="Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT" formControlName="property_purpose" (change)="handlePurpose($event, Enums.USER_CATALOG_PROPERTY_PURPOSE_RENT)" />
+                                <label class="btn btn-outline-primary" for="typesRent">
+                                    <i class="far fa-check-circle"></i>
+                                    <i class="far fa-circle"></i> <span>|</span>For Rent</label>
+                            </div>
+                        </div>
+                        @if (isPurposeDisabled) {
+                            Property Purpose not editable.
+                        }
+                    </div>
+                    <!-- <ng-container *ngTemplateOutlet="FormPrice"></ng-container> -->
+                    <div class="form-group">
+                        <label>{{ "Title of Property" }}<span class="star">*</span></label>
+                        <input type="text" class="form-control" formControlName="title" />
+                    </div>
+                    <div class="form-group">
+                        <label>{{ "Description" }}<span class="star">*</span></label>
+                        <textarea class="form-control" rows="3" formControlName="description"></textarea>
+                        @if (form.value?.description) {
+                        <div class="crtcount">
+                            {{ gs.maxLength - form.value?.description?.length }}
+                            characters left
+                        </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Classification<span class="star">*</span></label>
+                                <ng-select formControlName="property_classification" name="Classification"
+                                    [clearable]="false" [placeholder]="'- Please Select -'" (change)="handleClassification($event)">
+                                    <ng-option [value]="Enums.USER_CATALOG_PROPERTY_CLASSIFICATION_RESIDENTIAL">Residential</ng-option>
+                                    <ng-option [value]="Enums.USER_CATALOG_PROPERTY_CLASSIFICATION_COMMERCIALS">Commercial</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Type<span class="star">*</span> {{ Type_Slug | json }} </label>
+                                <ng-select name="Type" 
+                                           [disabled]="!form.value?.property_classification"
+                                           (change)="handleType($event)" 
+                                           [(ngModel)]="Type_Slug"
+                                           [ngModelOptions]="{ standalone: true }" 
+                                           [clearable]="false"
+                                           [placeholder]="'- Please Select -'">
+                                    @for (item of categoriesArray | orderBy: "id" | filterBy: {classification: form.value?.property_classification}; track item) {
+                                        <ng-option [value]="item.slug">{{ item.name }}</ng-option>
+                                    } 
+                                    @empty {
+                                        <ng-option [value]="''">No Items</ng-option>
+                                    }
+                                </ng-select>
+                                @if (gs.isValid("category_id", f)) {
+                                    <div class="invalid-feedback d-block">
+                                        @if (f["category_id"].errors && f["category_id"].errors["required"]) {
+                                            <div>{{ "Type is required" }}</div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <ng-container>
+                            <div class="col-sm-6">
+                                <div class="form-group locationfield" formGroupName="location">
+                                    <label>{{ "Location" }}<span class="star">*</span></label>
+                                    <app-google-location-input [value]="update?.location?.location ?? ''"
+                                        formControlName="location" placeholder="- Please enter your location -" [ngClass]="gs.addCls('location', form, 'location')"
+                                        (onAddressChange)="handleAddressChange($event)"></app-google-location-input>
+                                    <button type="button" class="btn btn-primary" (click)="addLocation()">
+                                        <span><span><i class="fas fa-map-marker-alt"></i></span> Or
+                                            Drop your Pin</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="col-sm-6 fileuploader">
+                            <!-- fff {{ isPropertyRent | json }} {{ isPropertyRent ? 5 : 1 }} -->
+                            <app-file-drag-drop-uploader title="Video{{isPropertyRent ? 's' : ''}}" [allFiles]="UploadPropertyVideo" [multiple]="true" [accept]="'video/*'" (getFileId)="form.patchValue({ video_id: $event })" [layout]="'inline'" [checkExtensions]="true" [extensions]="'video'" [browseLabel]="'Add Videos'" placeholder="- Please add Video{{isPropertyRent ? 's' : ''}} -" [checkSizes]="true" [minSize]="100" [maxSize]="10000" [checkMaxFile]="true" [maxFile]="isPropertyRent ? 5 : 1" [uploadSuccessMsg]="'Video successfully uploaded.'" [deleteSuccessMsg]="'Video deleted successfully.'" [deleteAlertMsg]="'Are you sure you want to delete the video'"></app-file-drag-drop-uploader>
+                            <div class="text hint">
+                                Supported formats: .mp4, .vlc.
+                            </div>
+                            @if (gs.isValid("video_id", f)) {
+                                <div class="invalid-feedback d-block">
+                                    @if (f["video_id"].errors && f["video_id"].errors["required"]) {
+                                        <div>{{ "Video is required" }}</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="col-sm-6 fileuploader labelnone">
+                            <div class="form-group">
+                                <label>Main Photo<span class="star">*</span></label>
+                                <app-file-drag-drop-uploader title="Main Photo" [allFiles]="UploadPropertyCover"
+                                    [multiple]="false" [accept]="'.png, .jpg, .jpeg'"
+                                    (getFileId)="form.patchValue({ cover_id: $event[0] })" [layout]="'inline'"
+                                    [extensions]="'image'" [checkExtensions]="true" [browseLabel]="'Add photo'"
+                                    [placeholder]="'- Please add Photo -'"
+                                    [hint]="configs?.video_supported_file_extensions"></app-file-drag-drop-uploader>
+                                    <div class="text hint">
+                                        Supported formats: .jpg, .jpeg, .png.
+                                    </div>    
+                                @if (gs.isValid("cover_id", f)) {
+                                    <div class="invalid-feedback d-block">
+                                        @if (f["cover_id"].errors && f["cover_id"].errors["required"]) {
+                                            <div>{{ "Main Photo is required" }}</div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-6 fileuploader">
+                            <div class="form-group11">
+                                <app-file-drag-drop-uploader title="Other Photos" [allFiles]="UploadImages"
+                                    [multiple]="true" [accept]="'.png, .jpg, .jpeg'" [checkMaxFile]="true" [maxFile]="15"
+                                    (getFileId)="form.patchValue({ files: $event })" [layout]="'inline'"
+                                    [extensions]="'image'" [checkExtensions]="true" [browseLabel]="'Add photos'"
+                                    [placeholder]="'- Please add Photos -'"></app-file-drag-drop-uploader>
+                                <div class="text hint">You can add up to 15 images. Supported formats: .jpg, .jpeg, .png.</div>
+                                @if (gs.isValid("files", f)) {
+                                    <div class="invalid-feedback d-block">
+                                        @if (f["files"].errors && f["files"].errors["required"]) {
+                                        <div>{{ "Photo is required" }}</div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @switch (Type_Slug) {
+                    @case (AdditionalEnums.CatalogTypeSlug.APARTMENT) {
+                    <div class="row">
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.VILLAS) {
+                    <div class="row">
+                        <!-- Villas Manage the field orders-->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.HOUSES) {
+                    <div class="row">
+                        <!-- Houses Manage the field orders-->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.RESIDENTIAL_BUILDINGS) {
+                    <div class="row">
+                        <!-- Residential Buildings Manage the field orders -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfApartments"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.COMMERCIAL_BUILDINGS) {
+                    <div class="row">
+                        <!-- Commercial Buildings -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Net"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormOccupancyRate"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.OFFICES) {
+                    <div class="row">
+                        <!-- Offices -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <!-- <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container> -->
+                        <ng-container *ngTemplateOutlet="FormNumberOfRooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfBathrooms"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.SHOWROOMS) {
+                    <div class="row">
+                        <!-- Showrooms -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfFloors"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormElevators"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.WAREHOUSES) {
+                    <div class="row">
+                        <!-- Warehouses -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormHeight"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnished"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.GASOLINE_STATIONS) {
+                    <div class="row">
+                        <!-- Gasoline Stations -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormOpenArea"></ng-container>
+                        <!-- <ng-container *ngTemplateOutlet="FormIndoreAre"></ng-container> -->
+                        <ng-container *ngTemplateOutlet="FormNumberOfPumps"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAddDailySales"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.SHOPS) {
+                    <div class="row">
+                        <!-- Shops -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnitureAndFixtures"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.RESTAURANT_CAFE) {
+                    <div class="row">
+                        <!-- Restaurant & Café -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormFurnitureAndFixtures"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.WORKSHOPS) {
+                    <div class="row">
+                        <!-- Workshops -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.SPORTS_CENTERS) {
+                    <div class="row">
+                        <!-- Sports Centers -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (
+                    AdditionalEnums.CatalogTypeSlug.HEALTH_BEAUTY_EVENT_CENTERS
+                    ) {
+                    <div class="row">
+                        <!-- Health, Beauty & Event Centers -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormCoolingAndHeating"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAgeOfBuilding"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.LANDS) {
+                    <div class="row">
+                        <!-- Lands -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <!-- <ng-container *ngTemplateOutlet="FormCategory"></ng-container> -->
+                        <!-- <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container> -->
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <!-- <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container> -->
+                    </div>
+                    }
+                    @case (AdditionalEnums.CatalogTypeSlug.FARMS) {
+                    <div class="row">
+                        <!-- Farms -->
+                        <ng-container *ngTemplateOutlet="FormPrice"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormM2Gross"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormNumberOfTrees"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormStatusOfUse"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableSwap"></ng-container>
+                        <ng-container *ngTemplateOutlet="FormAvailableLoan"></ng-container>
+                    </div>
+                    }
+                    @default {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- ngSwitchDefault -->
+                        </div>
+                    </div>
+                    }
+                    }
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-light" [ngClass]="{ active: featuredActive }"
+                                    (click)="selectFeatures()">
+                                    {{ "Select Features" }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @for (amenity of amenitiesArray; track amenity) {
+                    <div class="w-100 internal">
+                        @if (amenity?.children?.length > 0) {
+                        @if (amenity.name === "More Features") {
+                        <div class="w-100">
+                            @if (showMoreFeatures(amenity?.children)) {
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>{{ amenity.name }}</h4>
+                                </div>
+                                <div class="col-sm-12">
+                                    @for (item of amenity?.children; track item) {
+                                    <div class="w-100">
+                                        @if (item.name || item.description) {
+                                        <div class="content">
+                                            <span>{{ item.name ?? "-" }}:</span>
+                                            {{ item.description ?? "-" }}
+                                        </div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        } @else {
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>{{ amenity.name }}</h4>
+                            </div>
+                            @for (item of amenity?.children; track item) {
+                            <div class="col-sm-3">
+                                <div class="featurelist">
+                                    <i class="fas fa-check"></i>{{ item.name }}
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        }
+                        }
+                    </div>
+                    }
+                    <ng-template #FormPrice>
+                        <div class="col-sm-6">
+                            <div class="form-group pricediv">
+                                <label>Price<span class="star">*</span></label>
+
+                                <div class="input-group">
+                                    @if (form.value.property_purpose === Enums.USER_CATALOG_PROPERTY_PURPOSE_SALE) {
+                                        <div class="remove-errors w-75">
+                                            <a-inputNumber formControlName="price" placeholder="- Please Enter -" [min]="1" [maxlength]="12" [customErrors]="{ required: '' }"></a-inputNumber>
+                                        </div>
+                                    } @else {                                        
+                                        <div ngbDropdown #myPricesDrop="ngbDropdown" [autoClose]="true" class="w-75">
+                                            <input placeholder="- Please Enter -" class="w-100 form-control" [ngModel]="handlePricesValue" [readonly]="true" (click)="myPricesDrop.open()" [ngModelOptions]="{ standalone: true }">
+                                            <div ngbDropdownMenu formArrayName="prices">
+                                                @for (item of AdditionalEnums.CatalogFormPrices; track item) {
+                                                    <div class="list" >
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="{{item.type}}" [value]="item.type" (change)="handlePricesAddRemove($event, item)" [checked]="handlePricesChecked(item)">
+                                                                    <label class="form-check-label" for="{{item.type}}">
+                                                                        {{ item.name }}
+                                                                    </label>
+                                                                  </div>
+                                                                <!-- <input type="checkbox" [value]="item.type" (change)="handlePricesAddRemove($event, item)" [checked]="handlePricesChecked(item)">
+                                                                {{ item.name }} -->
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                @if (handlePricesChecked(item)) {
+                                                                    <div [formGroupName]="handlePricesIndex(item)">
+                                                                        <a-inputNumber formControlName="price" placeholder="Price" class="w-75" [min]="1" [maxlength]="12"></a-inputNumber>
+                                                                    </div>
+                                                                } @else {
+                                                                    <a-inputNumber placeholder="Price" class="w-75" [readonly]="true"></a-inputNumber>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    }
+                                    <div class="input-group-append w-25">
+                                        <div class="input-group" controlErrorContainer>
+                                            <input type="text" class="form-control" placeholder="- Please Select -" readonly (click)="myDrop2.open()" formControlName="currency_code" />
+                                            <span class="input-group-text" style="position: absolute; right: 0px; top: 20px">
+                                                <div ngbDropdown #myDrop2="ngbDropdown">
+                                                    <button type="button" ngbDropdownToggle ngbDropdownAnchor>
+                                                        <span class="name"><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt="" /></span>
+                                                    </button>
+                                                    <ul ngbDropdownMenu>
+                                                        @for (item of AdditionalEnums.CurrenciesArray; track item) {
+                                                            <li [class.active]=" form.value.currency_code === item.key ">
+                                                                <a ngbDropdownItem (click)=" form.patchValue({ currency_code: item.key }) ">{{ item.key }}</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (gs.isValid("prices", f)) {
+                                    <div class="invalid-feedback d-block">
+                                        @if (form.get("prices")?.getError("required")) {
+                                            <div>{{ "Prices is required" }}</div>
+                                        }
+                                    </div>
+                                }
+                                @if (gs.isValid("price", f)) {
+                                    <div class="invalid-feedback d-block">
+                                        @if (form.get("price")?.getError("required")) {
+                                            <div>{{ "Price is required" }}</div>
+                                        }
+                                    </div>
+                                }
+                                @if (gs.isValid("currency_code", f)) {
+                                    <div class="invalid-feedback d-block">
+                                        @if (form.get("currency_code")?.getError("required")) {
+                                            <div>{{ "Currency code is required" }}</div>
+                                        }
+                                    </div>
+                                }
+                                <div class="text hint">Maximum allowable price: {{ 100000000 | currency: form.value.currency_code }}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormM2Gross>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>M<sup>2</sup> (Gross)</label>
+                                <a-inputNumber formControlName="m2_gross_price" placeholder="- Please Enter -" [maxlength]="12"></a-inputNumber>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormM2Net>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>M<sup>2</sup> (Net)</label>
+                                <a-inputNumber formControlName="m2_net_price" [maxlength]="12"></a-inputNumber>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormNumberOfFloors>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Number of Floors</label>
+                                <ng-select formControlName="number_of_floors" name="number_of_floors"
+                                    (change)="handleField($event, 'number_of_floors')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (
+                                    item of AdditionalEnums.CatalogFormFloors;
+                                    track item
+                                    ) {
+                                    <ng-option [value]="item.key">{{ item.value }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormNumberOfRooms>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Number of Rooms</label>
+                                <ng-select formControlName="number_of_rooms" name="number_of_rooms"
+                                    (change)="handleField($event, 'number_of_rooms')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (
+                                    item of AdditionalEnums.CatalogFormRooms;
+                                    track item
+                                    ) {
+                                    <ng-option [value]="item.key">{{ item.value }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormNumberOfBathrooms>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Number of Bathrooms</label>
+                                <ng-select formControlName="number_of_bathrooms" name="number_of_bathrooms"
+                                    (change)="handleField($event, 'number_of_bathrooms')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (
+                                    item of AdditionalEnums.CatalogFormBathrooms;
+                                    track item
+                                    ) {
+                                    <ng-option [value]="item.key">{{ item.value }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormCoolingAndHeating>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Cooling & Heating</label>
+                                <ng-select formControlName="is_ac" name="is_ac" (change)="handleField($event, 'is_ac')"
+                                    [clearable]="false" [placeholder]="'- Please Select -'">
+                                    <ng-option [value]="1">No</ng-option>
+                                    <ng-option [value]="2">Yes</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormFurnished>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Furnished</label>
+                                <ng-select formControlName="is_furnished" name="is_furnished"
+                                    (change)="handleField($event, 'is_furnished')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (
+                                    item of AdditionalEnums.CatalogFormFurnished;
+                                    track item
+                                    ) {
+                                    <ng-option [value]="item.key">{{ item.value }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormStatusOfUse>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Status of Use</label>
+                                <ng-select formControlName="status_of_use" name="status_of_use"
+                                    (change)="handleField($event, 'status_of_use')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    <ng-option [value]="1">Used</ng-option>
+                                    <ng-option [value]="2">New</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormAgeOfBuilding>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Age of Building</label>
+                                <ng-select formControlName="age_of_building" [clearable]="false" [placeholder]="'- Please Select -'" [items]="AdditionalEnums.CatalogFormAgeOfBuilding" bindValue="key" bindLabel="value">
+                                    <!-- @for (item of AdditionalEnums.CatalogFormAgeOfBuilding; track item) {
+                                    <ng-option value="{{item.key}}">{{ item.value }}</ng-option>
+                                    } -->
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormAvailableLoan>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Available for Loan</label>
+                                <ng-select formControlName="is_available_loan" name="is_available_loan"
+                                    (change)="handleField($event, 'is_available_loan')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    <ng-option [value]="1">No</ng-option>
+                                    <ng-option [value]="2">Yes</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormAvailableSwap>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Available for Swap</label>
+                                <ng-select formControlName="is_swap" name="is_swap"
+                                    (change)="handleField($event, 'is_swap')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    <ng-option [value]="1">No</ng-option>
+                                    <ng-option [value]="2">Yes</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormNumberOfApartments>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Number of Apartments</label>
+                                <ng-select formControlName="number_of_apartments" name="number_of_apartments"
+                                    (change)="handleField($event, 'number_of_apartments')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (
+                                    item of AdditionalEnums.CatalogFormApartments;
+                                    track item
+                                    ) {
+                                    <ng-option [value]="item.key">{{ item.value }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormOccupancyRate>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Occupancy Rate ( currently )</label>
+                                <a-inputNumber mode="decimal" formControlName="occupancy_rate"
+                                    placeholder="- Please Enter -"></a-inputNumber>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormElevators>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Elevators</label>
+                                <ng-select formControlName="number_of_elevators" name="number_of_elevators"
+                                    (change)="handleField($event, 'number_of_elevators')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (item of gs.generateFake(10); track item) {
+                                    <ng-option [value]="item">{{ item }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormHeight>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Height (m)</label>
+                                <a-inputNumber mode="decimal" formControlName="height"
+                                    [useGrouping]="false"></a-inputNumber>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormOpenArea>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>M<sup>2</sup> Area Sqm</label>
+                                <input class="form-control" formControlName="property_open_area" />
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormIndoreAre>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Indore Area M<sup>2</sup></label>
+                                <input class="form-control" formControlName="property_indoor_area" />
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormNumberOfPumps>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Number of Pumps</label>
+                                <ng-select formControlName="number_of_pumps" name="number_of_pumps"
+                                    (change)="handleField($event, 'number_of_pumps')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (item of gs.generateFake(10); track item) {
+                                    <ng-option [value]="item">{{ item }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormAddDailySales>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Add Daily Sales (litres)</label>
+                                <ng-select formControlName="sales" name="sales" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (
+                                    item of AdditionalEnums.CatalogFormDailySales;
+                                    track item
+                                    ) {
+                                    <ng-option [value]="item.key">{{ item.value }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormFurnitureAndFixtures>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Furniture & Fixtures</label>
+                                <ng-select formControlName="is_furniture" name="is_furniture"
+                                    (change)="handleField($event, 'is_furniture')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    <ng-option [value]="1">No</ng-option>
+                                    <ng-option [value]="2">Yes</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormCategory>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <ng-select formControlName="property_category" name="property_category"
+                                    [clearable]="false" [placeholder]="'- Please Select -'">
+                                    @for (item of gs.generateFake(10); track item) {
+                                    <ng-option [value]="item">{{ item }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #FormNumberOfTrees>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Number of Trees</label>
+                                <ng-select formControlName="number_of_trees" name="number_of_trees"
+                                    (change)="handleField($event, 'number_of_trees')" [clearable]="false"
+                                    [placeholder]="'- Please Select -'">
+                                    @for (item of gs.generateFake(10); track item) {
+                                    <ng-option [value]="item">{{ item }}</ng-option>
+                                    }
+                                </ng-select>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <div class="btndiv">
+                        <button type="submit" class="btn btn-primary mt-3 mt-sm-0" [appLadda]="submitted" [ngClass]="{'disabled': is_property_disabled }">
+                            {{ "Preview" }}
+                        </button>
+                    </div>
+
+                    <!-- @if (gs.is_owner && is_property_disabled) {
+                        <div>Owner Message</div>
+                    }
+
+                    @if (gs.is_manager && is_property_disabled) {
+                        <div>Manager Message</div>
+                    } -->
+
+
+                </div>
+                }
+                @if(showPreview) {
+                <div class="product-view-page property-view-page owner-property-view mt-4">
+                    <div class="pr-title">
+                        <h1>Property Details</h1>
+                        <div class="btndiv">
+                            <button type="button" class="btn btn-primary" (click)="saveCatalog()" [appLadda]="submitted" [ngClass]="{'disabled': is_property_disabled}">
+                                <img src="{{ gs.imgUrl }}/plus.svg" class="one" alt="" /><img src="{{ gs.imgUrl }}/plus-two.svg" class="two" alt="" /><img src="{{ gs.imgUrl }}/vector-10.svg" class="one" alt="" /><img src="{{ gs.imgUrl }}/vector-15.svg" class="two" alt="" />Save
+                            </button>
+                            <button type="button" class="btn btn-primary" (click)="showPreview = false" [ngClass]="{'disabled': is_property_disabled}">
+                                <i class="fas fa-pencil-alt"></i><img src="{{ gs.imgUrl }}/vector-10.svg" class="one" alt="" /><img src="{{ gs.imgUrl }}/vector-15.svg" class="two" alt="" />Edit
+                            </button>
+                            @if (update?.is_publish === Enums.USER_CATALOG_IS_PUBLISH_DRAFT || update?.status === Enums.USER_CATALOG_STATUS_DEACTIVE) {
+                            <button type="button" class="btn btn-primary" (click)="postCatalog()"
+                                [appLadda]="savePostLoading">
+                                <img src="{{ gs.imgUrl }}/post.svg" alt="" /><img src="{{ gs.imgUrl }}/vector-10.svg"
+                                    alt="" />Post
+                            </button>
+                            }
+                            <button type="button" class="btn btn-danger" (click)="deleteCatalog()">
+                                <i class="fas fa-trash"></i><img src="{{ gs.imgUrl }}/vector-10.svg" alt="" />Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pv-middle">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="sliderdiv">
+                                            @if (update?.id) {
+                                                <app-catalog-view-slider [item]="update"></app-catalog-view-slider>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <app-catalog-general-details [item]="update"></app-catalog-general-details>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                @if (gs.margeMedia(update?.media).video.length > 0) {
+                                    <div class="pv-box location vedio">
+                                        <div class="pv-title">
+                                            <h1>Video</h1>
+                                        </div>
+                                        <div class="pv-body">
+                                            <div class="left-scroll css-scroll">
+                                                <div class="row">
+                                                    @for (video of gs.margeMedia(update?.media).video; track video) {
+                                                    <div class="col-sm-12">
+                                                        <div class="image">
+                                                            <video class="w-100" controls [src]="video?.path"></video>
+                                                        </div>
+                                                    </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (update?.id) {
+                                    <app-catalog-features-view [item]="update"></app-catalog-features-view>
+                                }
+
+                                @if (gs.identity?.role === Enums.ROLE_OWNER) {
+                                    <div>
+                                        <div class="pv-box location">
+                                            <div class="pv-title">
+                                                <h1>Location of Property</h1>
+                                            </div>
+                                            <div class="pv-body">
+                                                <div class="image1">
+                                                    @if (update?.location_id) {
+                                                    <app-google-map-view
+                                                        [location]="$any(update?.location)"></app-google-map-view>
+                                                    } @else {
+                                                        <div>Location not added</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                } @else {
+                                <div class="row justify-content-center">
+                                    @if (update?.owner_id) {
+                                        <div class="col-sm-12">
+                                            <div class="pv-box owner mb-4">
+                                                <div class="pv-title">
+                                                    <h1>Property Owner</h1>
+                                                </div>
+                                                <div class="pv-body">
+                                                    <div class="image">
+                                                        <img [src]="update?.owner?.avatar" [alt]="update?.owner?.name" />
+                                                    </div>
+                                                    <h3>{{ update?.owner?.name }}</h3>
+                                                    <h4>({{ update?.owner?.title }})</h4>
+                                                    <div class="clearfix"></div>
+                                                    <div class="contenttwo" [innerHTML]="update?.owner?.about"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="col-sm-12">
+                                        <div class="pv-box location">
+                                            <div class="pv-title">
+                                                <h1>Location</h1>
+                                            </div>
+                                            <div class="pv-body">
+                                                @if(update?.location_id) {
+                                                    @defer (on viewport) {
+                                                        <app-google-map-view [location]="$any(update?.location)"></app-google-map-view>
+                                                    } @placeholder (minimum 200ms) {
+                                                        <div>Loading...</div>
+                                                    }
+                                                } @else {
+                                                    <div>Location not added</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="addright">
+                                    <a routerLink="/"><img src="{{ gs.imgUrl }}/addright.png" alt="" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- @if(update?.location_id) {
+    @defer (on viewport) {
+        <app-google-map-view [location]="$any(update?.location)"></app-google-map-view>
+    } @placeholder (minimum 200ms) {
+        <div>Loading...</div>
+    }
+} @else {
+    <div>Location not added</div>
+} -->

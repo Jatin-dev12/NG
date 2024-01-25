@@ -1,0 +1,37 @@
+<h2>ADD INVOICE FOR ADDITIONAL PAYMENT</h2>
+<!--
+<pre>
+  {{ milestones | async | json }}
+</pre> -->
+<div class="row">
+  @if (loading | async) {
+    @for (item of gs.generateFake(2); track item) {
+      <div class="col-sm-6">
+        <div class="propertybox">
+          <div class="image">
+            <ngx-skeleton-loader
+              [theme]="{ height: '150px', width: '100%' }"
+            ></ngx-skeleton-loader>
+          </div>
+          <div class="detail">
+            <ngx-skeleton-loader
+              [theme]="{ height: '25px', width: '100%' }"
+              count="3"
+            ></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+    }
+  } @else {
+    @for (item of (milestones | async)?.items; track item) {
+      <div class="col-sm-6">
+        <app-milestones-item [item]="item"></app-milestones-item>
+      </div>
+    }
+    @if (
+      (milestones | async) === null || (milestones | async)?.items?.length === 0
+    ) {
+      <div class="col-sm-12">Milestones not found</div>
+    }
+  }
+</div>

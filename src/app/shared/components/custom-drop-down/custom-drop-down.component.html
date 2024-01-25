@@ -1,0 +1,38 @@
+<div class="input-group" controlErrorContainer>
+  <input
+    type="text"
+    class="form-control"
+    [formControl]="formControl"
+    readonly
+    (click)="myDrop2.open()"
+  />
+  <div class="input-group-append">
+    <span
+      class="input-group-text"
+      style="position: absolute; right: 0px; top: 20px"
+    >
+      <div ngbDropdown #myDrop2="ngbDropdown">
+        <button type="button" ngbDropdownToggle ngbDropdownAnchor>
+          <span class="name"
+            ><img src="{{ gs.imgUrl }}/dropdown-arrow.svg" alt=""
+          /></span>
+        </button>
+        <ul ngbDropdownMenu>
+          <!-- <li *ngFor="let item of items" [class.active]="form.value.currency_code === item.key"><a ngbDropdownItem (click)="form.patchValue({ currency_code: item.key })">{{ item.key }}</a></li> -->
+          @for (
+            item of items.length > 0 ? items : [0, 1, 2, 3, 4];
+            track item
+          ) {
+            <li>
+              <a ngbDropdownItem (click)="writeValue(item)">{{ item }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+    </span>
+  </div>
+</div>
+<!-- <pre>
+{{ field | json }}
+{{ formControl.value | json }}
+</pre> -->

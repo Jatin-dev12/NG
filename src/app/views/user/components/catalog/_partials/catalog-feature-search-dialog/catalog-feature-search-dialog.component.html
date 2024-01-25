@@ -1,0 +1,64 @@
+<div class="modal-body">
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <img src="{{ gs.imgUrl }}/close-btn.svg" alt="Close" />
+  </button>
+  <h1>Show More Options</h1>
+  <form [formGroup]="formAmenities" (ngSubmit)="onSubmit(formAmenities)">
+    <div class="tabmenu">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+        @for (features of NewFeaturesArray; track features; let i = $index) {
+          @if (features.children?.length > 0) {
+            @if (features.slug !== "add-more-features") {
+              <li [ngbNavItem]="i">
+                <a ngbNavLink>{{ features.name }}</a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    @for (item of features.children; track item) {
+                      <div class="col-sm-6">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [value]="item.name"
+                            id="Features{{ item.id }}"
+                            (change)="
+                              handleAmenities($event, item, features.name)
+                            "
+                            [checked]="amenitiesChacked(item)"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="Features{{ item.id }}"
+                          >
+                            {{ item.name }}
+                          </label>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </ng-template>
+              </li>
+            }
+          }
+        }
+        @if (NewFeaturesArray.length === 0) {
+          <li>Select Type</li>
+        }
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+    <div class="btndiv mt-2">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button
+        type="button"
+        class="btn btn-default"
+        (click)="activeModal.dismiss()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+  <!-- <pre>
+  {{ formAmenities.value?.amenities | json }}
+</pre> -->
+</div>

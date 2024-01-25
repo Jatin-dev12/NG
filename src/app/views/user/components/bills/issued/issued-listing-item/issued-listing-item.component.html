@@ -1,0 +1,23 @@
+<div class="propertylist">
+  <div class="row align-items-center">
+    <div class="col">
+      <a routerLink="." (click)="openDialog()">{{ item.id }}</a>
+    </div>
+    <div class="col">{{ item.receiver.name }}</div>
+    <div class="col">{{ item.catalog_id }}</div>
+    <div class="col">{{ item.updated_at * 1000 | date: "short" }}</div>
+    <div class="col">{{ item.due_date | date: "short" }}</div>
+    <div class="col">
+      <div class="btndiv">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="openDialog()"
+          style="pointer-events: all"
+        >
+          Pending
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
