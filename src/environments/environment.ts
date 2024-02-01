@@ -13,7 +13,7 @@ var staging = "dev.";
 var apiRoot = "feapi";
 
 export const environment = {
-	production: false,
+	production: true,
 	siteName: `${site_name}`,
 	apiUrl: `https://${apiRoot}.${staging}${domain_name}/`,
 	//apiUrl: `http://localhost:8000/`,
